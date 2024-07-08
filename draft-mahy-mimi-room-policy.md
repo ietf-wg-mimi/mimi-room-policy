@@ -9,13 +9,13 @@ number:
 date:
 consensus: true
 v: 3
-area: ART
-workgroup: MIMI WG
+area: "Applications and Real-Time"
+workgroup: "More Instant Messaging Interoperability"
 keyword:
  - room policy
 venue:
-  group: MIMI WG
-  type: Working Group
+  group: "More Instant Messaging Interoperability"
+  type: "Working Group"
   mail: "mimi@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/mimi/"
   github: "rohanmahy/mimi-room-policy"
