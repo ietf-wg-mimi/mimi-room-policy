@@ -12,22 +12,22 @@ More Instant Messaging Interoperability (MIMI) Working Group. It describes
 several independent properties and policy attributes which can be combined
 to model a wide range of chat and multimedia conference types. 
     " name="description">
-<meta content="xml2rfc 3.22.0" name="generator">
+<meta content="xml2rfc 3.23.1" name="generator">
 <meta content="room policy" name="keyword">
 <meta content="draft-mahy-mimi-room-policy-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.22.0
-    Python 3.12.3
+  xml2rfc 3.23.1
+    Python 3.12.6
     ConfigArgParse 1.7
-    google-i18n-address 3.1.0
+    google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.4
     lxml 4.9.4
-    platformdirs 4.2.2
+    platformdirs 4.3.6
     pycountry 22.3.5
     PyYAML 6.0.1
     requests 2.32.3
-    setuptools 69.5.1
+    setuptools 70.3.0
     wcwidth 0.2.13
 -->
 <link href="draft-mahy-mimi-room-policy.xml" rel="alternate" type="application/rfc+xml">
@@ -1027,11 +1027,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">MIMI Room Policy</td>
-<td class="right">July 2024</td>
+<td class="right">October 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Mahy</td>
-<td class="center">Expires 9 January 2025</td>
+<td class="center">Expires 5 April 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1044,12 +1044,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-mahy-mimi-room-policy-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-07-08" class="published">8 July 2024</time>
+<time datetime="2024-10-02" class="published">2 October 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-01-09">9 January 2025</time></dd>
+<dd class="expires"><time datetime="2025-04-05">5 April 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1102,7 +1102,7 @@ to model a wide range of chat and multimedia conference types.<a href="#section-
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 9 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 5 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1181,35 +1181,99 @@ to model a wide range of chat and multimedia conference types.<a href="#section-
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-role-based-access-control" class="internal xref">Role-Based Access Control</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-references" class="internal xref">References</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-capability-categories" class="internal xref">Capability Categories</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.1">
+                    <p id="section-toc.1-1.5.2.1.2.1.1"><a href="#section-5.1.1" class="auto internal xref">5.1.1</a>.  <a href="#name-membership-capabilities" class="internal xref">Membership Capabilities</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.2">
+                    <p id="section-toc.1-1.5.2.1.2.2.1"><a href="#section-5.1.2" class="auto internal xref">5.1.2</a>.  <a href="#name-moderation-capabilities" class="internal xref">Moderation Capabilities</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-breakouts" class="internal xref">Breakouts</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.1">
+                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="auto internal xref">5.2.1</a>.  <a href="#name-message-capabilities" class="internal xref">Message Capabilities</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.2">
+                    <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-asset-capabilities" class="internal xref">Asset Capabilities</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.3">
+                    <p id="section-toc.1-1.5.2.2.2.3.1"><a href="#section-5.2.3" class="auto internal xref">5.2.3</a>.  <a href="#name-adjust-metadata" class="internal xref">Adjust metadata</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-real-time-media" class="internal xref">Real-time media</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-disruptive-policy-changes" class="internal xref">Disruptive Policy Changes</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-role-constraints" class="internal xref">Role constraints</a></p>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-operational-policy" class="internal xref">Operational policy</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-some-mls-related-policy-tha" class="internal xref">Some MLS-related policy that could be tied to a room</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-not-relevant-to-mimi-betwee" class="internal xref">Not relevant to MIMI (between client and its provider)</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-areas-for-future-works" class="internal xref">Areas for future works</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-some-types-of-rooms-with-rb" class="internal xref">Some types of rooms with RBAC</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-strict-administrator-policy" class="internal xref">Strict administrator policy</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-cooperative-room-everyone-c" class="internal xref">Cooperative room (everyone can add and remove)</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-moderated-room" class="internal xref">Moderated room</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-complete-tls-presentation-l" class="internal xref">Complete TLS Presentation Language Syntax</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-example-roles-and-permissio" class="internal xref">Example Roles and Permissions scheme</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-complete-tls-presentation-l" class="internal xref">Complete TLS Presentation Language Syntax</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-example-roles-and-permissio" class="internal xref">Example Roles and Permissions scheme</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
 </li>
         </ul>
 </nav>
@@ -1573,109 +1637,829 @@ struct {
       <h2 id="name-role-based-access-control">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-role-based-access-control" class="section-name selfRef">Role-Based Access Control</a>
       </h2>
-<p id="section-5-1">Permissions<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">With Role-Based Access Control, the room policy defines a list of roles and the capabilities associated with each role.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5-2">
+<pre>
+enum {
+  reserved(0),
+  canAddParticipant(1),
+  ...
+  (65535)
+} Capability;
+
+struct {
+  int role_index;
+  opaque role_name&lt;V&gt;;
+  opaque role_description&lt;V&gt;;
+  Capability role_capabilities&lt;V&gt;;
+  int minimum_participants_constraint;
+  optional int maximum_participants_constraint;
+  int minimum_active_participants_constraint;
+  optional int maximum_active_participants_constraint;
+} Role
+
+struct {
+  Role target_role;
+  /* preauth_domain consists of ASCII letters, digits, and hyphens */
+  opaque preauth_domain&lt;V&gt;;
+  /* the remaining fields are in the form of a URI */
+  opaque preauth_workgroup&lt;V&gt;;
+  opaque preauth_group&lt;V&gt;;
+  opaque preauth_user&lt;V&gt;;
+} PreAuthPerRoleList;
+
+struct {
+  Role roles&lt;V&gt;;
+  ...
+  PreAuthPerRoleList pre_auth_list&lt;V&gt;;
+  ...
+} RoomPolicy;
+</pre><a href="#section-5-2" class="pilcrow">¶</a>
+</div>
+<div id="capability-categories">
+<section id="section-5.1">
+        <h3 id="name-capability-categories">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-capability-categories" class="section-name selfRef">Capability Categories</a>
+        </h3>
+<div id="membership-capabilities">
+<section id="section-5.1.1">
+          <h4 id="name-membership-capabilities">
+<a href="#section-5.1.1" class="section-number selfRef">5.1.1. </a><a href="#name-membership-capabilities" class="section-name selfRef">Membership Capabilities</a>
+          </h4>
 <ul class="normal">
-<li class="normal" id="section-5-2.1">
-          <p id="section-5-2.1.1">canSendMessage<a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.1.1-1.1">
+              <p id="section-5.1.1-1.1.1">canAddParticipant<a href="#section-5.1.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-5-2.2">
-          <p id="section-5-2.2.1">canAddParticipant<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.1.1-1.2">
+              <p id="section-5.1.1-1.2.1">canRemoveParticipant<a href="#section-5.1.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-5-2.3">
-          <p id="section-5-2.3.1">canRemoveParticipant<a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.1.1-1.3">
+              <p id="section-5.1.1-1.3.1">canAddOwnClient<a href="#section-5.1.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-5-2.4">
-          <p id="section-5-2.4.1">canRemoveSelf<a href="#section-5-2.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.1.1-1.4">
+              <p id="section-5.1.1-1.4.1">canRemoveSelf<a href="#section-5.1.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-5-2.5">
-          <p id="section-5-2.5.1">canReport<a href="#section-5-2.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.1.1-1.5">
+              <p id="section-5.1.1-1.5.1">canAddSelf<a href="#section-5.1.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-5-2.6">
-          <p id="section-5-2.6.1">canBanish<a href="#section-5-2.6.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.1.1-1.6">
+              <p id="section-5.1.1-1.6.1">canCreateJoinLink<a href="#section-5.1.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-5-2.7">
-          <p id="section-5-2.7.1">canUnBanish<a href="#section-5-2.7.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.8">
-          <p id="section-5-2.8.1">canKick<a href="#section-5-2.8.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.9">
-          <p id="section-5-2.9.1">canRevokeVoice<a href="#section-5-2.9.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.10">
-          <p id="section-5-2.10.1">canGrantVoice<a href="#section-5-2.10.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.11">
-          <p id="section-5-2.11.1">canChangeRoomName,Subject,Avatar<a href="#section-5-2.11.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.12">
-          <p id="section-5-2.12.1">canChangeOwnName,Presence,Mood,Avatar<a href="#section-5-2.12.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.13">
-          <p id="section-5-2.13.1">canChangeRoomMembershipStyle<a href="#section-5-2.13.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.14">
-          <p id="section-5-2.14.1">canChangeOtherPolicyAttribute<a href="#section-5-2.14.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.15">
-          <p id="section-5-2.15.1">canDestroyRoom<a href="#section-5-2.15.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.16">
-          <p id="section-5-2.16.1">canCreateJoinLink<a href="#section-5-2.16.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.17">
-          <p id="section-5-2.17.1">canKnock<a href="#section-5-2.17.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.18">
-          <p id="section-5-2.18.1">canAcceptKnock<a href="#section-5-2.18.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-2.19">
-          <p id="section-5-2.19.1">MLS specific<a href="#section-5-2.19.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5-2.19.2.1">
-              <p id="section-5-2.19.2.1.1">update<a href="#section-5-2.19.2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5-2.19.2.2">
-              <p id="section-5-2.19.2.2.1">reinit<a href="#section-5-2.19.2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5-2.19.2.3">
-              <p id="section-5-2.19.2.3.1">PSK<a href="#section-5-2.19.2.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5-2.19.2.4">
-              <p id="section-5-2.19.2.4.1">external proposal<a href="#section-5-2.19.2.4.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5-2.19.2.5">
-              <p id="section-5-2.19.2.5.1">external commit<a href="#section-5-2.19.2.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.1.1-1.7">
+              <p id="section-5.1.1-1.7.1">canUseJoinLink<a href="#section-5.1.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
+<p id="section-5.1.1-2">These actions are subject to role constraints described below.<a href="#section-5.1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="moderation-capabilities">
+<section id="section-5.1.2">
+          <h4 id="name-moderation-capabilities">
+<a href="#section-5.1.2" class="section-number selfRef">5.1.2. </a><a href="#name-moderation-capabilities" class="section-name selfRef">Moderation Capabilities</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-5.1.2-1.1">
+              <p id="section-5.1.2-1.1.1">canBan<a href="#section-5.1.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
-      </ul>
+            <li class="normal" id="section-5.1.2-1.2">
+              <p id="section-5.1.2-1.2.1">canUnBan<a href="#section-5.1.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.2-1.3">
+              <p id="section-5.1.2-1.3.1">canKick<a href="#section-5.1.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.2-1.4">
+              <p id="section-5.1.2-1.4.1">canRevokeVoice<a href="#section-5.1.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.2-1.5">
+              <p id="section-5.1.2-1.5.1">canGrantVoice<a href="#section-5.1.2-1.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.2-1.6">
+              <p id="section-5.1.2-1.6.1">canKnock<a href="#section-5.1.2-1.6.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.2-1.7">
+              <p id="section-5.1.2-1.7.1">canAcceptKnock<a href="#section-5.1.2-1.7.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.2-1.8">
+              <p id="section-5.1.2-1.8.1">canChangeUserRole<a href="#section-5.1.2-1.8.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.2-1.9">
+              <p id="section-5.1.2-1.9.1">canCreateSubgroup<a href="#section-5.1.2-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-5.1.2-2">These actions are subject to role constraints described below.<a href="#section-5.1.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="breakouts">
+<section id="section-5.2">
+        <h3 id="name-breakouts">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-breakouts" class="section-name selfRef">Breakouts</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="section-5.2-1.1">
+            <p id="section-5.2-1.1.1">canSendDirectMessage<a href="#section-5.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-1.2">
+            <p id="section-5.2-1.2.1">canTargetMessage<a href="#section-5.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<div id="message-capabilities">
+<section id="section-5.2.1">
+          <h4 id="name-message-capabilities">
+<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-message-capabilities" class="section-name selfRef">Message Capabilities</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-5.2.1-1.1">
+              <p id="section-5.2.1-1.1.1">canSendMessage<a href="#section-5.2.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.2">
+              <p id="section-5.2.1-1.2.1">canReceiveMessage<a href="#section-5.2.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.3">
+              <p id="section-5.2.1-1.3.1">canReportAbuse<a href="#section-5.2.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.4">
+              <p id="section-5.2.1-1.4.1">canReactToMessage<a href="#section-5.2.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.5">
+              <p id="section-5.2.1-1.5.1">canEditReaction<a href="#section-5.2.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.6">
+              <p id="section-5.2.1-1.6.1">canDeleteReaction<a href="#section-5.2.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.7">
+              <p id="section-5.2.1-1.7.1">canEditOwnMessage<a href="#section-5.2.1-1.7.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.8">
+              <p id="section-5.2.1-1.8.1">canDeleteOwnMessage<a href="#section-5.2.1-1.8.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.9">
+              <p id="section-5.2.1-1.9.1">canDeleteAnyMessage<a href="#section-5.2.1-1.9.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.10">
+              <p id="section-5.2.1-1.10.1">canStartTopic<a href="#section-5.2.1-1.10.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.11">
+              <p id="section-5.2.1-1.11.1">canReplyInTopic<a href="#section-5.2.1-1.11.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.12">
+              <p id="section-5.2.1-1.12.1">canSendDirectMessage<a href="#section-5.2.1-1.12.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.1-1.13">
+              <p id="section-5.2.1-1.13.1">canTargetMessage<a href="#section-5.2.1-1.13.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-5.2.1-2">The Hub can enforce whether a member can send a message and not fanout application messages. Other capabilities can only be enforced by other clients.<a href="#section-5.2.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="asset-capabilities">
+<section id="section-5.2.2">
+          <h4 id="name-asset-capabilities">
+<a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-asset-capabilities" class="section-name selfRef">Asset Capabilities</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-5.2.2-1.1">
+              <p id="section-5.2.2-1.1.1">canUploadImage<a href="#section-5.2.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.2-1.2">
+              <p id="section-5.2.2-1.2.1">canUploadVideo<a href="#section-5.2.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.2-1.3">
+              <p id="section-5.2.2-1.3.1">canUploadAttachment<a href="#section-5.2.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.2-1.4">
+              <p id="section-5.2.2-1.4.1">canDownloadImage<a href="#section-5.2.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.2-1.5">
+              <p id="section-5.2.2-1.5.1">canDownloadVideo<a href="#section-5.2.2-1.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.2-1.6">
+              <p id="section-5.2.2-1.6.1">canDownloadAttachment<a href="#section-5.2.2-1.6.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.2-1.7">
+              <p id="section-5.2.2-1.7.1">canSendLink<a href="#section-5.2.2-1.7.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.2-1.8">
+              <p id="section-5.2.2-1.8.1">canSendLinkPreview<a href="#section-5.2.2-1.8.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.2-1.9">
+              <p id="section-5.2.2-1.9.1">canFollowLink<a href="#section-5.2.2-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="adjust-metadata">
+<section id="section-5.2.3">
+          <h4 id="name-adjust-metadata">
+<a href="#section-5.2.3" class="section-number selfRef">5.2.3. </a><a href="#name-adjust-metadata" class="section-name selfRef">Adjust metadata</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-5.2.3-1.1">
+              <p id="section-5.2.3-1.1.1">canChangeRoomName<a href="#section-5.2.3-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.3-1.2">
+              <p id="section-5.2.3-1.2.1">canChangeRoomSubject<a href="#section-5.2.3-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.3-1.3">
+              <p id="section-5.2.3-1.3.1">canChangeRoomAvatar<a href="#section-5.2.3-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.3-1.4">
+              <p id="section-5.2.3-1.4.1">canChangeOwnName<a href="#section-5.2.3-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.3-1.5">
+              <p id="section-5.2.3-1.5.1">canChangeOwnPresence<a href="#section-5.2.3-1.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.3-1.6">
+              <p id="section-5.2.3-1.6.1">canChangeOwnMood<a href="#section-5.2.3-1.6.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.3-1.7">
+              <p id="section-5.2.3-1.7.1">canChangeOwnAvatar<a href="#section-5.2.3-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="real-time-media">
+<section id="section-5.3">
+        <h3 id="name-real-time-media">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-real-time-media" class="section-name selfRef">Real-time media</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="section-5.3-1.1">
+            <p id="section-5.3-1.1.1">canStartCall<a href="#section-5.3-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-1.2">
+            <p id="section-5.3-1.2.1">canJoinCall<a href="#section-5.3-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-1.3">
+            <p id="section-5.3-1.3.1">canSendAudio<a href="#section-5.3-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-1.4">
+            <p id="section-5.3-1.4.1">canReceiveAudio<a href="#section-5.3-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-1.5">
+            <p id="section-5.3-1.5.1">canSendVideo<a href="#section-5.3-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-1.6">
+            <p id="section-5.3-1.6.1">canReceiveVideo<a href="#section-5.3-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-1.7">
+            <p id="section-5.3-1.7.1">canShareScreen<a href="#section-5.3-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-1.8">
+            <p id="section-5.3-1.8.1">canViewSharedScreen<a href="#section-5.3-1.8.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="disruptive-policy-changes">
+<section id="section-5.4">
+        <h3 id="name-disruptive-policy-changes">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-disruptive-policy-changes" class="section-name selfRef">Disruptive Policy Changes</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="section-5.4-1.1">
+            <p id="section-5.4-1.1.1">canChangeRoomMembershipStyle<a href="#section-5.4-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.4-1.2">
+            <p id="section-5.4-1.2.1">canChangeOtherPolicyAttribute<a href="#section-5.4-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.4-1.3">
+            <p id="section-5.4-1.3.1">canDestroyRoom<a href="#section-5.4-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.4-1.4">
+            <p id="section-5.4-1.4.1">MLS specific<a href="#section-5.4-1.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.4-1.4.2.1">
+                <p id="section-5.4-1.4.2.1.1">update<a href="#section-5.4-1.4.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.4-1.4.2.2">
+                <p id="section-5.4-1.4.2.2.1">reinit<a href="#section-5.4-1.4.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.4-1.4.2.3">
+                <p id="section-5.4-1.4.2.3.1">PSK<a href="#section-5.4-1.4.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.4-1.4.2.4">
+                <p id="section-5.4-1.4.2.4.1">external proposal<a href="#section-5.4-1.4.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.4-1.4.2.5">
+                <p id="section-5.4-1.4.2.5.1">external commit<a href="#section-5.4-1.4.2.5.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+        </ul>
+</section>
+</div>
+<div id="role-constraints">
+<section id="section-5.5">
+        <h3 id="name-role-constraints">
+<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-role-constraints" class="section-name selfRef">Role constraints</a>
+        </h3>
+<p id="section-5.5-1">Minimum and maximum number of each role.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="operational-policy">
+<section id="section-6">
+      <h2 id="name-operational-policy">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-operational-policy" class="section-name selfRef">Operational policy</a>
+      </h2>
+<p id="section-6-1">Section 7 of the <span>[<a href="#I-D.ietf-mls-architecture" class="cite xref">I-D.ietf-mls-architecture</a>]</span> defines a set of operational
+policy considerations that influence interoperability of MLS clients. MIMI
+explicitly address a handful of the issues in the document by taking a position on ordering (Proposals referenced in a Commit need to be received before the Commit; the Commit entering a new epoch needs to be received before any other messages in that epoch), privacy of handshake messages (handshakes can be a PublicMessage or SemiPrivateMessage), and GroupInfo storage (committers need to provide a valid GroupInfo to the Hub). The rest of these issues are described here. Just because a topic is listed does not mean that a room needs to take a position; nor different rooms on a Hub need to have different policies for these items.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<div id="some-mls-related-policy-that-could-be-tied-to-a-room">
+<section id="section-6.1">
+        <h3 id="name-some-mls-related-policy-tha">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-some-mls-related-policy-tha" class="section-name selfRef">Some MLS-related policy that could be tied to a room</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="section-6.1-1.1">
+            <p id="section-6.1-1.1.1">any mandatory or forbidden MLS extensions.<a href="#section-6.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.2">
+            <p id="section-6.1-1.2.1">which proposals are valid to have in a commit, including but not limited to:<a href="#section-6.1-1.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.1-1.2.2.1">
+                <p id="section-6.1-1.2.2.1.1">when, and under what circumstances, a reinitialization proposal is allowed.<a href="#section-6.1-1.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-6.1-1.2.2.2">
+                <p id="section-6.1-1.2.2.2.1">when proposals from external senders are allowed and how to authorize those proposals.<a href="#section-6.1-1.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-6.1-1.2.2.3">
+                <p id="section-6.1-1.2.2.3.1">when external joiners are allowed and how to authorize those external commits.<a href="#section-6.1-1.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-6.1-1.2.2.4">
+                <p id="section-6.1-1.2.2.4.1">which other proposal types are allowed.<a href="#section-6.1-1.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-6.1-1.3">
+            <p id="section-6.1-1.3.1">when members should commit pending proposals in a group.<a href="#section-6.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.4">
+            <p id="section-6.1-1.4.1">when two credentials represent the same client.<a href="#section-6.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.5">
+            <p id="section-6.1-1.5.1">how long to allow a member to stay in a group without updating its leaf keys before removing them.<a href="#section-6.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.6">
+            <p id="section-6.1-1.6.1">When and how to pad messages.<a href="#section-6.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.7">
+            <p id="section-6.1-1.7.1">When to send a reinitialization proposal.<a href="#section-6.1-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.8">
+            <p id="section-6.1-1.8.1">How often clients should update their leaf keys.<a href="#section-6.1-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.9">
+            <p id="section-6.1-1.9.1">Whether to prefer sending full commits or partial/empty commits.<a href="#section-6.1-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.10">
+            <p id="section-6.1-1.10.1">Whether there should be a required_capabilities extension in groups.<a href="#section-6.1-1.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.11">
+            <p id="section-6.1-1.11.1">minimum and maximum lifetime of KeyPackages<a href="#section-6.1-1.11.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.12">
+            <p id="section-6.1-1.12.1">if last resort KeyPackages are allowed<a href="#section-6.1-1.12.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.13">
+            <p id="section-6.1-1.13.1">how long to store resumption PSK (how much time and how many epochs)<a href="#section-6.1-1.13.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.14">
+            <p id="section-6.1-1.14.1">minimum and maximum number past epochs to keep<a href="#section-6.1-1.14.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.15">
+            <p id="section-6.1-1.15.1">how long to keep unused nonce and key pairs for a sender<a href="#section-6.1-1.15.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.16">
+            <p id="section-6.1-1.16.1">maximum number of unused key pairs to keep<a href="#section-6.1-1.16.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.17">
+            <p id="section-6.1-1.17.1">maximum number of steps that clients will move a secret tree ratchet forward in response to a single message before rejecting it<a href="#section-6.1-1.17.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.18">
+            <p id="section-6.1-1.18.1">tolerance to out of order app messages<a href="#section-6.1-1.18.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.19">
+            <p id="section-6.1-1.19.1">tolerance to out of order handshake messages<a href="#section-6.1-1.19.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.20">
+            <p id="section-6.1-1.20.1">handshakes may be which of PublicMessage, PrivateMessage, or SemiPrivateMessage.<a href="#section-6.1-1.20.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.21">
+            <p id="section-6.1-1.21.1">if external joiners are allowed<a href="#section-6.1-1.21.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-1.22">
+            <p id="section-6.1-1.22.1">if external proposals are allowed<a href="#section-6.1-1.22.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.1-1.22.2.1">
+                <p id="section-6.1-1.22.2.1.1">if so, who can submit<a href="#section-6.1-1.22.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-6.1-1.22.2.2">
+                <p id="section-6.1-1.22.2.2.1">which member(s) are responsible for submitting pending proposals<a href="#section-6.1-1.22.2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-6.1-1.23">
+            <p id="section-6.1-1.23.1">how a joiner gets access to the ratchet_tree<a href="#section-6.1-1.23.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="not-relevant-to-mimi-between-client-and-its-provider">
+<section id="section-6.2">
+        <h3 id="name-not-relevant-to-mimi-betwee">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-not-relevant-to-mimi-betwee" class="section-name selfRef">Not relevant to MIMI (between client and its provider)</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="section-6.2-1.1">
+            <p id="section-6.2-1.1.1">how many KPs to keep active<a href="#section-6.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-1.2">
+            <p id="section-6.2-1.2.1">how group IDs are constructed<a href="#section-6.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-1.3">
+            <p id="section-6.2-1.3.1">which ciphersuites are acceptable.<a href="#section-6.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="areas-for-future-works">
+<section id="section-6.3">
+        <h3 id="name-areas-for-future-works">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-areas-for-future-works" class="section-name selfRef">Areas for future works</a>
+        </h3>
+<p id="section-6.3-1">Which credential types are allowed/required<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-2">How to protect and share the GroupInfo objects needed for external joins.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<p id="section-6.3-3">If an application wishes to detect and possibly discipline members that send malformed commits with the intention of corrupting a group's state, there must be a method for reporting and validating malformed commits.
+MLS requires the following parameters to be defined, which must be the same for two implementations to interoperate:<a href="#section-6.3-3" class="pilcrow">¶</a></p>
+<p id="section-6.3-4">Which media types are required to send and required to understand in MIMI.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
+<p id="section-6.3-5">What Additional authenticated data, can/should be sent unencrypted in an otherwise encrypted message.<a href="#section-6.3-5" class="pilcrow">¶</a></p>
+<p id="section-6.3-6">Application-level identifiers of public key material (specifically the application_id extension as defined in Section 5.3.3 of [RFC9420]).<a href="#section-6.3-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="some-types-of-rooms-with-rbac">
+<section id="section-7">
+      <h2 id="name-some-types-of-rooms-with-rb">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-some-types-of-rooms-with-rb" class="section-name selfRef">Some types of rooms with RBAC</a>
+      </h2>
+<div id="strict-administrator-policy">
+<section id="section-7.1">
+        <h3 id="name-strict-administrator-policy">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-strict-administrator-policy" class="section-name selfRef">Strict administrator policy</a>
+        </h3>
+<p id="section-7.1-1">Role levels (low to high capabilities):<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-2.1">
+            <p id="section-7.1-2.1.1">banned<a href="#section-7.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-2.2">
+            <p id="section-7.1-2.2.1">guest<a href="#section-7.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-2.3">
+            <p id="section-7.1-2.3.1">ordinary_user<a href="#section-7.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-2.4">
+            <p id="section-7.1-2.4.1">group_admin<a href="#section-7.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-2.5">
+            <p id="section-7.1-2.5.1">super_admin<a href="#section-7.1-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.1-3">Capabilities per role<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-4.1">
+            <p id="section-7.1-4.1.1">banned<a href="#section-7.1-4.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-4.1.2.1">
+                <p id="section-7.1-4.1.2.1.1">(no capabilities)<a href="#section-7.1-4.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-7.1-4.2">
+            <p id="section-7.1-4.2.1">guest
+      - canSendMessage
+      - canReceiveMessage
+      - canRemoveSelf<a href="#section-7.1-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-4.3">
+            <p id="section-7.1-4.3.1">ordinary_user<a href="#section-7.1-4.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-4.3.2.1">
+                <p id="section-7.1-4.3.2.1.1">(everything guest can do, plus:)<a href="#section-7.1-4.3.2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-4.3.2.1.2.1">
+                    <p id="section-7.1-4.3.2.1.2.1.1">canAddOwnClient<a href="#section-7.1-4.3.2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-7.1-4.3.2.1.2.2">
+                    <p id="section-7.1-4.3.2.1.2.2.1">canChangeOwnName,Presence,Mood,Avatar<a href="#section-7.1-4.3.2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-7.1-4.3.2.1.2.3">
+                    <p id="section-7.1-4.3.2.1.2.3.1">canReport<a href="#section-7.1-4.3.2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-7.1-4.3.2.1.2.4">
+                    <p id="section-7.1-4.3.2.1.2.4.1">canSendLinks<a href="#section-7.1-4.3.2.1.2.4.1" class="pilcrow">¶</a></p>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-7.1-4.3.2.2">
+                <p id="section-7.1-4.3.2.2.1">canSendImages<a href="#section-7.1-4.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.1-4.3.2.3">
+                <p id="section-7.1-4.3.2.3.1">canSendVideos<a href="#section-7.1-4.3.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-7.1-4.4">
+            <p id="section-7.1-4.4.1">group_admin
+      - (everything ordinary_user can do, plus:)
+      - canSendAttachments
+      - canAddParticipant
+      - canRemoveParticipant
+      - canBanish - promote
+      - canUnBanish
+      - canKick
+      - canChangeRoomName,Subject,Avatar
+      - canPromoteRole(from=[ordinary]; to=[admin])
+      - canDemoteRole([from=[admin], to=[ordinary])
+      - canDestroyRoom
+      - canCreateJoinLink<a href="#section-7.1-4.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-4.5">
+            <p id="section-7.1-4.5.1">super_admin<a href="#section-7.1-4.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-4.5.2.1">
+                <p id="section-7.1-4.5.2.1.1">(everything group_admin can do, plus:)<a href="#section-7.1-4.5.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.1-4.5.2.2">
+                <p id="section-7.1-4.5.2.2.1">canPromoteRole(from=[ordinary,admin], to=[superadmin])<a href="#section-7.1-4.5.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.1-4.5.2.3">
+                <p id="section-7.1-4.5.2.3.1">canDemoteRole(from=[superadmin], to=[ordinary,admin])<a href="#section-7.1-4.5.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.1-4.5.2.4">
+                <p id="section-7.1-4.5.2.4.1">canChangeRoomMembershipStyle<a href="#section-7.1-4.5.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+        </ul>
+<p id="section-7.1-5">Role constraints: must have at least 1 "admin"<a href="#section-7.1-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="cooperative-room-everyone-can-add-and-remove">
+<section id="section-7.2">
+        <h3 id="name-cooperative-room-everyone-c">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-cooperative-room-everyone-c" class="section-name selfRef">Cooperative room (everyone can add and remove)</a>
+        </h3>
+<p id="section-7.2-1">Role levels (low to high capabilities):<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.2-2.1">
+            <p id="section-7.2-2.1.1">banned<a href="#section-7.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.2-2.2">
+            <p id="section-7.2-2.2.1">ordinary_user<a href="#section-7.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.2-2.3">
+            <p id="section-7.2-2.3.1">group_admin<a href="#section-7.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.2-2.4">
+            <p id="section-7.2-2.4.1">super_admin<a href="#section-7.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.2-3">Capabilities per role<a href="#section-7.2-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.2-4.1">
+            <p id="section-7.2-4.1.1">banned<a href="#section-7.2-4.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.2-4.1.2.1">
+                <p id="section-7.2-4.1.2.1.1">(no capabilities)<a href="#section-7.2-4.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-7.2-4.2">
+            <p id="section-7.2-4.2.1">ordinary_user
+      - canSendMessage
+      - canReceiveMessage
+      - canRemoveSelf
+      - canAddOwnClient
+      - canChangeOwnName,Presence,Mood,Avatar
+      - canReport
+      - canAddParticipant
+      - canRemoveParticipant
+      - canKick
+      - canChangeRoomName,Subject,Avatar
+      - canCreateJoinLink
+      - canSendLinks<a href="#section-7.2-4.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.2-4.2.2.1">
+                <p id="section-7.2-4.2.2.1.1">canSendImages<a href="#section-7.2-4.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.2-4.2.2.2">
+                <p id="section-7.2-4.2.2.2.1">canSendVideos<a href="#section-7.2-4.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.2-4.2.2.3">
+                <p id="section-7.2-4.2.2.3.1">canSendAttachments<a href="#section-7.2-4.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-7.2-4.3">
+            <p id="section-7.2-4.3.1">group_admin
+      - (everything ordinary_user can do, plus:)
+      - canBanish
+      - canUnBanish
+      - canPromoteRole(from=[ordinary], to=[admin])
+      - canDemoteRole([from=[admin], to=[ordinary])
+      - canDestroyRoom<a href="#section-7.2-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.2-4.4">
+            <p id="section-7.2-4.4.1">super_admin<a href="#section-7.2-4.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.2-4.4.2.1">
+                <p id="section-7.2-4.4.2.1.1">(everything group_admin can do, plus:)<a href="#section-7.2-4.4.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.2-4.4.2.2">
+                <p id="section-7.2-4.4.2.2.1">canPromoteRole(from=[ordinary,admin], to=[superadmin])<a href="#section-7.2-4.4.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.2-4.4.2.3">
+                <p id="section-7.2-4.4.2.3.1">canDemoteRole(from=[superadmin], to=[ordinary,admin])<a href="#section-7.2-4.4.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.2-4.4.2.4">
+                <p id="section-7.2-4.4.2.4.1">canChangeRoomMembershipStyle<a href="#section-7.2-4.4.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+        </ul>
+<p id="section-7.2-5">Role constraints: must have at least 1 "group_admin"<a href="#section-7.2-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="moderated-room">
+<section id="section-7.3">
+        <h3 id="name-moderated-room">
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-moderated-room" class="section-name selfRef">Moderated room</a>
+        </h3>
+<p id="section-7.3-1">Role levels (low to high capabilities):<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-2.1">
+            <p id="section-7.3-2.1.1">banned<a href="#section-7.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.2">
+            <p id="section-7.3-2.2.1">non-participant<a href="#section-7.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.3">
+            <p id="section-7.3-2.3.1">guest<a href="#section-7.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.4">
+            <p id="section-7.3-2.4.1">attendee<a href="#section-7.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.5">
+            <p id="section-7.3-2.5.1">speaker<a href="#section-7.3-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.6">
+            <p id="section-7.3-2.6.1">moderator<a href="#section-7.3-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.7">
+            <p id="section-7.3-2.7.1">super_admin<a href="#section-7.3-2.7.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.3-3">Capabilities per role<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-4.1">
+            <p id="section-7.3-4.1.1">banned<a href="#section-7.3-4.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-4.1.2.1">
+                <p id="section-7.3-4.1.2.1.1">(no capabilities)<a href="#section-7.3-4.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-7.3-4.2">
+            <p id="section-7.3-4.2.1">non-participant
+      - canKnock
+      - canJoinViaLink<a href="#section-7.3-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-4.3">
+            <p id="section-7.3-4.3.1">guest
+      - canReceiveMessage
+      - canRemoveSelf<a href="#section-7.3-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-4.4">
+            <p id="section-7.3-4.4.1">attendee<a href="#section-7.3-4.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-4.4.2.1">
+                <p id="section-7.3-4.4.2.1.1">(everything guest can do, plus:)<a href="#section-7.3-4.4.2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-4.4.2.1.2.1">
+                    <p id="section-7.3-4.4.2.1.2.1.1">canAddOwnClient<a href="#section-7.3-4.4.2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-7.3-4.4.2.1.2.2">
+                    <p id="section-7.3-4.4.2.1.2.2.1">canChangeOwnName,Presence,Mood,Avatar<a href="#section-7.3-4.4.2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-7.3-4.4.2.1.2.3">
+                    <p id="section-7.3-4.4.2.1.2.3.1">canReport<a href="#section-7.3-4.4.2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-7.3-4.5">
+            <p id="section-7.3-4.5.1">speaker<a href="#section-7.3-4.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-4.5.2.1">
+                <p id="section-7.3-4.5.2.1.1">(everything attendee can do, plus:)<a href="#section-7.3-4.5.2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-4.5.2.1.2.1">
+                    <p id="section-7.3-4.5.2.1.2.1.1">canSendMessage<a href="#section-7.3-4.5.2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-7.3-4.5.2.1.2.2">
+                    <p id="section-7.3-4.5.2.1.2.2.1">canChangeRoomName,Subject,Avatar<a href="#section-7.3-4.5.2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-7.3-4.5.2.1.2.3">
+                    <p id="section-7.3-4.5.2.1.2.3.1">canSendLinks<a href="#section-7.3-4.5.2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-7.3-4.5.2.2">
+                <p id="section-7.3-4.5.2.2.1">canSendImages<a href="#section-7.3-4.5.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.3-4.5.2.3">
+                <p id="section-7.3-4.5.2.3.1">canSendVideos<a href="#section-7.3-4.5.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.3-4.5.2.4">
+                <p id="section-7.3-4.5.2.4.1">canSendAttachments<a href="#section-7.3-4.5.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-7.3-4.6">
+            <p id="section-7.3-4.6.1">moderator
+      - (everything ordinary_user can do, plus:)
+      - canAddParticipant
+      - canRemoveParticipant
+      - canAcceptKnock
+      - canBan
+      - canUnBan
+      - canKick
+      - canPromoteRole(from=[attendee]; to=[speaker])
+      - canDemoteRole([from=[speaker], to=[attendee])
+      - canCreateJoinLink<a href="#section-7.3-4.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-4.7">
+            <p id="section-7.3-4.7.1">super_admin<a href="#section-7.3-4.7.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-4.7.2.1">
+                <p id="section-7.3-4.7.2.1.1">(everything moderator can do, plus:)<a href="#section-7.3-4.7.2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-4.7.2.1.2.1">
+                    <p id="section-7.3-4.7.2.1.2.1.1">canDestroyRoom<a href="#section-7.3-4.7.2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-7.3-4.7.2.2">
+                <p id="section-7.3-4.7.2.2.1">canPromoteRole(from=[attendee,speaker], to=[moderator])<a href="#section-7.3-4.7.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.3-4.7.2.3">
+                <p id="section-7.3-4.7.2.3.1">canDemoteRole(from=[moderator], to=[attendee,speaker])<a href="#section-7.3-4.7.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.3-4.7.2.4">
+                <p id="section-7.3-4.7.2.4.1">canChangeRoomMembershipStyle<a href="#section-7.3-4.7.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+        </ul>
+<p id="section-7.3-5">Role constraints: must have at least 1 "moderator"<a href="#section-7.3-5" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-6">
+<section id="section-8">
       <h2 id="name-security-considerations">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-6-1">TODO Security<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-8-1">TODO Security<a href="#section-8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-7">
+<section id="section-9">
       <h2 id="name-iana-considerations">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-7-1">This document has no IANA actions.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-9-1">This document has no IANA actions.<a href="#section-9-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<section id="section-8">
+<div id="sec-combined-references">
+<section id="section-10">
       <h2 id="name-references">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-8.1">
+<section id="section-10.1">
         <h3 id="name-normative-references">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="I-D.ietf-mimi-arch">[I-D.ietf-mimi-arch]</dt>
@@ -1698,19 +2482,24 @@ struct {
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-8.2">
+<section id="section-10.2">
         <h3 id="name-informative-references">
-<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="I-D.ietf-mimi-content">[I-D.ietf-mimi-content]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Mahy, R.</span>, <span class="refTitle">"More Instant Messaging Interoperability (MIMI) message content"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mimi-content-04</span>, <time datetime="2024-06-10" class="refDate">10 June 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-content-04">https://datatracker.ietf.org/doc/html/draft-ietf-mimi-content-04</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-mls-architecture">[I-D.ietf-mls-architecture]</dt>
+      <dd>
+<span class="refAuthor">Beurdouche, B.</span>, <span class="refAuthor">Rescorla, E.</span>, <span class="refAuthor">Omara, E.</span>, <span class="refAuthor">Inguva, S.</span>, and <span class="refAuthor">A. Duric</span>, <span class="refTitle">"The Messaging Layer Security (MLS) Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mls-architecture-15</span>, <time datetime="2024-08-03" class="refDate">3 August 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mls-architecture-15">https://datatracker.ietf.org/doc/html/draft-ietf-mls-architecture-15</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
 </div>
 </section>
+</div>
 <div id="complete-tls-presentation-language-syntax">
 <section id="appendix-A">
       <h2 id="name-complete-tls-presentation-l">
