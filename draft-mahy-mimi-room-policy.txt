@@ -88,13 +88,13 @@ Table of Contents
      5.1.  Capability Categories
        5.1.1.  Membership Capabilities
        5.1.2.  Moderation Capabilities
-     5.2.  Breakouts
-       5.2.1.  Message Capabilities
-       5.2.2.  Asset Capabilities
-       5.2.3.  Adjust metadata
-     5.3.  Real-time media
-     5.4.  Disruptive Policy Changes
-     5.5.  Role constraints
+       5.1.3.  Breakouts
+       5.1.4.  Message Capabilities
+       5.1.5.  Asset Capabilities
+       5.1.6.  Adjust metadata
+       5.1.7.  Real-time media
+       5.1.8.  Disruptive Policy Changes
+     5.2.  Role constraints
    6.  Operational policy
      6.1.  Some MLS-related policy that could be tied to a room
      6.2.  Not relevant to MIMI (between client and its provider)
@@ -609,13 +609,13 @@ Table of Contents
 
    These actions are subject to role constraints described below.
 
-5.2.  Breakouts
+5.1.3.  Breakouts
 
    *  canSendDirectMessage
 
    *  canTargetMessage
 
-5.2.1.  Message Capabilities
+5.1.4.  Message Capabilities
 
    *  canSendMessage
 
@@ -647,7 +647,7 @@ Table of Contents
    fanout application messages.  Other capabilities can only be enforced
    by other clients.
 
-5.2.2.  Asset Capabilities
+5.1.5.  Asset Capabilities
 
    *  canUploadImage
 
@@ -667,7 +667,7 @@ Table of Contents
 
    *  canFollowLink
 
-5.2.3.  Adjust metadata
+5.1.6.  Adjust metadata
 
    *  canChangeRoomName
 
@@ -683,7 +683,7 @@ Table of Contents
 
    *  canChangeOwnAvatar
 
-5.3.  Real-time media
+5.1.7.  Real-time media
 
    *  canStartCall
 
@@ -701,7 +701,7 @@ Table of Contents
 
    *  canViewSharedScreen
 
-5.4.  Disruptive Policy Changes
+5.1.8.  Disruptive Policy Changes
 
    *  canChangeRoomMembershipStyle
 
@@ -721,7 +721,7 @@ Table of Contents
 
       -  external commit
 
-5.5.  Role constraints
+5.2.  Role constraints
 
    Minimum and maximum number of each role.
 
