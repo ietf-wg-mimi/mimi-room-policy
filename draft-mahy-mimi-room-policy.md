@@ -356,32 +356,359 @@ foo
 
 # Role-Based Access Control
 
-Permissions
+With Role-Based Access Control, the room policy defines a list of roles and the capabilities associated with each role.
 
-- canSendMessage
+~~~
+enum {
+  reserved(0),
+  canAddParticipant(1),
+  ...
+  (65535)
+} Capability;
+
+struct {
+  int role_index;
+  opaque role_name<V>;
+  opaque role_description<V>;
+  Capability role_capabilities<V>;
+  int minimum_participants_constraint;
+  optional int maximum_participants_constraint;
+  int minimum_active_participants_constraint;
+  optional int maximum_active_participants_constraint;
+} Role
+
+struct {
+  Role target_role;
+  /* preauth_domain consists of ASCII letters, digits, and hyphens */
+  opaque preauth_domain<V>;
+  /* the remaining fields are in the form of a URI */
+  opaque preauth_workgroup<V>;
+  opaque preauth_group<V>;
+  opaque preauth_user<V>;
+} PreAuthPerRoleList;
+
+struct {
+  Role roles<V>;
+  ...
+  PreAuthPerRoleList pre_auth_list<V>;
+  ...
+} RoomPolicy;
+~~~
+
+## Capability Categories
+
+### Membership Capabilities
+
 - canAddParticipant
 - canRemoveParticipant
+- canAddOwnClient
 - canRemoveSelf
-- canReport
-- canBanish
-- canUnBanish
+- canAddSelf
+- canCreateJoinLink
+- canUseJoinLink
+
+These actions are subject to role constraints described below.
+
+### Moderation Capabilities
+
+- canBan
+- canUnBan
 - canKick
 - canRevokeVoice
 - canGrantVoice
-- canChangeRoomName,Subject,Avatar
-- canChangeOwnName,Presence,Mood,Avatar
+- canKnock
+- canAcceptKnock
+- canChangeUserRole
+- canCreateSubgroup
+
+These actions are subject to role constraints described below.
+
+## Breakouts
+
+- canSendDirectMessage
+- canTargetMessage
+
+### Message Capabilities
+
+- canSendMessage
+- canReceiveMessage
+- canReportAbuse
+- canReactToMessage
+- canEditReaction
+- canDeleteReaction
+- canEditOwnMessage
+- canDeleteOwnMessage
+- canDeleteAnyMessage
+- canStartTopic
+- canReplyInTopic
+- canSendDirectMessage
+- canTargetMessage
+
+The Hub can enforce whether a member can send a message and not fanout application messages. Other capabilities can only be enforced by other clients.
+
+
+### Asset Capabilities
+
+- canUploadImage
+- canUploadVideo
+- canUploadAttachment
+- canDownloadImage
+- canDownloadVideo
+- canDownloadAttachment
+- canSendLink
+- canSendLinkPreview
+- canFollowLink
+
+### Adjust metadata
+
+- canChangeRoomName
+- canChangeRoomSubject
+- canChangeRoomAvatar
+- canChangeOwnName
+- canChangeOwnPresence
+- canChangeOwnMood
+- canChangeOwnAvatar
+
+## Real-time media
+
+- canStartCall
+- canJoinCall
+- canSendAudio
+- canReceiveAudio
+- canSendVideo
+- canReceiveVideo
+- canShareScreen
+- canViewSharedScreen
+
+## Disruptive Policy Changes
+
 - canChangeRoomMembershipStyle
 - canChangeOtherPolicyAttribute
 - canDestroyRoom
-- canCreateJoinLink
-- canKnock
-- canAcceptKnock
 - MLS specific
   - update
   - reinit
   - PSK
   - external proposal
   - external commit
+
+## Role constraints
+
+Minimum and maximum number of each role.
+
+# Operational policy
+
+Section 7 of the {{?I-D.ietf-mls-architecture}} defines a set of operational
+policy considerations that influence interoperability of MLS clients. MIMI
+explicitly address a handful of the issues in the document by taking a position on ordering (Proposals referenced in a Commit need to be received before the Commit; the Commit entering a new epoch needs to be received before any other messages in that epoch), privacy of handshake messages (handshakes can be a PublicMessage or SemiPrivateMessage), and GroupInfo storage (committers need to provide a valid GroupInfo to the Hub). The rest of these issues are described here. Just because a topic is listed does not mean that a room needs to take a position; nor different rooms on a Hub need to have different policies for these items.
+
+## Some MLS-related policy that could be tied to a room
+
+- any mandatory or forbidden MLS extensions.
+
+- which proposals are valid to have in a commit, including but not limited to:
+    - when, and under what circumstances, a reinitialization proposal is allowed.
+    - when proposals from external senders are allowed and how to authorize those proposals.
+    - when external joiners are allowed and how to authorize those external commits.
+    - which other proposal types are allowed.
+- when members should commit pending proposals in a group.
+
+- when two credentials represent the same client.
+- how long to allow a member to stay in a group without updating its leaf keys before removing them.
+
+- When and how to pad messages.
+- When to send a reinitialization proposal.
+- How often clients should update their leaf keys.
+- Whether to prefer sending full commits or partial/empty commits.
+- Whether there should be a required_capabilities extension in groups.
+
+- minimum and maximum lifetime of KeyPackages
+- if last resort KeyPackages are allowed
+- how long to store resumption PSK (how much time and how many epochs)
+- minimum and maximum number past epochs to keep
+- how long to keep unused nonce and key pairs for a sender
+- maximum number of unused key pairs to keep
+- maximum number of steps that clients will move a secret tree ratchet forward in response to a single message before rejecting it
+- tolerance to out of order app messages
+- tolerance to out of order handshake messages
+- handshakes may be which of PublicMessage, PrivateMessage, or SemiPrivateMessage.
+- if external joiners are allowed
+- if external proposals are allowed
+    - if so, who can submit
+    - which member(s) are responsible for submitting pending proposals
+- how a joiner gets access to the ratchet_tree
+
+## Not relevant to MIMI (between client and its provider)
+
+- how many KPs to keep active
+- how group IDs are constructed
+- which ciphersuites are acceptable.
+
+## Areas for future works
+
+Which credential types are allowed/required
+
+How to protect and share the GroupInfo objects needed for external joins.
+
+If an application wishes to detect and possibly discipline members that send malformed commits with the intention of corrupting a group's state, there must be a method for reporting and validating malformed commits.
+MLS requires the following parameters to be defined, which must be the same for two implementations to interoperate:
+
+Which media types are required to send and required to understand in MIMI.
+
+What Additional authenticated data, can/should be sent unencrypted in an otherwise encrypted message.
+
+Application-level identifiers of public key material (specifically the application_id extension as defined in Section 5.3.3 of [RFC9420]).
+
+
+# Some types of rooms with RBAC
+
+## Strict administrator policy
+
+Role levels (low to high capabilities):
+
+- banned
+- guest
+- ordinary_user
+- group_admin
+- super_admin
+
+Capabilities per role
+
+- banned
+    - (no capabilities)
+- guest
+	- canSendMessage
+	- canReceiveMessage
+	- canRemoveSelf
+- ordinary_user
+    - (everything guest can do, plus:)
+	- canAddOwnClient
+	- canChangeOwnName,Presence,Mood,Avatar
+	- canReport
+	- canSendLinks
+    - canSendImages
+    - canSendVideos
+- group_admin
+	- (everything ordinary_user can do, plus:)
+	- canSendAttachments
+	- canAddParticipant
+	- canRemoveParticipant
+	- canBanish - promote
+	- canUnBanish
+	- canKick
+	- canChangeRoomName,Subject,Avatar
+	- canPromoteRole(from=[ordinary]; to=[admin])
+	- canDemoteRole([from=[admin], to=[ordinary])
+	- canDestroyRoom
+	- canCreateJoinLink
+- super_admin
+    - (everything group_admin can do, plus:)
+    - canPromoteRole(from=[ordinary,admin], to=[superadmin])
+    - canDemoteRole(from=[superadmin], to=[ordinary,admin])
+    - canChangeRoomMembershipStyle
+
+Role constraints: must have at least 1 "admin"
+
+## Cooperative room (everyone can add and remove)
+
+Role levels (low to high capabilities):
+
+- banned
+- ordinary_user
+- group_admin
+- super_admin
+
+Capabilities per role
+
+- banned
+    - (no capabilities)
+- ordinary_user
+	- canSendMessage
+	- canReceiveMessage
+	- canRemoveSelf
+	- canAddOwnClient
+	- canChangeOwnName,Presence,Mood,Avatar
+	- canReport
+	- canAddParticipant
+	- canRemoveParticipant
+	- canKick
+	- canChangeRoomName,Subject,Avatar
+	- canCreateJoinLink
+	- canSendLinks
+    - canSendImages
+    - canSendVideos
+    - canSendAttachments
+- group_admin
+	- (everything ordinary_user can do, plus:)
+	- canBanish
+	- canUnBanish
+	- canPromoteRole(from=[ordinary], to=[admin])
+	- canDemoteRole([from=[admin], to=[ordinary])
+	- canDestroyRoom
+- super_admin
+    - (everything group_admin can do, plus:)
+    - canPromoteRole(from=[ordinary,admin], to=[superadmin])
+    - canDemoteRole(from=[superadmin], to=[ordinary,admin])
+    - canChangeRoomMembershipStyle
+
+Role constraints: must have at least 1 "group_admin"
+
+
+## Moderated room
+
+Role levels (low to high capabilities):
+
+- banned
+- non-participant
+- guest
+- attendee
+- speaker
+- moderator
+- super_admin
+
+Capabilities per role
+
+- banned
+    - (no capabilities)
+- non-participant
+	- canKnock
+	- canJoinViaLink
+- guest
+	- canReceiveMessage
+	- canRemoveSelf
+- attendee
+    - (everything guest can do, plus:)
+	- canAddOwnClient
+	- canChangeOwnName,Presence,Mood,Avatar
+	- canReport
+- speaker
+    - (everything attendee can do, plus:)
+	- canSendMessage
+	- canChangeRoomName,Subject,Avatar
+	- canSendLinks
+    - canSendImages
+    - canSendVideos
+    - canSendAttachments
+- moderator
+	- (everything ordinary_user can do, plus:)
+	- canAddParticipant
+	- canRemoveParticipant
+	- canAcceptKnock
+	- canBan
+	- canUnBan
+	- canKick
+	- canPromoteRole(from=[attendee]; to=[speaker])
+	- canDemoteRole([from=[speaker], to=[attendee])
+	- canCreateJoinLink
+- super_admin
+    - (everything moderator can do, plus:)
+	- canDestroyRoom
+    - canPromoteRole(from=[attendee,speaker], to=[moderator])
+    - canDemoteRole(from=[moderator], to=[attendee,speaker])
+    - canChangeRoomMembershipStyle
+
+Role constraints: must have at least 1 "moderator"
+
 
 # Security Considerations
 
