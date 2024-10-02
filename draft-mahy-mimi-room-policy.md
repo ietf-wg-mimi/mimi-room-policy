@@ -423,7 +423,7 @@ These actions are subject to role constraints described below.
 
 These actions are subject to role constraints described below.
 
-## Breakouts
+### Breakouts
 
 - canSendDirectMessage
 - canTargetMessage
@@ -469,7 +469,7 @@ The Hub can enforce whether a member can send a message and not fanout applicati
 - canChangeOwnMood
 - canChangeOwnAvatar
 
-## Real-time media
+### Real-time media
 
 - canStartCall
 - canJoinCall
@@ -480,7 +480,7 @@ The Hub can enforce whether a member can send a message and not fanout applicati
 - canShareScreen
 - canViewSharedScreen
 
-## Disruptive Policy Changes
+### Disruptive Policy Changes
 
 - canChangeRoomMembershipStyle
 - canChangeOtherPolicyAttribute
