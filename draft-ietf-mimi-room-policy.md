@@ -3,7 +3,7 @@ title: "Room Policy for the More Instant Messaging Interoperability (MIMI) Proto
 abbrev: "MIMI Room Policy"
 category: info
 
-docname: draft-mahy-mimi-room-policy-latest
+docname: draft-ietf-mimi-room-policy-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
