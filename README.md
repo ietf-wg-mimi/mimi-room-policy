@@ -2,16 +2,15 @@
 
 This is the working area for the individual Internet-Draft, "Room Policy for the More Instant Messaging Interoperability (MIMI) Protocol".
 
-* [Editor's Copy](https://rohanmahy.github.io/mimi-room-policy/#go.draft-mahy-mimi-room-policy.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-mahy-mimi-room-policy)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-mahy-mimi-room-policy)
-* [Compare Editor's Copy to Individual Draft](https://rohanmahy.github.io/mimi-room-policy/#go.draft-mahy-mimi-room-policy.diff)
+* [Editor's Copy](https://ietf-wg-mimi.github.io/mimi-room-policy/draft-ietf-mimi-room-policy.html)
+* [Working Group Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-mimi-room-policy)
+* [Compare Editor's Copy to Working Group Draft](https://ietf-wg-mimi.github.io/mimi-room-policy/#go.draft-ietf-mls-architecture.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/rohanmahy/mimi-room-policy/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/ietf-wg-mimi/mimi-room-policy/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.

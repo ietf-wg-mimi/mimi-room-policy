@@ -18,9 +18,8 @@ venue:
   type: "Working Group"
   mail: "mimi@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/mimi/"
-  github: "rohanmahy/mimi-room-policy"
-  latest: "https://rohanmahy.github.io/mimi-room-policy/draft-mahy-mimi-room-policy.html"
-
+  github: "ietf-wg-mimi/mimi-room-policy"
+  latest: "https://ietf-wg-mimi.github.io/mimi-room-policy/draft-ietf-mimi-room-policy.html"
 author:
  -
   fullname: Rohan Mahy
