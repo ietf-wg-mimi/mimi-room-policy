@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-17T01:40:04.488468+00:00",
+  "timestamp": "2024-12-19T01:37:32.647726+00:00",
   "repo": "ietf-wg-mimi/mimi-room-policy",
   "labels": [
     {
@@ -49,6 +49,23 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOMS7nYM6j1Hu5",
+      "title": "Create authorization policy knobs for edit/delete of messages",
+      "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/1",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Make sure there are policy knobs that cover the scenarios discussed in MIMI content issues [#24](https://github.com/ietf-wg-mimi/draft-ietf-mimi-content/issues/24) and [#25](https://github.com/ietf-wg-mimi/draft-ietf-mimi-content/issues/25).",
+      "createdAt": "2024-12-18T19:36:46Z",
+      "updatedAt": "2024-12-18T19:36:46Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": []
 }
