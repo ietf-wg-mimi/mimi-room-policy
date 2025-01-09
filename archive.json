@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-07T01:25:32.667238+00:00",
+  "timestamp": "2025-01-09T01:24:39.530040+00:00",
   "repo": "ietf-wg-mimi/mimi-room-policy",
   "labels": [
     {
@@ -63,6 +63,22 @@
       "body": "Make sure there are policy knobs that cover the scenarios discussed in MIMI content issues [#24](https://github.com/ietf-wg-mimi/draft-ietf-mimi-content/issues/24) and [#25](https://github.com/ietf-wg-mimi/draft-ietf-mimi-content/issues/25).",
       "createdAt": "2024-12-18T19:36:46Z",
       "updatedAt": "2024-12-18T19:36:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 2,
+      "id": "I_kwDOMS7nYM6lTH-P",
+      "title": "Role is defined multiple times",
+      "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/2",
+      "state": "OPEN",
+      "author": "timokoesters",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "If it is intended to define two roles, one name should be changed.\r\nOr is the first role definition outdated? Then the draft should be rewritten to only use the second definition.\r\n\r\nhttps://github.com/ietf-wg-mimi/mimi-room-policy/blob/36f8b7c5dc372862321c84b7c7e51997475e227a/draft-ietf-mimi-room-policy.md?plain=1#L204-L213\r\n\r\nhttps://github.com/ietf-wg-mimi/mimi-room-policy/blob/36f8b7c5dc372862321c84b7c7e51997475e227a/draft-ietf-mimi-room-policy.md?plain=1#L368-L377",
+      "createdAt": "2025-01-07T16:24:21Z",
+      "updatedAt": "2025-01-07T16:24:21Z",
       "closedAt": null,
       "comments": []
     }
