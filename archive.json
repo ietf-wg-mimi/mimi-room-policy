@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-28T01:22:27.108179+00:00",
+  "timestamp": "2025-01-30T01:21:34.458188+00:00",
   "repo": "ietf-wg-mimi/mimi-room-policy",
   "labels": [
     {
@@ -87,6 +87,70 @@
       "body": "If it is intended to define two roles, one name should be changed.\r\nOr is the first role definition outdated? Then the draft should be rewritten to only use the second definition.\r\n\r\nhttps://github.com/ietf-wg-mimi/mimi-room-policy/blob/36f8b7c5dc372862321c84b7c7e51997475e227a/draft-ietf-mimi-room-policy.md?plain=1#L204-L213\r\n\r\nhttps://github.com/ietf-wg-mimi/mimi-room-policy/blob/36f8b7c5dc372862321c84b7c7e51997475e227a/draft-ietf-mimi-room-policy.md?plain=1#L368-L377",
       "createdAt": "2025-01-07T16:24:21Z",
       "updatedAt": "2025-01-07T16:24:21Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOMS7nYM6oBPEW",
+      "title": "What are the semantics of kick?",
+      "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/3",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "1. remove all clients, user stays in participant list\n2. remove all clients and remove user from paritcipant list but don't ban",
+      "createdAt": "2025-01-29T18:07:17Z",
+      "updatedAt": "2025-01-29T19:05:47Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOMS7nYM6oBs5O",
+      "title": "do we need to be able to support multi domain \"tree\" of roles?",
+      "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/4",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Alice invites Bob and Cathy from different orgs/domains:\n\n- Alice can add and remove participants from any org\n- Adam can add and remove participants from within Adam's org\n- Bob can add and remove participants from within Bob's org\n- Cathy can add and remove participants from within Cathy's org\n \nIn the model where there is a single role per user this could be modeled with separate roles:\n- room_admin\n- a.example_admin\n- b.example_admin\n- c.example_admin\n\nIn a multiple role per user model, this could be modeled if the role hierarchy was a tree\n\n",
+      "createdAt": "2025-01-29T19:05:09Z",
+      "updatedAt": "2025-01-29T19:05:09Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOMS7nYM6oBv4l",
+      "title": "Requirements and information associated with bans?",
+      "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/5",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Timo suggests:\n- Time the ban expires (if ever)\n- who initiated the ban\n- the reason for the ban\n\noptionally the (list of) old role(s) could be stored.\n\nThis may be different from a suspension that allows a user to still view messages, or something similar.\n\n",
+      "createdAt": "2025-01-29T19:09:53Z",
+      "updatedAt": "2025-01-29T19:09:53Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOMS7nYM6oBwLO",
+      "title": "Note that subrooms are on the same hub as the parent room",
+      "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/6",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-01-29T19:10:31Z",
+      "updatedAt": "2025-01-29T19:10:31Z",
       "closedAt": null,
       "comments": []
     }
