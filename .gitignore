@@ -7,9 +7,9 @@
 *~
 .tags
 /*-[0-9][0-9].xml
+/.*.mk
 /.gems/
 /.refcache
-/.targets.mk
 /.venv/
 /.vscode/
 /lib
@@ -17,7 +17,7 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-mahy-mimi-room-policy.xml
+draft-ietf-mimi-room-policy.xml
 package-lock.json
 report.xml
 !requirements.txt
