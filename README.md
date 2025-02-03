@@ -1,10 +1,11 @@
 # Room Policy for the More Instant Messaging Interoperability (MIMI) Protocol
 
-This is the working area for the individual Internet-Draft, "Room Policy for the More Instant Messaging Interoperability (MIMI) Protocol".
+This is the working area for the IETF [MIMI Working Group](https://datatracker.ietf.org/group/mimi/documents/) Internet-Draft, "Room Policy for the More Instant Messaging Interoperability (MIMI) Protocol".
 
-* [Editor's Copy](https://ietf-wg-mimi.github.io/mimi-room-policy/draft-ietf-mimi-room-policy.html)
-* [Working Group Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-mimi-room-policy)
-* [Compare Editor's Copy to Working Group Draft](https://ietf-wg-mimi.github.io/mimi-room-policy/#go.draft-ietf-mls-architecture.diff)
+* [Editor's Copy](https://ietf-wg-mimi.github.io/mimi-room-policy/#go.draft-ietf-mimi-room-policy.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-mimi-room-policy)
+* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-mimi-room-policy)
+* [Compare Editor's Copy to Working Group Draft](https://ietf-wg-mimi.github.io/mimi-room-policy/#go.draft-ietf-mimi-room-policy.diff)
 
 
 ## Contributing
