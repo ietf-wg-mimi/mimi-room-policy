@@ -1327,32 +1327,10 @@ enum {
 } Optionality;
 
 enum {
-  reserved(0),
-  system(1),
-  owner(2),
-  admin(3),
-  regular_user(4),
-  visitor(5),
-  banned(6),
-  (255)
-} Role;
-
-struct {
-  Role target_role;
-  /* preauth_domain consists of ASCII letters, digits, and hyphens */
-  opaque preauth_domain<V>;
-  /* the remaining fields are in the form of a URI */
-  opaque preauth_workgroup<V>;
-  opaque preauth_group<V>;
-  opaque preauth_user<V>;
-} PreAuthPerRoleList;
-
-enum {
   reserved(0)
-  open(1),
-  members-only(2),
-  fixed-membership(3),
-  parent-dependent(4),
+  ordinary(1),
+  fixed-membership(2),
+  parent-dependent(3),
   (255)
 } MembershipStyle;
 
@@ -1407,10 +1385,6 @@ struct {
 struct {
   MembershipStyle membership_style;
   bool multi_device;
-  bool knock_allowed;
-  bool moderated;
-  bool password_protected;
-  PreAuthPerRoleList pre_auth_list<V>;
   Uri parent_room_uri;
   bool persistent_room;
   Optionality delivery_notifications;
@@ -1426,14 +1400,6 @@ struct {
 
 RoomPolicy room_policy;
 ~~~
-
-# Example Roles and Permissions scheme
-
-- Owner
-- Admin
-- Moderator
-- Ordinary-user
-- Guest
 
 
 # Acknowledgments
