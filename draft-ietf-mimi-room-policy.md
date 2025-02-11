@@ -704,12 +704,81 @@ struct {
 
 # Security Considerations
 
-TODO Security
+This entire document focuses on authorization policy.
+TODO More Security
 
 
 # IANA Considerations
 
-This document has no IANA actions.
+## New MIMI Role Capabilities registry
+
+Create a new registry with the following values assigned sequentially using the reference RFCXXXX.
+
+~~~
+canAddParticipant
+canRemoveParticipant
+canAddOwnClient
+canRemoveSelf
+canAddSelf
+canCreateJoinCode - reserved for future use
+canUseJoinCode
+canBan
+canUnBan
+canKick
+canKnock
+canAcceptKnock
+canChangeUserRole
+canChangeOwnRole
+canCreateSubgroup
+canSendMessage
+canReceiveMessage
+canCopyMessage
+canReportAbuse
+canReactToMessage
+canEditReaction
+canDeleteReaction
+canEditOwnMessage
+canDeleteOwnMessage
+canDeleteAnyMessage
+canStartTopic
+canReplyInTopic
+canEditTopic
+canSendDirectMessage
+canTargetMessage
+canUploadImage
+canUploadVideo
+canUploadAttachment
+canDownloadImage
+canDownloadVideo
+canDownloadAttachment
+canSendLink
+canSendLinkPreview
+canFollowLink
+canCopyLink
+canChangeRoomName
+canChangeRoomDescription
+canChangeRoomAvatar
+canChangeRoomSubject
+canChangeRoomMood
+canChangeOwnName
+canChangeOwnPresence
+canChangeOwnMood
+canChangeOwnAvatar
+canStartCall
+canJoinCall
+canSendAudio
+canReceiveAudio
+canSendVideo
+canReceiveVideo
+canShareScreen
+canViewSharedScreen
+canChangeRoomMembershipStyle
+canChangeRoleDefinitions
+canChangePreauthorizedUserList
+canChangeMlsOperationalPolicies
+canDestroyRoom
+canSendMLSReinitProposal
+~~~
 
 
 --- back
