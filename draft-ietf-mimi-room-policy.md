@@ -69,53 +69,53 @@ exactly one role. By virtue of a user's credential, a user might also be
 
 {::boilerplate bcp14-tagged}
 
-Room ID:
+**Room ID**:
 An identifier which uniquely identifies a room.
 
-User ID:
+**User ID**:
 An internal identifier which uniquely identifies a user.
 
-Nickname:
+**Nickname**:
 The identifier by which a user is referred inside a room. Depending on the context it may be a display name, handle, pseudonym, or temporary identifier. The nickname in one room need not correlate with the nickname for the same user in a different room.
 
-Client ID:
+**Client ID**:
 An internal identifier which uniquely identifies one client/device instance of one user account.
 
-Persistent vs. Temporary rooms:
-A temporary room is destroyed when the last occupant exits whereas a persistent room is not destroyed when the last occupant exist. As MLS has no notion of a group with no members, a persistent room could consist of a sequence of distinct MLS groups, zero or one of which would exist at a time.
+**Persistent vs. Temporary rooms**:
+A temporary room is no longer joinable once the last participant exits whereas a persistent room is not destroyed when the last participant exist. As MLS has no notion of a group with no members, a persistent room could consist of a sequence of distinct MLS groups, zero or one of which would exist at a time.
 
 ## Moderation Terms
 
-Knock:
+**Knock**:
 To request entry into a room.
 
-Ban:
-To remove a user from a room such that the user is not allowed to re-enter the room (until and unless the ban has been removed). A banned user has a role of "outcast". Typically this action is only used in an open or semi-open room. It is distinct than merely removing a user from an administered group.
+**Ban**:
+To remove a user from a room such that the user is not allowed to re-enter the room (until and unless the ban has been removed). It is distinct from merely removing a user from a room.
 
-Kick:
-To temporarily remove a participant or visitor from a room. The user is allowed to re-enter the room at any time.
+**Kick**:
+To temporarily remove a participant's clients from a room. The user is allowed to re-enter the room at any time.
 
-Voice (noun):
+**Voice (noun)**:
 The privilege to send messages in a room.
 
-Revoke Voice:
+**Revoke Voice**:
 To remove the permission to send messages in a room.
 
-Grant Voice:
+**Grant Voice**:
 To grant the permission to send messages in a room.
 
-# Room Capabilities
+## Room Capabilities
 
-**Membership-Style**:
+**Membership-Approach**:
 The overall approach of membership authorization in a room, which could be open, members-only (administrated), fixed-membership, or parent-dependent.
 
-- **Open room**: An open room can be joined by any non-banned user.
+- **Open room**: Typically an open room can be joined by any non-banned user. It can be represented solely by a permissive set of roles as defined in {{roles}}.
 
-- **Members-Only room**: A members-only room can only be joined by a user in the occupant list, or who is pre-authorized. Authorized users can add or remove users to the room. In an enterprise context, it is also common (but not required) for users from a particular domain, group, or workgroup to be pre-authorized to add themselves to a Members-Only room.
+- **Members-Only room**: A members-only room can only be joined by a user in the particpant list, or who is pre-authorized. Authorized users can add or remove users to the room. In an enterprise context, it is also common (but not required) for users from a particular domain, group, or workgroup to be pre-authorized to add themselves to a Members-Only room. It can be represented solely by a set of less permissive roles as defined in {{roles}}.
 
-- **Fixed-Membership room**: Fixed-membership rooms have the list of occupants specified when they are created. Other users cannot be added. Occupants cannot leave or be removed, however a user can remove all its clients from the associated MLS group. The most common case of a fixed-membership room is a 1:1 conversation. This room membership style is used to implement Direct Message (DM) and Group DM features. Only a single fixed-membership room can exist for any unique set of occupants.
+- **Fixed-Membership room**: Fixed-membership rooms have the list of participants specified when they are created. Other users cannot be added. Ordinary users cannot leave or be removed, however a user can remove all its clients from the associated MLS group. The most common case of a fixed-membership room is a 1:1 conversation. This room membership style is used to implement Direct Message (DM) and Group DM features. Only a single fixed-membership room can exist for any unique set of participants.
 
-- **Parent-dependent room**: In a parent-dependent room, the list occupants of the room must be a strict subset of the occupants of the parent room. If a user leaves or is removed from the parent room, that user is automatically removed from any parent-dependent rooms of that parent.
+- **Parent-dependent room**: In a parent-dependent room, the list participants of the room must be a strict subset of the participants of the parent room. If a user leaves or is removed from the parent room, that user is automatically removed from any parent-dependent rooms of that parent.
 
 <!--
 Multi-device vs. Single-device:
@@ -316,40 +316,6 @@ struct {
 
 If persistent_room is false, the room will be automatically inaccsessible when the corresponding MLS group is destroyed (when there are no clients in the group). If persistent_room is true, the room policy will remain and a client whose user has appropriate authorization can create a new MLS group for the same room. (There is not a 1:1 correlation of MLS group to room ID in a persistent room.)
 
-## Pre-authorized users
-
-~~~
-enum {
-  reserved(0),
-  system(1),
-  owner(2),
-  admin(3),
-  regular_user(4),
-  visitor(5),
-  banned(6),
-  (255)
-} Role;
-
-struct {
-  Role target_role;
-  /* preauth_domain consists of ASCII letters, digits, and hyphens */
-  opaque preauth_domain<V>;
-  /* the remaining fields are in the form of a URI */
-  opaque preauth_workgroup<V>;
-  opaque preauth_group<V>;
-  opaque preauth_user<V>;
-} PreAuthPerRoleList;
-
-struct {
-  ...
-  PreAuthPerRoleList pre_auth_list<V>;
-  ...
-} RoomPolicy;
-~~~
-
-In members-only rooms, it is convenient to pre-authorize specific users--or users from specific domains, workgroups/teams, and groups--to specific roles. The workgroup, group, and user are expressed as a Uri. The domain is expressed in US-ASCII letters, digits, and hyphens only. If the domain is internationalized, the Internationalized Domain Names {{!RFC5890}} conversion MUST be done before filling in this value.
-
-Note that the system role is used to authorize external proposals for operations for other users. For example, the system role can be used to authorize a provider to remove clients from groups when the corresponding user account is deleted.
 
 ## Delivery and Read notifications, Pseudonyms
 
@@ -424,21 +390,21 @@ struct {
 } RoomPolicy;
 ~~~
 
-### Link policies
+## Link policies
 
 If discoverable is true, the room is searchable. Presumably this means the the only way to join the room in a client user interface is to be added by an administrator or to use a joining link.
 Inside the LinkPolicy are several fields that describe the behavior of links.If the on_request field is true, no joining link will be provided in the room policy; the client will need to fetch a joining link out-of-band or generate a valid one for itself. If present, the URI in link_requests can be used by the client to request an invite code. The value of join_link is empty and the other fields are ignored.If the on_request field is false, the join_link field will contain a joining link. If the link will work for multiple users, multiuser is true. The expiration field represents the time, in seconds after the start of the UNIX epoch (1-January-1970) when the link will expire. The link_requests field can be empty.
 
-### Logging policies
+## Logging policies
 
 Inside the LoggingPolicy, the logging field can be forbidden, optional, or required. If logging is forbidden then the other fields are empty. If logging is required, the list of logging_clients needs to contain at least one logging URI. Each provider should have no more than one logging client at a time in a room. The machine_readable_policy and human_readable_policy fields optionally contain pointers to the owning provider's machine readable and human readable logging policies, respectively. If logging is optional and there is at least one logging_client then logging is active for the room.
 
-### Chat history policies
+## Chat history policies
 
 Inside the HistoryPolicy, if history_sharing is forbidden, this means that clients (including bots) are expected to not to share chat history with new joiners, in which case who_can_share is empty, automatically_share is false, and max_time_period is zero.
 Otherwise who_can_share is a list of roles that are authorized to share history (for example, only admins and owners can share). The values of none and outcast cannot be used in who_can_share. If automatically_share is true, clients can share history with new joiners without user initiation. The history that is shared is limited to max_time_period seconds worth of history.
 
-### Chat bot policies
+## Chat bot policies
 
 Inside the RoomPolicy there is a list of allowed_bots. Each of which has several fields. The name, description, and homepage are merely descriptive. The bot_role indicates if the chat bot would be treated as a system-user, owner, admin, regular_user, or visitor.
 The can_read and can_write fields indicate if the chat bot is allowed to read messages or send messages in the MLS group, respectively. If can_target_message_in_group is true it indicates that the chat bot can send an MLS targeted message (see Section 2.2 of [I-D.ietf-mls-extensions]) or use a different conversation or out-of-band channel to send a message to specific individual users in the room. If per_user_content is true, the chat bot is allowed to send messages with distinct content to each member. (For example a poker bot could deal a different hand to each user in a chat).Users could set policies to reject or leave groups with bots rights that are inconsistent with the user's privacy goals.
@@ -537,7 +503,6 @@ The membership capabilities below allow authorized holders to update the Partici
     In addition, the action MUST respect both the `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) for the added user's target role.
 
 - `canUseJoinCode` - the holder of this capability can externally join a room using a join code for that room, provided the join code is valid, the join code refers to a valid target role, and both the `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) constraints are respected.
-
 
 - `canRemoveParticipant` - the holder of this capability can propose a) the removal of another user (excluding itself) from the participant list, and b) removal of all of that user's clients, as a single action.
   There MUST NOT be any clients of the removed user in the MLS group after the corresponding commit.
@@ -675,7 +640,7 @@ The following capability names are reserved for possible future use
   - external proposal - general operational policy rules
   - external commit - general operational policy rules
 
-## Extensibility of the policy format
+# Extensibility of the policy format
 
 Finally, The extensibility mechanism allows for future addition of new room policies.
 
@@ -701,7 +666,6 @@ struct {
 ~~~
 
 
-
 # Security Considerations
 
 This entire document focuses on authorization policy.
@@ -709,6 +673,14 @@ TODO More Security
 
 
 # IANA Considerations
+
+## Preauthorized users MLS application component
+
+TBC
+
+## Role definitions MLS application component
+
+TBC
 
 ## New MIMI Role Capabilities registry
 
