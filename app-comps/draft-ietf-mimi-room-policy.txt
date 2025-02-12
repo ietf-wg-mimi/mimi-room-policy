@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                          R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                          11 February 2025
-Expires: 15 August 2025
+Intended status: Informational                          12 February 2025
+Expires: 16 August 2025
 
 
    Room Policy for the More Instant Messaging Interoperability (MIMI)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 August 2025.
+   This Internet-Draft will expire on 16 August 2025.
 
 Copyright Notice
 
@@ -73,34 +73,35 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Definitions
      2.1.  Moderation Terms
-   3.  Room Capabilities
-   4.  Role-Based Access Control
-   5.  Preauthorized Users
-   6.  Base Room policy format syntax
-     6.1.  Membership-related policy
-     6.2.  Pre-authorized users
-     6.3.  Delivery and Read notifications, Pseudonyms
-     6.4.  Link, Logging, History, and Bot policies
-       6.4.1.  Link policies
-       6.4.2.  Logging policies
-       6.4.3.  Chat history policies
-       6.4.4.  Chat bot policies
-   7.  Operational policy
-     7.1.  Some MLS-related policy that could be tied to a room
-     7.2.  Not relevant to MIMI (between client and its provider)
-     7.3.  Areas for future works
-   8.  Role Capabilities
-     8.1.  Membership Capabilities
-     8.2.  Adjust metadata
-     8.3.  Message Capabilities
-     8.4.  Asset Capabilities
-     8.5.  Real-time media
-     8.6.  Disruptive Policy Changes
-     8.7.  Reserved Capabilities
-     8.8.  Extensibility of the policy format
+     2.2.  Room Capabilities
+   3.  Role-Based Access Control
+   4.  Preauthorized Users
+   5.  Base Room policy format syntax
+     5.1.  Membership-related policy
+     5.2.  Delivery and Read notifications, Pseudonyms
+     5.3.  Link, Logging, History, and Bot policies
+     5.4.  Link policies
+     5.5.  Logging policies
+     5.6.  Chat history policies
+     5.7.  Chat bot policies
+   6.  Operational policy
+     6.1.  Some MLS-related policy that could be tied to a room
+     6.2.  Not relevant to MIMI (between client and its provider)
+     6.3.  Areas for future works
+   7.  Role Capabilities
+     7.1.  Membership Capabilities
+     7.2.  Adjust metadata
+     7.3.  Message Capabilities
+     7.4.  Asset Capabilities
+     7.5.  Real-time media
+     7.6.  Disruptive Policy Changes
+     7.7.  Reserved Capabilities
+   8.  Extensibility of the policy format
    9.  Security Considerations
    10. IANA Considerations
-     10.1.  New MIMI Role Capabilities registry
+     10.1.  Preauthorized users MLS application component
+     10.2.  Role definitions MLS application component
+     10.3.  New MIMI Role Capabilities registry
    11. References
      11.1.  Normative References
      11.2.  Informative References
@@ -145,10 +146,10 @@ Table of Contents
    implementations to present an identical user experience.  An
    important aspect of this is the system of configurable Role-based
    access control with granular capabilities per role (described in
-   Section 4).  Each user in the participant list (defined in
+   Section 3).  Each user in the participant list (defined in
    [I-D.ietf-mimi-protocol]) has exactly one role.  By virtue of a
    user's credential, a user might also be _preauthorized_ with a
-   specific role as described in Section 5.
+   specific role as described in Section 4.
 
 2.  Conventions and Definitions
 
@@ -158,74 +159,76 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-   Room ID: An identifier which uniquely identifies a room.
+   *Room ID*: An identifier which uniquely identifies a room.
 
-   User ID: An internal identifier which uniquely identifies a user.
+   *User ID*: An internal identifier which uniquely identifies a user.
 
-   Nickname: The identifier by which a user is referred inside a room.
+   *Nickname*: The identifier by which a user is referred inside a room.
    Depending on the context it may be a display name, handle, pseudonym,
    or temporary identifier.  The nickname in one room need not correlate
    with the nickname for the same user in a different room.
 
-   Client ID: An internal identifier which uniquely identifies one
+   *Client ID*: An internal identifier which uniquely identifies one
    client/device instance of one user account.
 
-   Persistent vs. Temporary rooms: A temporary room is destroyed when
-   the last occupant exits whereas a persistent room is not destroyed
-   when the last occupant exist.  As MLS has no notion of a group with
-   no members, a persistent room could consist of a sequence of distinct
-   MLS groups, zero or one of which would exist at a time.
+   *Persistent vs. Temporary rooms*: A temporary room is no longer
+   joinable once the last participant exits whereas a persistent room is
+   not destroyed when the last participant exist.  As MLS has no notion
+   of a group with no members, a persistent room could consist of a
+   sequence of distinct MLS groups, zero or one of which would exist at
+   a time.
 
 2.1.  Moderation Terms
 
-   Knock: To request entry into a room.
+   *Knock*: To request entry into a room.
 
-   Ban: To remove a user from a room such that the user is not allowed
-   to re-enter the room (until and unless the ban has been removed).  A
-   banned user has a role of "outcast".  Typically this action is only
-   used in an open or semi-open room.  It is distinct than merely
-   removing a user from an administered group.
+   *Ban*: To remove a user from a room such that the user is not allowed
+   to re-enter the room (until and unless the ban has been removed).  It
+   is distinct from merely removing a user from a room.
 
-   Kick: To temporarily remove a participant or visitor from a room.
+   *Kick*: To temporarily remove a participant's clients from a room.
    The user is allowed to re-enter the room at any time.
 
-   Voice (noun): The privilege to send messages in a room.
+   *Voice (noun)*: The privilege to send messages in a room.
 
-   Revoke Voice: To remove the permission to send messages in a room.
+   *Revoke Voice*: To remove the permission to send messages in a room.
 
-   Grant Voice: To grant the permission to send messages in a room.
+   *Grant Voice*: To grant the permission to send messages in a room.
 
-3.  Room Capabilities
+2.2.  Room Capabilities
 
-   *Membership-Style*: The overall approach of membership authorization
-   in a room, which could be open, members-only (administrated), fixed-
-   membership, or parent-dependent.
+   *Membership-Approach*: The overall approach of membership
+   authorization in a room, which could be open, members-only
+   (administrated), fixed-membership, or parent-dependent.
 
-   *  *Open room*: An open room can be joined by any non-banned user.
+   *  *Open room*: Typically an open room can be joined by any non-
+      banned user.  It can be represented solely by a permissive set of
+      roles as defined in Section 3.
 
    *  *Members-Only room*: A members-only room can only be joined by a
-      user in the occupant list, or who is pre-authorized.  Authorized
+      user in the particpant list, or who is pre-authorized.  Authorized
       users can add or remove users to the room.  In an enterprise
       context, it is also common (but not required) for users from a
       particular domain, group, or workgroup to be pre-authorized to add
-      themselves to a Members-Only room.
+      themselves to a Members-Only room.  It can be represented solely
+      by a set of less permissive roles as defined in Section 3.
 
    *  *Fixed-Membership room*: Fixed-membership rooms have the list of
-      occupants specified when they are created.  Other users cannot be
-      added.  Occupants cannot leave or be removed, however a user can
-      remove all its clients from the associated MLS group.  The most
-      common case of a fixed-membership room is a 1:1 conversation.
-      This room membership style is used to implement Direct Message
-      (DM) and Group DM features.  Only a single fixed-membership room
-      can exist for any unique set of occupants.
+      participants specified when they are created.  Other users cannot
+      be added.  Ordinary users cannot leave or be removed, however a
+      user can remove all its clients from the associated MLS group.
+      The most common case of a fixed-membership room is a 1:1
+      conversation.  This room membership style is used to implement
+      Direct Message (DM) and Group DM features.  Only a single fixed-
+      membership room can exist for any unique set of participants.
 
    *  *Parent-dependent room*: In a parent-dependent room, the list
-      occupants of the room must be a strict subset of the occupants of
-      the parent room.  If a user leaves or is removed from the parent
-      room, that user is automatically removed from any parent-dependent
-      rooms of that parent.
+      participants of the room must be a strict subset of the
+      participants of the parent room.  If a user leaves or is removed
+      from the parent room, that user is automatically removed from any
+      parent-dependent rooms of that parent.
 
-4.  Role-Based Access Control
+3.  Role-Based Access Control
 
    The Role-Based Access Control component contains a list of all the
    roles in the room, and the capabilities associated with them.  It
@@ -311,7 +314,7 @@ Table of Contents
    to this component is not valid if it appear in the same commit as any
    Participant List change.
 
-5.  Preauthorized Users
+4.  Preauthorized Users
 
    Preauthorized users are MIMI users and external senders that have
    authorization to adopt a role in a room by virtue of certain
@@ -392,9 +395,9 @@ Table of Contents
    users or devices.  This unifies the authorization model for members
    and non-members.
 
-6.  Base Room policy format syntax
+5.  Base Room policy format syntax
 
-6.1.  Membership-related policy
+5.1.  Membership-related policy
 
       *TODO*: refactor membership_style to be constraints to the role-
       based access control system
@@ -452,49 +455,7 @@ Table of Contents
    is not a 1:1 correlation of MLS group to room ID in a persistent
    room.)
 
-6.2.  Pre-authorized users
-
-   enum {
-     reserved(0),
-     system(1),
-     owner(2),
-     admin(3),
-     regular_user(4),
-     visitor(5),
-     banned(6),
-     (255)
-   } Role;
-
-   struct {
-     Role target_role;
-     /* preauth_domain consists of ASCII letters, digits, and hyphens */
-     opaque preauth_domain<V>;
-     /* the remaining fields are in the form of a URI */
-     opaque preauth_workgroup<V>;
-     opaque preauth_group<V>;
-     opaque preauth_user<V>;
-   } PreAuthPerRoleList;
-
-   struct {
-     ...
-     PreAuthPerRoleList pre_auth_list<V>;
-     ...
-   } RoomPolicy;
-
-   In members-only rooms, it is convenient to pre-authorize specific
-   users--or users from specific domains, workgroups/teams, and groups--
-   to specific roles.  The workgroup, group, and user are expressed as a
-   Uri. The domain is expressed in US-ASCII letters, digits, and hyphens
-   only.  If the domain is internationalized, the Internationalized
-   Domain Names [RFC5890] conversion MUST be done before filling in this
-   value.
-
-   Note that the system role is used to authorize external proposals for
-   operations for other users.  For example, the system role can be used
-   to authorize a provider to remove clients from groups when the
-   corresponding user account is deleted.
-
-6.3.  Delivery and Read notifications, Pseudonyms
+5.2.  Delivery and Read notifications, Pseudonyms
 
    enum {
      optional(0),
@@ -528,7 +489,7 @@ Table of Contents
    policy of the room is that "real" long-term identifiers are required
    in MLS credentials in the room's corresponding MLS group.
 
-6.4.  Link, Logging, History, and Bot policies
+5.3.  Link, Logging, History, and Bot policies
 
    struct {
      bool on_request;
@@ -573,7 +534,7 @@ Table of Contents
      ...
    } RoomPolicy;
 
-6.4.1.  Link policies
+5.4.  Link policies
 
    If discoverable is true, the room is searchable.  Presumably this
    means the the only way to join the room in a client user interface is
@@ -590,7 +551,7 @@ Table of Contents
    start of the UNIX epoch (1-January-1970) when the link will expire.
    The link_requests field can be empty.
 
-6.4.2.  Logging policies
+5.5.  Logging policies
 
    Inside the LoggingPolicy, the logging field can be forbidden,
    optional, or required.  If logging is forbidden then the other fields
@@ -603,7 +564,7 @@ Table of Contents
    there is at least one logging_client then logging is active for the
    room.
 
-6.4.3.  Chat history policies
+5.6.  Chat history policies
 
    Inside the HistoryPolicy, if history_sharing is forbidden, this means
    that clients (including bots) are expected to not to share chat
@@ -616,7 +577,7 @@ Table of Contents
    initiation.  The history that is shared is limited to max_time_period
    seconds worth of history.
 
-6.4.4.  Chat bot policies
+5.7.  Chat bot policies
 
    Inside the RoomPolicy there is a list of allowed_bots.  Each of which
    has several fields.  The name, description, and homepage are merely
@@ -634,7 +595,7 @@ Table of Contents
    set policies to reject or leave groups with bots rights that are
    inconsistent with the user's privacy goals.
 
-7.  Operational policy
+6.  Operational policy
 
    Section 7 of the [I-D.ietf-mls-architecture] defines a set of
    operational policy considerations that influence interoperability of
@@ -649,7 +610,7 @@ Table of Contents
    does not mean that a room needs to take a position; nor different
    rooms on a Hub need to have different policies for these items.
 
-7.1.  Some MLS-related policy that could be tied to a room
+6.1.  Some MLS-related policy that could be tied to a room
 
    *  any mandatory or forbidden MLS extensions.
 
@@ -720,7 +681,7 @@ Table of Contents
 
    *  how a joiner gets access to the ratchet_tree
 
-7.2.  Not relevant to MIMI (between client and its provider)
+6.2.  Not relevant to MIMI (between client and its provider)
 
    *  how many KPs to keep active
 
@@ -728,7 +689,7 @@ Table of Contents
 
    *  which ciphersuites are acceptable.
 
-7.3.  Areas for future works
+6.3.  Areas for future works
 
    Which credential types are allowed/required
 
@@ -752,9 +713,9 @@ Table of Contents
    the application_id extension as defined in Section 5.3.3 of
    [RFC9420]).
 
-8.  Role Capabilities
+7.  Role Capabilities
 
-   As described in Section 4, each role has a list of capabilities,
+   As described in Section 3, each role has a list of capabilities,
    which in rare cases could be empty.  When we say that the holder of a
    capability can take some action, we mean that whatever entity is
    taking the action (a participant, a potential future participant, or
@@ -768,7 +729,7 @@ Table of Contents
    the corresponding MLS group, and to sending an MLS commit containing
    a set of consistent MLS proposals.
 
-8.1.  Membership Capabilities
+7.1.  Membership Capabilities
 
    The membership capabilities below allow authorized holders to update
    the Participant list, or change the active participants (by removing
@@ -880,7 +841,7 @@ Table of Contents
 
    *  canChangeOwnRole - the holder of this capability is authorized to
       change its own role to the first non-zero role it matches in the
-      Preauthorized users component (see Section 5).  The
+      Preauthorized users component (see Section 4).  The
       authorized_role_changes list is _not_ consulted.  The
       minimum_participants_constraint and
       minimum_active_participants_constraint for the holder's original
@@ -921,7 +882,7 @@ Table of Contents
       for the unbanned user MUST be 1, and the role_name of role 1 MUST
       be "banned".
 
-8.2.  Adjust metadata
+7.2.  Adjust metadata
 
    The holder of each of the following capabilities is authorized to
    update the Room metadata defined in [I-D.ietf-mimi-protocol],
@@ -937,7 +898,7 @@ Table of Contents
 
    *  canChangeRoomMood
 
-8.3.  Message Capabilities
+7.3.  Message Capabilities
 
    The capabilities below refer to functionality related to the instant
    messages, for example sent using the MIMI content format
@@ -1002,7 +963,7 @@ Table of Contents
    other capabilities in this section can only be enforced by other
    clients.
 
-8.4.  Asset Capabilities
+7.4.  Asset Capabilities
 
    *  canUploadAttachment - the holder can upload a file with the
       "attachent" disposition.
@@ -1028,7 +989,7 @@ Table of Contents
    *  canDownloadSound - the holder can download a file with the media
       type of "audio" and the disposition of "render"
 
-8.5.  Real-time media
+7.5.  Real-time media
 
    The MIMI Working has not yet defined requirements for real-time
    media, however the capabilities below are widely representative of
@@ -1058,7 +1019,7 @@ Table of Contents
    *  canViewSharedScreen - the holder is authorized to receive screen
       sharing in a call/conference
 
-8.6.  Disruptive Policy Changes
+7.6.  Disruptive Policy Changes
 
    *  canChangeRoomMembershipStyle - the holder is authorized to modify
       the base room membership style.
@@ -1075,7 +1036,7 @@ Table of Contents
    *  canReinitGroup - the holder is authorized to send an MLS ReInit
       proposal.
 
-8.7.  Reserved Capabilities
+7.7.  Reserved Capabilities
 
    The following capability names are reserved for possible future use
 
@@ -1115,7 +1076,7 @@ Table of Contents
 
       -  external commit - general operational policy rules
 
-8.8.  Extensibility of the policy format
+8.  Extensibility of the policy format
 
    Finally, The extensibility mechanism allows for future addition of
    new room policies.
@@ -1146,7 +1107,15 @@ Table of Contents
 
 10.  IANA Considerations
 
-10.1.  New MIMI Role Capabilities registry
+10.1.  Preauthorized users MLS application component
+
+   TBC
+
+10.2.  Role definitions MLS application component
+
+   TBC
+
+10.3.  New MIMI Role Capabilities registry
 
    Create a new registry with the following values assigned sequentially
    using the reference RFCXXXX.
@@ -1252,11 +1221,6 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
-
-   [RFC5890]  Klensin, J., "Internationalized Domain Names for
-              Applications (IDNA): Definitions and Document Framework",
-              RFC 5890, DOI 10.17487/RFC5890, August 2010,
-              <https://www.rfc-editor.org/rfc/rfc5890>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
