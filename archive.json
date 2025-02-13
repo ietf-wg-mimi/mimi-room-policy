@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-11T01:24:03.913734+00:00",
+  "timestamp": "2025-02-13T01:24:39.966455+00:00",
   "repo": "ietf-wg-mimi/mimi-room-policy",
   "labels": [
     {
@@ -155,5 +155,32 @@
       "comments": []
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 7,
+      "id": "PR_kwDOMS7nYM6K36iU",
+      "title": "Move content from app-components and align",
+      "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/pull/7",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Removed RBAC and Preauth and replaced with content from app-components\r\nAdded copious examples\r\nRemoved policies that are no longer needed with a powerful RBAC system.",
+      "createdAt": "2025-02-11T22:43:31Z",
+      "updatedAt": "2025-02-12T04:01:51Z",
+      "baseRepository": "ietf-wg-mimi/mimi-room-policy",
+      "baseRefName": "main",
+      "baseRefOid": "47c34a839796d5e37aaf42c60cf26ba5640286a9",
+      "headRepository": "ietf-wg-mimi/mimi-room-policy",
+      "headRefName": "app-comps",
+      "headRefOid": "4e5a56ebe3685d5dcde259e44ee30ac01638b3d4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
