@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-23T01:37:45.732603+00:00",
+  "timestamp": "2025-02-25T01:27:13.428073+00:00",
   "repo": "ietf-wg-mimi/mimi-room-policy",
   "labels": [
     {
@@ -55,15 +55,15 @@
       "id": "I_kwDOMS7nYM6j1Hu5",
       "title": "Create authorization policy knobs for edit/delete of messages",
       "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/1",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Make sure there are policy knobs that cover the scenarios discussed in MIMI content issues [#24](https://github.com/ietf-wg-mimi/draft-ietf-mimi-content/issues/24) and [#25](https://github.com/ietf-wg-mimi/draft-ietf-mimi-content/issues/25).",
       "createdAt": "2024-12-18T19:36:46Z",
-      "updatedAt": "2025-01-13T16:07:44Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-25T01:00:47Z",
+      "closedAt": "2025-02-25T01:00:45Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -71,6 +71,13 @@
           "body": "Updates in draft-mahy-mimi-app-components have these capabilties. They will migrate into draft-ietf-mimi-room-policy in time for IETF122 (Bangkok)",
           "createdAt": "2025-01-13T16:07:42Z",
           "updatedAt": "2025-01-13T16:07:42Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This was addressed in merge of PR #7 of the capabilities from draft-mahy-mimi-app-components.",
+          "createdAt": "2025-02-25T01:00:45Z",
+          "updatedAt": "2025-02-25T01:00:45Z"
         }
       ]
     },
@@ -79,16 +86,24 @@
       "id": "I_kwDOMS7nYM6lTH-P",
       "title": "Role is defined multiple times",
       "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "timokoesters",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "If it is intended to define two roles, one name should be changed.\r\nOr is the first role definition outdated? Then the draft should be rewritten to only use the second definition.\r\n\r\nhttps://github.com/ietf-wg-mimi/mimi-room-policy/blob/36f8b7c5dc372862321c84b7c7e51997475e227a/draft-ietf-mimi-room-policy.md?plain=1#L204-L213\r\n\r\nhttps://github.com/ietf-wg-mimi/mimi-room-policy/blob/36f8b7c5dc372862321c84b7c7e51997475e227a/draft-ietf-mimi-room-policy.md?plain=1#L368-L377",
       "createdAt": "2025-01-07T16:24:21Z",
-      "updatedAt": "2025-01-07T16:24:21Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-02-25T00:59:36Z",
+      "closedAt": "2025-02-25T00:59:35Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is now fixed with PR #7 ",
+          "createdAt": "2025-02-25T00:59:35Z",
+          "updatedAt": "2025-02-25T00:59:35Z"
+        }
+      ]
     },
     {
       "number": 3,
@@ -111,16 +126,24 @@
       "id": "I_kwDOMS7nYM6oBs5O",
       "title": "do we need to be able to support multi domain \"tree\" of roles?",
       "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/4",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Alice invites Bob and Cathy from different orgs/domains:\n\n- Alice can add and remove participants from any org\n- Adam can add and remove participants from within Adam's org\n- Bob can add and remove participants from within Bob's org\n- Cathy can add and remove participants from within Cathy's org\n \nIn the model where there is a single role per user this could be modeled with separate roles:\n- room_admin\n- a.example_admin\n- b.example_admin\n- c.example_admin\n\nIn a multiple role per user model, this could be modeled if the role hierarchy was a tree\n\n",
       "createdAt": "2025-01-29T19:05:09Z",
-      "updatedAt": "2025-01-29T19:05:09Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-02-25T00:58:32Z",
+      "closedAt": "2025-02-25T00:58:31Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is now included in example A.4",
+          "createdAt": "2025-02-25T00:58:31Z",
+          "updatedAt": "2025-02-25T00:58:31Z"
+        }
+      ]
     },
     {
       "number": 5,
@@ -161,25 +184,35 @@
       "id": "PR_kwDOMS7nYM6K36iU",
       "title": "Move content from app-components and align",
       "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/pull/7",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Removed RBAC and Preauth and replaced with content from app-components\r\nAdded copious examples\r\nRemoved policies that are no longer needed with a powerful RBAC system.",
       "createdAt": "2025-02-11T22:43:31Z",
-      "updatedAt": "2025-02-12T04:01:51Z",
+      "updatedAt": "2025-02-25T00:54:04Z",
       "baseRepository": "ietf-wg-mimi/mimi-room-policy",
       "baseRefName": "main",
       "baseRefOid": "47c34a839796d5e37aaf42c60cf26ba5640286a9",
       "headRepository": "ietf-wg-mimi/mimi-room-policy",
       "headRefName": "app-comps",
       "headRefOid": "4e5a56ebe3685d5dcde259e44ee30ac01638b3d4",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2025-02-25T00:54:04Z",
+      "mergedAt": "2025-02-25T00:54:04Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "bb5e1b0f0e6bc84fdc0ca84d53f57a450ac92b52"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "After discussing this content at several interim meetings now, I think it is ready to merge.",
+          "createdAt": "2025-02-25T00:53:59Z",
+          "updatedAt": "2025-02-25T00:53:59Z"
+        }
+      ],
       "reviews": []
     }
   ]
