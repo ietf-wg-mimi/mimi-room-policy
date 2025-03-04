@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-02T01:39:01.179126+00:00",
+  "timestamp": "2025-03-04T01:36:01.736345+00:00",
   "repo": "ietf-wg-mimi/mimi-room-policy",
   "labels": [
     {
@@ -191,7 +191,7 @@
       "labels": [],
       "body": "Removed RBAC and Preauth and replaced with content from app-components\r\nAdded copious examples\r\nRemoved policies that are no longer needed with a powerful RBAC system.",
       "createdAt": "2025-02-11T22:43:31Z",
-      "updatedAt": "2025-02-25T00:54:04Z",
+      "updatedAt": "2025-03-03T03:36:26Z",
       "baseRepository": "ietf-wg-mimi/mimi-room-policy",
       "baseRefName": "main",
       "baseRefOid": "47c34a839796d5e37aaf42c60cf26ba5640286a9",
