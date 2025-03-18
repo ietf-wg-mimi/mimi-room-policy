@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-16T01:42:22.995419+00:00",
+  "timestamp": "2025-03-18T01:37:50.036229+00:00",
   "repo": "ietf-wg-mimi/mimi-room-policy",
   "labels": [
     {
@@ -176,6 +176,30 @@
       "updatedAt": "2025-01-29T19:10:31Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOMS7nYM6uNcSF",
+      "title": "Download and link policies",
+      "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/8",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "For \"assets\" (images, videos, sounds), the room policy should include an \"asset\" domain per provider domain where those assets can be stored.\nPresumably clients would also upload its assets to this same domain.\nI consider endpoints for and how to discover credentials necessary for uploading assets out-of-scope of the MIMI protocol and MIMI room policy documents, but could be added as a standalone separate document.\n\nFor links, the room policy should include a setting about whether links are displayed as hyperlinks, and if link previews are automatically generated. ",
+      "createdAt": "2025-03-16T04:18:55Z",
+      "updatedAt": "2025-03-16T07:06:15Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "See [mimi-protocol PR #111](https://github.com/ietf-wg-mimi/mimi-protocol/pull/111)",
+          "createdAt": "2025-03-16T07:06:14Z",
+          "updatedAt": "2025-03-16T07:06:14Z"
+        }
+      ]
     }
   ],
   "pulls": [
