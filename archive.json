@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-30T01:45:30.690095+00:00",
+  "timestamp": "2025-04-17T01:41:18.646578+00:00",
   "repo": "ietf-wg-mimi/mimi-room-policy",
   "labels": [
     {
@@ -200,6 +200,22 @@
           "updatedAt": "2025-03-16T07:06:14Z"
         }
       ]
+    },
+    {
+      "number": 9,
+      "id": "I_kwDOMS7nYM6yzBW8",
+      "title": "Is canAddParticipant redundant?",
+      "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/9",
+      "state": "OPEN",
+      "author": "timokoesters",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Is an explicit capability for adding participants needed? Does an entry in the authorized_role_changes not imply that the user has the capability?\n\nhttps://github.com/ietf-wg-mimi/mimi-room-policy/blob/2c9537ddf168dc586248dad58a39864af0e6fced/versioned/draft-ietf-mimi-room-policy-01.txt#L738-L751",
+      "createdAt": "2025-04-16T13:47:18Z",
+      "updatedAt": "2025-04-16T13:47:18Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
