@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-17T01:41:18.646578+00:00",
+  "timestamp": "2025-05-15T01:43:33.474496+00:00",
   "repo": "ietf-wg-mimi/mimi-room-policy",
   "labels": [
     {
@@ -214,6 +214,22 @@
       "body": "Is an explicit capability for adding participants needed? Does an entry in the authorized_role_changes not imply that the user has the capability?\n\nhttps://github.com/ietf-wg-mimi/mimi-room-policy/blob/2c9537ddf168dc586248dad58a39864af0e6fced/versioned/draft-ietf-mimi-room-policy-01.txt#L738-L751",
       "createdAt": "2025-04-16T13:47:18Z",
       "updatedAt": "2025-04-16T13:47:18Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOMS7nYM62jiD4",
+      "title": "Add self_role_changes array for own-role transitions",
+      "url": "https://github.com/ietf-wg-mimi/mimi-room-policy/issues/10",
+      "state": "OPEN",
+      "author": "timokoesters",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "https://github.com/ietf-wg-mimi/mimi-room-policy/blob/2c9537ddf168dc586248dad58a39864af0e6fced/versioned/draft-ietf-mimi-room-policy-01.txt#L291\n\nauthorized_role_changes is the list of role transitions that the user can trigger on any user, including themselves. But some transitions that a user can do to themselves, should not be possible to use on other users. An example:\n\nThe room has two roles:\n0: Outsider\n1: Regular user\n\nAnd authorized_role_changes for role 1 is [(0, [1]), (1, [0])]\n\nThe transition 0 -> 1 corresponds to inviting a user and the transition 1 -> 0 corresponds to leaving the room or kicking another user.\n\nI think the idea of this draft is, that the difference between leaving a room and kicking will be defined using additional capabilities, like canRemoveParticipant. However, this only works for a few predefined roles and not custom roles. For example, there is no canDemoteModerator or canDemoteAdmin.\n\nI suggest that instead of solving this with capabilities, we instead add a new array self_role_changes alongside the existing authorized_role_changes.\n- authorized_role_changes are the set of transitions, the user can trigger for any user, including themselves.\n- self_role_changes are the set of transitions the user can additionally trigger on themselves\n\nTo allow leaving, but deny kicking in the example above, the arrays for role 1 would look like this:\nauthorized_role_changes = [(0, [1])] // Allow inviting users\nself_role_changes = [0] // Allow transitioning to outsider",
+      "createdAt": "2025-05-14T11:20:26Z",
+      "updatedAt": "2025-05-14T11:20:26Z",
       "closedAt": null,
       "comments": []
     }
