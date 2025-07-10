@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-15T01:43:33.474496+00:00",
+  "timestamp": "2025-07-10T01:52:54.109910+00:00",
   "repo": "ietf-wg-mimi/mimi-room-policy",
   "labels": [
     {
@@ -229,9 +229,24 @@
       "labels": [],
       "body": "https://github.com/ietf-wg-mimi/mimi-room-policy/blob/2c9537ddf168dc586248dad58a39864af0e6fced/versioned/draft-ietf-mimi-room-policy-01.txt#L291\n\nauthorized_role_changes is the list of role transitions that the user can trigger on any user, including themselves. But some transitions that a user can do to themselves, should not be possible to use on other users. An example:\n\nThe room has two roles:\n0: Outsider\n1: Regular user\n\nAnd authorized_role_changes for role 1 is [(0, [1]), (1, [0])]\n\nThe transition 0 -> 1 corresponds to inviting a user and the transition 1 -> 0 corresponds to leaving the room or kicking another user.\n\nI think the idea of this draft is, that the difference between leaving a room and kicking will be defined using additional capabilities, like canRemoveParticipant. However, this only works for a few predefined roles and not custom roles. For example, there is no canDemoteModerator or canDemoteAdmin.\n\nI suggest that instead of solving this with capabilities, we instead add a new array self_role_changes alongside the existing authorized_role_changes.\n- authorized_role_changes are the set of transitions, the user can trigger for any user, including themselves.\n- self_role_changes are the set of transitions the user can additionally trigger on themselves\n\nTo allow leaving, but deny kicking in the example above, the arrays for role 1 would look like this:\nauthorized_role_changes = [(0, [1])] // Allow inviting users\nself_role_changes = [0] // Allow transitioning to outsider",
       "createdAt": "2025-05-14T11:20:26Z",
-      "updatedAt": "2025-05-14T11:20:26Z",
+      "updatedAt": "2025-07-08T16:28:13Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm not sure I see the problem. Currently you determine which capability is needed, and then check the authorized_role_changes to make sure any role transition is allowed, and any role constraints are allowed (check both old role and new role). Does something not work right now?\n\nthanks,\n-rohan",
+          "createdAt": "2025-07-08T15:48:43Z",
+          "updatedAt": "2025-07-08T15:48:43Z"
+        },
+        {
+          "author": "timokoesters",
+          "authorAssociation": "NONE",
+          "body": "The problem is that the same table is checked for canChangeUserRole and canChangeOwnRole.\n\nI want to describe a room policy where\n1. Admins can make regular users admins\n2. Admins can demote themselves\n3. Admins cannot demote other admins.\n\nThis leads to the following policy:\n\n1. Admins have canChangeUserRole and the transition regular->admin\n2. Admins have canChangeOwnRole and the transition admin->regular\n\nBut this would violate the third requirement, because admins have canChangeUserRole and the transition admin->regular",
+          "createdAt": "2025-07-08T16:28:13Z",
+          "updatedAt": "2025-07-08T16:28:13Z"
+        }
+      ]
     }
   ],
   "pulls": [
