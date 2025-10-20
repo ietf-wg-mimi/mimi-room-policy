@@ -358,6 +358,36 @@ struct {
   Uri link_requests;
 } LinkPolicy;
 
+enum {
+  direct(0),
+  hubProxy(1),
+  ohttp(2),
+  (255)
+} DownloadPrivacyType;
+
+enum {
+  unspecified(0),
+  localProvider(1),
+  hub(2),
+  (255)
+} AssetUploadLocation;
+
+struct {
+  DownloadPrivacyType allowed_download_types<V>;
+  DownloadPrivacyType forbidden_download_types<V>;
+  DownloadPrivacyType default_download_type;
+} DownloadPrivacy;
+
+struct {
+  AssetUploadLocation asset_upload_location;
+  opaque upload_domain<V>;
+  DownloadPrivacy download_privacy;
+  uint64 max_image;
+  uint64 max_audio;
+  uint64 max_video;
+  uint64 max_attachment;
+} AssetPolicy;
+
 struct {
   Optionality logging;
   Uri logging_clients<V>;
@@ -387,6 +417,7 @@ struct {
   ...
   bool discoverable;
   LinkPolicy link_policy;
+  AssetPolicy asset_policy;
   LoggingPolicy logging_policy;
   HistoryPolicy history_sharing;
   Bot allowed_bots<V>;
@@ -398,6 +429,10 @@ struct {
 
 If discoverable is true, the room is searchable. Presumably this means the the only way to join the room in a client user interface is to be added by an administrator or to use a joining link.
 Inside the LinkPolicy are several fields that describe the behavior of links.If the on_request field is true, no joining link will be provided in the room policy; the client will need to fetch a joining link out-of-band or generate a valid one for itself. If present, the URI in link_requests can be used by the client to request an invite code. The value of join_link is empty and the other fields are ignored.If the on_request field is false, the join_link field will contain a joining link. If the link will work for multiple users, multiuser is true. The expiration field represents the time, in seconds after the start of the UNIX epoch (1-January-1970) when the link will expire. The link_requests field can be empty.
+
+## Asset policies
+
+Assets refer to attached files, images, audio files, and video files.
 
 ## Logging policies
 
