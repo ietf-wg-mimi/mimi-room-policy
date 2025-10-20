@@ -288,13 +288,16 @@ enum {
 } MembershipStyle;
 ~~~
 
-An ordinary room has no constraints beyond those of the role-based access control system. A fixed-membership room (which can
-be used for DMs or Group DMs) has a participant list set once at creation
-time that cannot be added to. A parent-dependent room always has a strict subset of the participants of its parent room.
+An ordinary room has no constraints beyond those of the role-based access control system.
+A fixed-membership room (which can be used for DMs or Group DMs) has a participant list set once at creation time that cannot be added to.
+A parent-dependent room always has a strict subset of the participants of its parent room.
+A parent-dependent room is always hosted on the same Hub as the parent room.
 
-If the membership_style is `parent-dependent` the `parent_room_uri` MUST be set with the room ID of the parent. Otherwise the field is zero-length.
+If the membership_style is `parent-dependent` the `parent_room_uri` MUST be set with the room ID of the parent.
+Otherwise the field is zero-length.
 
-If `multi_device` is true (the default), the MLS group may contain multiple clients per user. If false only a single client can be an MLS member at one time.
+If `multi_device` is true (the default), the MLS group may contain multiple clients per user.
+If false only a single client can be an MLS member at one time.
 
 <!--If `knock_allowed` is true, a non-participant can send a knock requesting access to the target room. If false, a user cannot. This option can only be enabled if the membership_style is members-only. The default is false.
 -->
@@ -314,7 +317,8 @@ struct {
 } BaseRoomPolicy;
 ~~~
 
-If persistent_room is false, the room will be automatically inaccsessible when the corresponding MLS group is destroyed (when there are no clients in the group). If persistent_room is true, the room policy will remain and a client whose user has appropriate authorization can create a new MLS group for the same room. (There is not a 1:1 correlation of MLS group to room ID in a persistent room.)
+If persistent_room is false, the room will be automatically inaccsessible when the corresponding MLS group is destroyed (when there are no clients in the group).
+If persistent_room is true, the room policy will remain and a client whose user has appropriate authorization can create a new MLS group for the same room.
 
 
 ## Delivery and Read notifications, Pseudonyms
@@ -412,7 +416,7 @@ The can_read and can_write fields indicate if the chat bot is allowed to read me
 
 # Operational policy
 
-Section 7 of the {{?I-D.ietf-mls-architecture}} defines a set of operational
+Section 7 of the {{?RFC9750}} defines a set of operational
 policy considerations that influence interoperability of MLS clients. MIMI
 explicitly address a handful of the issues in the document by taking a position on ordering (Proposals referenced in a Commit need to be received before the Commit; the Commit entering a new epoch needs to be received before any other messages in that epoch), privacy of handshake messages (handshakes can be a PublicMessage or SemiPrivateMessage), and GroupInfo storage (committers need to provide a valid GroupInfo to the Hub). The rest of these issues are described here. Just because a topic is listed does not mean that a room needs to take a position; nor different rooms on a Hub need to have different policies for these items.
 
@@ -452,24 +456,81 @@ explicitly address a handful of the issues in the document by taking a position 
     - which member(s) are responsible for submitting pending proposals
 - how a joiner gets access to the ratchet_tree
 
+The structure below describes provides a way to describe many of these parameters.
+
+~~~ tls
+struct {
+  ProtocolVersion versions<V>;
+  CipherSuite cipher_suites<V>;
+  ExtensionType extensions<V>;
+  ProposalType proposals<V>;
+  CredentialType credentials<V>;
+  WireFormats wire_formats<V>;
+  ComponentID component_ids<V>;
+  ComponentID safe_aad_types<V>;
+  MediaType media_types<V>;
+  ContentType content_types<V>;
+} ExtendedCapabilities;
+
+enum {
+  unspecified(0),
+  immediateCommit(1),
+  randomDelay(2),
+  preferenceWheel(3),
+  designatedCommitter(4),
+  (255)
+} PendingProposalStrategy;
+
+struct {
+  PendingProposalStrategy pending_proposal_strategy;
+  uint64 minimumDelayMs;
+  uint64 maximumDelayMs;
+} PendingProposalPolicy;
+
+struct {
+  uint64 minimumTime;
+  uint64 defaultTime;
+  uint64 maximumTime;
+} MinDefaultMaxTime;
+
+
+struct {
+  uint8  epoch_tolerance;
+  uint16 pad_to_size;
+  uint32 max_generations_skipahead;
+} AppMessagePolicy;
+
+struct {
+  ExtendedCapabilities mandatory_capabilities;
+  ExtendedCapabilities default_capabilities;
+  ExtendedCapabilities forbidden_capabilities;
+  WireFormats handshake_formats<V>;
+  bool external_proposal_allowed;
+  bool external_commit_allowed;
+  PendingProposalPolicy pending_proposal_policy;
+  MinDefaultMaxTime LeafNode_update_time;
+  AppMessagePolicy app_message_policy;
+  unit64 max_kp_lifetime;
+  uint64 max_credential_lifetime;
+  uint64 resumption_psk_lifetime;
+  MinDefaultMaxTime sender_nonce_keypair_lifetime;
+  uint32 max_keypairs;
+  MinDefaultMaxTime buffer_incoming_message_time;
+  uint32 max_buffered_messages;
+} OperationalParameters;
+~~~
+
 ## Not relevant to MIMI (between client and its provider)
 
 - how many KPs to keep active
 - how group IDs are constructed
-- which ciphersuites are acceptable.
 
 ## Areas for future works
-
-Which credential types are allowed/required
 
 How to protect and share the GroupInfo objects needed for external joins.
 
 If an application wishes to detect and possibly discipline members that send malformed commits with the intention of corrupting a group's state, there must be a method for reporting and validating malformed commits.
 MLS requires the following parameters to be defined, which must be the same for two implementations to interoperate:
-
-Which media types are required to send and required to understand in MIMI.
-
-What Additional authenticated data, can/should be sent unencrypted in an otherwise encrypted message.
 
 Application-level identifiers of public key material (specifically the application_id extension as defined in Section 5.3.3 of [RFC9420]).
 
@@ -1424,6 +1485,68 @@ struct {
 } PolicyExtension;
 
 struct {
+  ProtocolVersion versions<V>;
+  CipherSuite cipher_suites<V>;
+  ExtensionType extensions<V>;
+  ProposalType proposals<V>;
+  CredentialType credentials<V>;
+  WireFormats wire_formats<V>;
+  ComponentID component_ids<V>;
+  ComponentID safe_aad_types<V>;
+  MediaType media_types<V>;
+  ContentType content_types<V>;
+} ExtendedCapabilities;
+
+enum {
+  unspecified(0),
+  immediateCommit(1),
+  randomDelay(2),
+  preferenceWheel(3),
+  designatedCommitter(4),
+  (255)
+} PendingProposalStrategy;
+
+struct {
+  PendingProposalStrategy pending_proposal_strategy;
+  uint64 minimum_delay_ms;
+  uint64 maximum_delay_ms;
+} PendingProposalPolicy;
+
+struct {
+  uint64 minimum_time;
+  uint64 default_time;
+  uint64 maximum_time;
+} MinDefaultMaxTime;
+
+
+struct {
+  uint8  epoch_tolerance;
+  uint16 pad_to_size;
+  uint32 max_generations_skipahead;
+} AppMessagePolicy;
+
+struct {
+  ExtendedCapabilities mandatory_capabilities;
+  ExtendedCapabilities default_capabilities;
+  ExtendedCapabilities forbidden_capabilities;
+  WireFormats handshake_formats<V>;
+  bool external_proposal_allowed;
+  bool external_commit_allowed;
+  PendingProposalPolicy pending_proposal_policy;
+  MinDefaultMaxTime LeafNode_update_time;
+  AppMessagePolicy app_message_policy;
+  unit64 max_kp_lifetime;
+  uint64 max_credential_lifetime;
+  uint64 resumption_psk_lifetime;
+  MinDefaultMaxTime sender_nonce_keypair_lifetime;
+  uint32 max_keypairs;
+  MinDefaultMaxTime buffer_incoming_message_time;
+  uint32 max_buffered_messages;
+} OperationalParameters;
+
+
+
+struct {
   MembershipStyle membership_style;
   bool multi_device;
   Uri parent_room_uri;
@@ -1436,6 +1559,7 @@ struct {
   LoggingPolicy logging_policy;
   HistoryPolicy history_sharing;
   Bot allowed_bots<V>;
+  OperationalParameters operational_parameters;
   PolicyExtension policy_extensions<V>;
 } RoomPolicy;
 
