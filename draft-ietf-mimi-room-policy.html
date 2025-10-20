@@ -1186,13 +1186,16 @@ to model a wide range of chat and multimedia conference types.<a href="#section-
                 <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-link-policies" class="internal xref">Link policies</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
-                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-logging-policies" class="internal xref">Logging policies</a></p>
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-asset-policies" class="internal xref">Asset policies</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6">
-                <p id="section-toc.1-1.5.2.6.1"><a href="#section-5.6" class="auto internal xref">5.6</a>.  <a href="#name-chat-history-policies" class="internal xref">Chat history policies</a></p>
+                <p id="section-toc.1-1.5.2.6.1"><a href="#section-5.6" class="auto internal xref">5.6</a>.  <a href="#name-logging-policies" class="internal xref">Logging policies</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.7">
-                <p id="section-toc.1-1.5.2.7.1"><a href="#section-5.7" class="auto internal xref">5.7</a>.  <a href="#name-chat-bot-policies" class="internal xref">Chat bot policies</a></p>
+                <p id="section-toc.1-1.5.2.7.1"><a href="#section-5.7" class="auto internal xref">5.7</a>.  <a href="#name-chat-history-policies" class="internal xref">Chat history policies</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.8">
+                <p id="section-toc.1-1.5.2.8.1"><a href="#section-5.8" class="auto internal xref">5.8</a>.  <a href="#name-chat-bot-policies" class="internal xref">Chat bot policies</a></p>
 </li>
             </ul>
 </li>
@@ -1609,7 +1612,7 @@ struct {
         <h3 id="name-link-logging-history-and-bo">
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-link-logging-history-and-bo" class="section-name selfRef">Link, Logging, History, and Bot policies</a>
         </h3>
-<div class="lang-tls sourcecode" id="section-5.3-1">
+<div class="breakable lang-tls sourcecode" id="section-5.3-1">
 <pre>
 struct {
   bool on_request;
@@ -1618,6 +1621,36 @@ struct {
   uint32 expiration;
   Uri link_requests;
 } LinkPolicy;
+
+enum {
+  direct(0),
+  hubProxy(1),
+  ohttp(2),
+  (255)
+} DownloadPrivacyType;
+
+enum {
+  unspecified(0),
+  localProvider(1),
+  hub(2),
+  (255)
+} AssetUploadLocation;
+
+struct {
+  DownloadPrivacyType allowed_download_types&lt;V&gt;;
+  DownloadPrivacyType forbidden_download_types&lt;V&gt;;
+  DownloadPrivacyType default_download_type;
+} DownloadPrivacy;
+
+struct {
+  AssetUploadLocation asset_upload_location;
+  opaque upload_domain&lt;V&gt;;
+  DownloadPrivacy download_privacy;
+  uint64 max_image;
+  uint64 max_audio;
+  uint64 max_video;
+  uint64 max_attachment;
+} AssetPolicy;
 
 struct {
   Optionality logging;
@@ -1648,6 +1681,7 @@ struct {
   ...
   bool discoverable;
   LinkPolicy link_policy;
+  AssetPolicy asset_policy;
   LoggingPolicy logging_policy;
   HistoryPolicy history_sharing;
   Bot allowed_bots&lt;V&gt;;
@@ -1666,30 +1700,38 @@ struct {
 Inside the LinkPolicy are several fields that describe the behavior of links.If the on_request field is true, no joining link will be provided in the room policy; the client will need to fetch a joining link out-of-band or generate a valid one for itself. If present, the URI in link_requests can be used by the client to request an invite code. The value of join_link is empty and the other fields are ignored.If the on_request field is false, the join_link field will contain a joining link. If the link will work for multiple users, multiuser is true. The expiration field represents the time, in seconds after the start of the UNIX epoch (1-January-1970) when the link will expire. The link_requests field can be empty.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="logging-policies">
+<div id="asset-policies">
 <section id="section-5.5">
-        <h3 id="name-logging-policies">
-<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-logging-policies" class="section-name selfRef">Logging policies</a>
+        <h3 id="name-asset-policies">
+<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-asset-policies" class="section-name selfRef">Asset policies</a>
         </h3>
-<p id="section-5.5-1">Inside the LoggingPolicy, the logging field can be forbidden, optional, or required. If logging is forbidden then the other fields are empty. If logging is required, the list of logging_clients needs to contain at least one logging URI. Each provider should have no more than one logging client at a time in a room. The machine_readable_policy and human_readable_policy fields optionally contain pointers to the owning provider's machine readable and human readable logging policies, respectively. If logging is optional and there is at least one logging_client then logging is active for the room.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+<p id="section-5.5-1">Assets refer to attached files, images, audio files, and video files.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="logging-policies">
+<section id="section-5.6">
+        <h3 id="name-logging-policies">
+<a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-logging-policies" class="section-name selfRef">Logging policies</a>
+        </h3>
+<p id="section-5.6-1">Inside the LoggingPolicy, the logging field can be forbidden, optional, or required. If logging is forbidden then the other fields are empty. If logging is required, the list of logging_clients needs to contain at least one logging URI. Each provider should have no more than one logging client at a time in a room. The machine_readable_policy and human_readable_policy fields optionally contain pointers to the owning provider's machine readable and human readable logging policies, respectively. If logging is optional and there is at least one logging_client then logging is active for the room.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="chat-history-policies">
-<section id="section-5.6">
+<section id="section-5.7">
         <h3 id="name-chat-history-policies">
-<a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-chat-history-policies" class="section-name selfRef">Chat history policies</a>
+<a href="#section-5.7" class="section-number selfRef">5.7. </a><a href="#name-chat-history-policies" class="section-name selfRef">Chat history policies</a>
         </h3>
-<p id="section-5.6-1">Inside the HistoryPolicy, if history_sharing is forbidden, this means that clients (including bots) are expected to not to share chat history with new joiners, in which case who_can_share is empty, automatically_share is false, and max_time_period is zero.
-Otherwise who_can_share is a list of roles that are authorized to share history (for example, only admins and owners can share). The values of none and outcast cannot be used in who_can_share. If automatically_share is true, clients can share history with new joiners without user initiation. The history that is shared is limited to max_time_period seconds worth of history.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
+<p id="section-5.7-1">Inside the HistoryPolicy, if history_sharing is forbidden, this means that clients (including bots) are expected to not to share chat history with new joiners, in which case who_can_share is empty, automatically_share is false, and max_time_period is zero.
+Otherwise who_can_share is a list of roles that are authorized to share history (for example, only admins and owners can share). The values of none and outcast cannot be used in who_can_share. If automatically_share is true, clients can share history with new joiners without user initiation. The history that is shared is limited to max_time_period seconds worth of history.<a href="#section-5.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="chat-bot-policies">
-<section id="section-5.7">
+<section id="section-5.8">
         <h3 id="name-chat-bot-policies">
-<a href="#section-5.7" class="section-number selfRef">5.7. </a><a href="#name-chat-bot-policies" class="section-name selfRef">Chat bot policies</a>
+<a href="#section-5.8" class="section-number selfRef">5.8. </a><a href="#name-chat-bot-policies" class="section-name selfRef">Chat bot policies</a>
         </h3>
-<p id="section-5.7-1">Inside the RoomPolicy there is a list of allowed_bots. Each of which has several fields. The name, description, and homepage are merely descriptive. The bot_role indicates if the chat bot would be treated as a system-user, owner, admin, regular_user, or visitor.
-The can_read and can_write fields indicate if the chat bot is allowed to read messages or send messages in the MLS group, respectively. If can_target_message_in_group is true it indicates that the chat bot can send an MLS targeted message (see Section 2.2 of <span>[<a href="#I-D.ietf-mls-extensions" class="cite xref">I-D.ietf-mls-extensions</a>]</span>) or use a different conversation or out-of-band channel to send a message to specific individual users in the room. If per_user_content is true, the chat bot is allowed to send messages with distinct content to each member. (For example a poker bot could deal a different hand to each user in a chat).Users could set policies to reject or leave groups with bots rights that are inconsistent with the user's privacy goals.<a href="#section-5.7-1" class="pilcrow">¶</a></p>
+<p id="section-5.8-1">Inside the RoomPolicy there is a list of allowed_bots. Each of which has several fields. The name, description, and homepage are merely descriptive. The bot_role indicates if the chat bot would be treated as a system-user, owner, admin, regular_user, or visitor.
+The can_read and can_write fields indicate if the chat bot is allowed to read messages or send messages in the MLS group, respectively. If can_target_message_in_group is true it indicates that the chat bot can send an MLS targeted message (see Section 2.2 of <span>[<a href="#I-D.ietf-mls-extensions" class="cite xref">I-D.ietf-mls-extensions</a>]</span>) or use a different conversation or out-of-band channel to send a message to specific individual users in the room. If per_user_content is true, the chat bot is allowed to send messages with distinct content to each member. (For example a poker bot could deal a different hand to each user in a chat).Users could set policies to reject or leave groups with bots rights that are inconsistent with the user's privacy goals.<a href="#section-5.8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

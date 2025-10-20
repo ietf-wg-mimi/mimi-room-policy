@@ -81,9 +81,10 @@ Table of Contents
      5.2.  Delivery and Read notifications, Pseudonyms
      5.3.  Link, Logging, History, and Bot policies
      5.4.  Link policies
-     5.5.  Logging policies
-     5.6.  Chat history policies
-     5.7.  Chat bot policies
+     5.5.  Asset policies
+     5.6.  Logging policies
+     5.7.  Chat history policies
+     5.8.  Chat bot policies
    6.  Operational policy
      6.1.  Some MLS-related policy that could be tied to a room
      6.2.  Not relevant to MIMI (between client and its provider)
@@ -498,6 +499,36 @@ Table of Contents
      Uri link_requests;
    } LinkPolicy;
 
+   enum {
+     direct(0),
+     hubProxy(1),
+     ohttp(2),
+     (255)
+   } DownloadPrivacyType;
+
+   enum {
+     unspecified(0),
+     localProvider(1),
+     hub(2),
+     (255)
+   } AssetUploadLocation;
+
+   struct {
+     DownloadPrivacyType allowed_download_types<V>;
+     DownloadPrivacyType forbidden_download_types<V>;
+     DownloadPrivacyType default_download_type;
+   } DownloadPrivacy;
+
+   struct {
+     AssetUploadLocation asset_upload_location;
+     opaque upload_domain<V>;
+     DownloadPrivacy download_privacy;
+     uint64 max_image;
+     uint64 max_audio;
+     uint64 max_video;
+     uint64 max_attachment;
+   } AssetPolicy;
+
    struct {
      Optionality logging;
      Uri logging_clients<V>;
@@ -527,6 +558,7 @@ Table of Contents
      ...
      bool discoverable;
      LinkPolicy link_policy;
+     AssetPolicy asset_policy;
      LoggingPolicy logging_policy;
      HistoryPolicy history_sharing;
      Bot allowed_bots<V>;
@@ -550,7 +582,11 @@ Table of Contents
    start of the UNIX epoch (1-January-1970) when the link will expire.
    The link_requests field can be empty.
 
-5.5.  Logging policies
+5.5.  Asset policies
+
+   Assets refer to attached files, images, audio files, and video files.
+
+5.6.  Logging policies
 
    Inside the LoggingPolicy, the logging field can be forbidden,
    optional, or required.  If logging is forbidden then the other fields
@@ -563,7 +599,7 @@ Table of Contents
    there is at least one logging_client then logging is active for the
    room.
 
-5.6.  Chat history policies
+5.7.  Chat history policies
 
    Inside the HistoryPolicy, if history_sharing is forbidden, this means
    that clients (including bots) are expected to not to share chat
@@ -576,7 +612,7 @@ Table of Contents
    initiation.  The history that is shared is limited to max_time_period
    seconds worth of history.
 
-5.7.  Chat bot policies
+5.8.  Chat bot policies
 
    Inside the RoomPolicy there is a list of allowed_bots.  Each of which
    has several fields.  The name, description, and homepage are merely
