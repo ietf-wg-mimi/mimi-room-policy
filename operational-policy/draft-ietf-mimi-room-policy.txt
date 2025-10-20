@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                          R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                              3 March 2025
-Expires: 4 September 2025
+Intended status: Informational                           20 October 2025
+Expires: 23 April 2026
 
 
    Room Policy for the More Instant Messaging Interoperability (MIMI)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 September 2025.
+   This Internet-Draft will expire on 23 April 2026.
 
 Copyright Notice
 
@@ -424,7 +424,8 @@ Table of Contents
    access control system.  A fixed-membership room (which can be used
    for DMs or Group DMs) has a participant list set once at creation
    time that cannot be added to.  A parent-dependent room always has a
-   strict subset of the participants of its parent room.
+   strict subset of the participants of its parent room.  A parent-
+   dependent room is always hosted on the same Hub as the parent room.
 
    If the membership_style is parent-dependent the parent_room_uri MUST
    be set with the room ID of the parent.  Otherwise the field is zero-
@@ -451,9 +452,7 @@ Table of Contents
    inaccsessible when the corresponding MLS group is destroyed (when
    there are no clients in the group).  If persistent_room is true, the
    room policy will remain and a client whose user has appropriate
-   authorization can create a new MLS group for the same room.  (There
-   is not a 1:1 correlation of MLS group to room ID in a persistent
-   room.)
+   authorization can create a new MLS group for the same room.
 
 5.2.  Delivery and Read notifications, Pseudonyms
 
@@ -597,18 +596,18 @@ Table of Contents
 
 6.  Operational policy
 
-   Section 7 of the [I-D.ietf-mls-architecture] defines a set of
-   operational policy considerations that influence interoperability of
-   MLS clients.  MIMI explicitly address a handful of the issues in the
-   document by taking a position on ordering (Proposals referenced in a
-   Commit need to be received before the Commit; the Commit entering a
-   new epoch needs to be received before any other messages in that
-   epoch), privacy of handshake messages (handshakes can be a
-   PublicMessage or SemiPrivateMessage), and GroupInfo storage
-   (committers need to provide a valid GroupInfo to the Hub).  The rest
-   of these issues are described here.  Just because a topic is listed
-   does not mean that a room needs to take a position; nor different
-   rooms on a Hub need to have different policies for these items.
+   Section 7 of the [RFC9750] defines a set of operational policy
+   considerations that influence interoperability of MLS clients.  MIMI
+   explicitly address a handful of the issues in the document by taking
+   a position on ordering (Proposals referenced in a Commit need to be
+   received before the Commit; the Commit entering a new epoch needs to
+   be received before any other messages in that epoch), privacy of
+   handshake messages (handshakes can be a PublicMessage or
+   SemiPrivateMessage), and GroupInfo storage (committers need to
+   provide a valid GroupInfo to the Hub).  The rest of these issues are
+   described here.  Just because a topic is listed does not mean that a
+   room needs to take a position; nor different rooms on a Hub need to
+   have different policies for these items.
 
 6.1.  Some MLS-related policy that could be tied to a room
 
@@ -681,17 +680,76 @@ Table of Contents
 
    *  how a joiner gets access to the ratchet_tree
 
+   The structure below describes provides a way to describe many of
+   these parameters.
+
+   struct {
+     ProtocolVersion versions<V>;
+     CipherSuite cipher_suites<V>;
+     ExtensionType extensions<V>;
+     ProposalType proposals<V>;
+     CredentialType credentials<V>;
+     WireFormats wire_formats<V>;
+     ComponentID component_ids<V>;
+     ComponentID safe_aad_types<V>;
+     MediaType media_types<V>;
+     ContentType content_types<V>;
+   } ExtendedCapabilities;
+
+   enum {
+     unspecified(0),
+     immediateCommit(1),
+     randomDelay(2),
+     preferenceWheel(3),
+     designatedCommitter(4),
+     (255)
+   } PendingProposalStrategy;
+
+   struct {
+     PendingProposalStrategy pending_proposal_strategy;
+     uint64 minimumDelayMs;
+     uint64 maximumDelayMs;
+   } PendingProposalPolicy;
+
+   struct {
+     uint64 minimumTime;
+     uint64 defaultTime;
+     uint64 maximumTime;
+   } MinDefaultMaxTime;
+
+
+   struct {
+     uint8  epoch_tolerance;
+     uint16 pad_to_size;
+     uint32 max_generations_skipahead;
+   } AppMessagePolicy;
+
+   struct {
+     ExtendedCapabilities mandatory_capabilities;
+     ExtendedCapabilities default_capabilities;
+     ExtendedCapabilities forbidden_capabilities;
+     WireFormats handshake_formats<V>;
+     bool external_proposal_allowed;
+     bool external_commit_allowed;
+     PendingProposalPolicy pending_proposal_policy;
+     MinDefaultMaxTime LeafNode_update_time;
+     AppMessagePolicy app_message_policy;
+     unit64 max_kp_lifetime;
+     uint64 max_credential_lifetime;
+     uint64 resumption_psk_lifetime;
+     MinDefaultMaxTime sender_nonce_keypair_lifetime;
+     uint32 max_keypairs;
+     MinDefaultMaxTime buffer_incoming_message_time;
+     uint32 max_buffered_messages;
+   } OperationalParameters;
+
 6.2.  Not relevant to MIMI (between client and its provider)
 
    *  how many KPs to keep active
 
    *  how group IDs are constructed
 
-   *  which ciphersuites are acceptable.
-
 6.3.  Areas for future works
-
-   Which credential types are allowed/required
 
    How to protect and share the GroupInfo objects needed for external
    joins.
@@ -702,12 +760,6 @@ Table of Contents
    malformed commits.  MLS requires the following parameters to be
    defined, which must be the same for two implementations to
    interoperate:
-
-   Which media types are required to send and required to understand in
-   MIMI.
-
-   What Additional authenticated data, can/should be sent unencrypted in
-   an otherwise encrypted message.
 
    Application-level identifiers of public key material (specifically
    the application_id extension as defined in Section 5.3.3 of
@@ -1191,31 +1243,31 @@ Table of Contents
    [I-D.ietf-mimi-arch]
               Barnes, R., "An Architecture for More Instant Messaging
               Interoperability (MIMI)", Work in Progress, Internet-
-              Draft, draft-ietf-mimi-arch-01, 21 November 2024,
+              Draft, draft-ietf-mimi-arch-02, 20 October 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mimi-
-              arch-01>.
+              arch-02>.
 
    [I-D.ietf-mimi-content]
               Mahy, R., "More Instant Messaging Interoperability (MIMI)
               message content", Work in Progress, Internet-Draft, draft-
-              ietf-mimi-content-06, 28 February 2025,
+              ietf-mimi-content-07, 7 July 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mimi-
-              content-06>.
+              content-07>.
 
    [I-D.ietf-mimi-protocol]
               Barnes, R., Hodgson, M., Kohbrok, K., Mahy, R., Ralston,
               T., and R. Robert, "More Instant Messaging
               Interoperability (MIMI) using HTTPS and MLS", Work in
-              Progress, Internet-Draft, draft-ietf-mimi-protocol-02, 21
-              October 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-mimi-protocol-02>.
+              Progress, Internet-Draft, draft-ietf-mimi-protocol-05, 20
+              October 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-mimi-protocol-05>.
 
    [I-D.ietf-mls-extensions]
               Robert, R., "The Messaging Layer Security (MLS)
               Extensions", Work in Progress, Internet-Draft, draft-ietf-
-              mls-extensions-06, 19 February 2025,
+              mls-extensions-08, 21 July 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mls-
-              extensions-06>.
+              extensions-08>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1228,13 +1280,10 @@ Table of Contents
 
 11.2.  Informative References
 
-   [I-D.ietf-mls-architecture]
-              Beurdouche, B., Rescorla, E., Omara, E., Inguva, S., and
+   [RFC9750]  Beurdouche, B., Rescorla, E., Omara, E., Inguva, S., and
               A. Duric, "The Messaging Layer Security (MLS)
-              Architecture", Work in Progress, Internet-Draft, draft-
-              ietf-mls-architecture-15, 3 August 2024,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-mls-
-              architecture-15>.
+              Architecture", RFC 9750, DOI 10.17487/RFC9750, April 2025,
+              <https://www.rfc-editor.org/rfc/rfc9750>.
 
 Appendix A.  Role examples
 
@@ -2430,6 +2479,68 @@ Appendix B.  Complete TLS Presentation Language Syntax
    } PolicyExtension;
 
    struct {
+     ProtocolVersion versions<V>;
+     CipherSuite cipher_suites<V>;
+     ExtensionType extensions<V>;
+     ProposalType proposals<V>;
+     CredentialType credentials<V>;
+     WireFormats wire_formats<V>;
+     ComponentID component_ids<V>;
+     ComponentID safe_aad_types<V>;
+     MediaType media_types<V>;
+     ContentType content_types<V>;
+   } ExtendedCapabilities;
+
+   enum {
+     unspecified(0),
+     immediateCommit(1),
+     randomDelay(2),
+     preferenceWheel(3),
+     designatedCommitter(4),
+     (255)
+   } PendingProposalStrategy;
+
+   struct {
+     PendingProposalStrategy pending_proposal_strategy;
+     uint64 minimum_delay_ms;
+     uint64 maximum_delay_ms;
+   } PendingProposalPolicy;
+
+   struct {
+     uint64 minimum_time;
+     uint64 default_time;
+     uint64 maximum_time;
+   } MinDefaultMaxTime;
+
+
+   struct {
+     uint8  epoch_tolerance;
+     uint16 pad_to_size;
+     uint32 max_generations_skipahead;
+   } AppMessagePolicy;
+
+   struct {
+     ExtendedCapabilities mandatory_capabilities;
+     ExtendedCapabilities default_capabilities;
+     ExtendedCapabilities forbidden_capabilities;
+     WireFormats handshake_formats<V>;
+     bool external_proposal_allowed;
+     bool external_commit_allowed;
+     PendingProposalPolicy pending_proposal_policy;
+     MinDefaultMaxTime LeafNode_update_time;
+     AppMessagePolicy app_message_policy;
+     unit64 max_kp_lifetime;
+     uint64 max_credential_lifetime;
+     uint64 resumption_psk_lifetime;
+     MinDefaultMaxTime sender_nonce_keypair_lifetime;
+     uint32 max_keypairs;
+     MinDefaultMaxTime buffer_incoming_message_time;
+     uint32 max_buffered_messages;
+   } OperationalParameters;
+
+
+
+   struct {
      MembershipStyle membership_style;
      bool multi_device;
      Uri parent_room_uri;
@@ -2442,6 +2553,7 @@ Appendix B.  Complete TLS Presentation Language Syntax
      LoggingPolicy logging_policy;
      HistoryPolicy history_sharing;
      Bot allowed_bots<V>;
+     OperationalParameters operational_parameters;
      PolicyExtension policy_extensions<V>;
    } RoomPolicy;
 

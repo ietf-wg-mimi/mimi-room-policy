@@ -12,23 +12,22 @@ More Instant Messaging Interoperability (MIMI) Working Group. It describes
 several independent properties and policy attributes which can be combined
 to model a wide range of chat and multimedia conference types. 
     " name="description">
-<meta content="xml2rfc 3.26.0" name="generator">
+<meta content="xml2rfc 3.31.0" name="generator">
 <meta content="room policy" name="keyword">
 <meta content="draft-ietf-mimi-room-policy-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.26.0
-    Python 3.12.8
+  xml2rfc 3.31.0
+    Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.5
-    lxml 5.3.0
-    platformdirs 4.3.6
+    Jinja2 3.1.6
+    lxml 5.3.1
+    platformdirs 4.5.0
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
-    setuptools 70.3.0
-    wcwidth 0.2.13
+    requests 2.32.5
+    wcwidth 0.2.14
 -->
 <link href="draft-ietf-mimi-room-policy.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -438,7 +437,7 @@ dl {
     margin-bottom: 0;
   }
 }
-dl > dt {
+dl:not(.dlNewline) > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
@@ -1047,11 +1046,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">MIMI Room Policy</td>
-<td class="right">February 2025</td>
+<td class="right">October 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Mahy</td>
-<td class="center">Expires 16 August 2025</td>
+<td class="center">Expires 23 April 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1064,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-mimi-room-policy-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-02-12" class="published">12 February 2025</time>
+<time datetime="2025-10-20" class="published">20 October 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-08-16">16 August 2025</time></dd>
+<dd class="expires"><time datetime="2026-04-23">23 April 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1122,7 +1121,7 @@ to model a wide range of chat and multimedia conference types.<a href="#section-
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1312,7 +1311,7 @@ but not requiring read-message notifications), while constraining other
 choices (for example, prohibiting self-deleting messages). Individual
 users can examine the room policy to determine if it is consistent with
 policies they accept either before or immediately on joining a room.
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-arch-01#section-4.4" class="relref">Section 4.4</a> of [<a href="#I-D.ietf-mimi-arch" class="cite xref">I-D.ietf-mimi-arch</a>]</span><a href="#section-1-1" class="pilcrow">¶</a></p>
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-arch-02#section-4.4" class="relref">Section 4.4</a> of [<a href="#I-D.ietf-mimi-arch" class="cite xref">I-D.ietf-mimi-arch</a>]</span><a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">Making rooms interoperable across existing clients is challenging, as rooms
 and clients can support different policies and capabilities across vendors
 and providers. Our goal is to balance the policy and authorization goals of
@@ -1549,11 +1548,14 @@ enum {
 } MembershipStyle;
 </pre><a href="#section-5.1-4" class="pilcrow">¶</a>
 </div>
-<p id="section-5.1-5">An ordinary room has no constraints beyond those of the role-based access control system. A fixed-membership room (which can
-be used for DMs or Group DMs) has a participant list set once at creation
-time that cannot be added to. A parent-dependent room always has a strict subset of the participants of its parent room.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
-<p id="section-5.1-6">If the membership_style is <code>parent-dependent</code> the <code>parent_room_uri</code> <span class="bcp14">MUST</span> be set with the room ID of the parent. Otherwise the field is zero-length.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
-<p id="section-5.1-7">If <code>multi_device</code> is true (the default), the MLS group may contain multiple clients per user. If false only a single client can be an MLS member at one time.<a href="#section-5.1-7" class="pilcrow">¶</a></p>
+<p id="section-5.1-5">An ordinary room has no constraints beyond those of the role-based access control system.
+A fixed-membership room (which can be used for DMs or Group DMs) has a participant list set once at creation time that cannot be added to.
+A parent-dependent room always has a strict subset of the participants of its parent room.
+A parent-dependent room is always hosted on the same Hub as the parent room.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.1-6">If the membership_style is <code>parent-dependent</code> the <code>parent_room_uri</code> <span class="bcp14">MUST</span> be set with the room ID of the parent.
+Otherwise the field is zero-length.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+<p id="section-5.1-7">If <code>multi_device</code> is true (the default), the MLS group may contain multiple clients per user.
+If false only a single client can be an MLS member at one time.<a href="#section-5.1-7" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.1-8">
 <pre>
 enum {
@@ -1570,7 +1572,8 @@ struct {
 } BaseRoomPolicy;
 </pre><a href="#section-5.1-8" class="pilcrow">¶</a>
 </div>
-<p id="section-5.1-9">If persistent_room is false, the room will be automatically inaccsessible when the corresponding MLS group is destroyed (when there are no clients in the group). If persistent_room is true, the room policy will remain and a client whose user has appropriate authorization can create a new MLS group for the same room. (There is not a 1:1 correlation of MLS group to room ID in a persistent room.)<a href="#section-5.1-9" class="pilcrow">¶</a></p>
+<p id="section-5.1-9">If persistent_room is false, the room will be automatically inaccsessible when the corresponding MLS group is destroyed (when there are no clients in the group).
+If persistent_room is true, the room policy will remain and a client whose user has appropriate authorization can create a new MLS group for the same room.<a href="#section-5.1-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="delivery-and-read-notifications-pseudonyms">
@@ -1696,7 +1699,7 @@ The can_read and can_write fields indicate if the chat bot is allowed to read me
       <h2 id="name-operational-policy">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-operational-policy" class="section-name selfRef">Operational policy</a>
       </h2>
-<p id="section-6-1">Section 7 of the <span>[<a href="#I-D.ietf-mls-architecture" class="cite xref">I-D.ietf-mls-architecture</a>]</span> defines a set of operational
+<p id="section-6-1">Section 7 of the <span>[<a href="#RFC9750" class="cite xref">RFC9750</a>]</span> defines a set of operational
 policy considerations that influence interoperability of MLS clients. MIMI
 explicitly address a handful of the issues in the document by taking a position on ordering (Proposals referenced in a Commit need to be received before the Commit; the Commit entering a new epoch needs to be received before any other messages in that epoch), privacy of handshake messages (handshakes can be a PublicMessage or SemiPrivateMessage), and GroupInfo storage (committers need to provide a valid GroupInfo to the Hub). The rest of these issues are described here. Just because a topic is listed does not mean that a room needs to take a position; nor different rooms on a Hub need to have different policies for these items.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <div id="some-mls-related-policy-that-could-be-tied-to-a-room">
@@ -1797,6 +1800,70 @@ explicitly address a handful of the issues in the document by taking a position 
             <p id="section-6.1-1.23.1">how a joiner gets access to the ratchet_tree<a href="#section-6.1-1.23.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
+<p id="section-6.1-2">The structure below describes provides a way to describe many of these parameters.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<div class="breakable lang-tls sourcecode" id="section-6.1-3">
+<pre>
+struct {
+  ProtocolVersion versions&lt;V&gt;;
+  CipherSuite cipher_suites&lt;V&gt;;
+  ExtensionType extensions&lt;V&gt;;
+  ProposalType proposals&lt;V&gt;;
+  CredentialType credentials&lt;V&gt;;
+  WireFormats wire_formats&lt;V&gt;;
+  ComponentID component_ids&lt;V&gt;;
+  ComponentID safe_aad_types&lt;V&gt;;
+  MediaType media_types&lt;V&gt;;
+  ContentType content_types&lt;V&gt;;
+} ExtendedCapabilities;
+
+enum {
+  unspecified(0),
+  immediateCommit(1),
+  randomDelay(2),
+  preferenceWheel(3),
+  designatedCommitter(4),
+  (255)
+} PendingProposalStrategy;
+
+struct {
+  PendingProposalStrategy pending_proposal_strategy;
+  uint64 minimumDelayMs;
+  uint64 maximumDelayMs;
+} PendingProposalPolicy;
+
+struct {
+  uint64 minimumTime;
+  uint64 defaultTime;
+  uint64 maximumTime;
+} MinDefaultMaxTime;
+
+
+struct {
+  uint8  epoch_tolerance;
+  uint16 pad_to_size;
+  uint32 max_generations_skipahead;
+} AppMessagePolicy;
+
+struct {
+  ExtendedCapabilities mandatory_capabilities;
+  ExtendedCapabilities default_capabilities;
+  ExtendedCapabilities forbidden_capabilities;
+  WireFormats handshake_formats&lt;V&gt;;
+  bool external_proposal_allowed;
+  bool external_commit_allowed;
+  PendingProposalPolicy pending_proposal_policy;
+  MinDefaultMaxTime LeafNode_update_time;
+  AppMessagePolicy app_message_policy;
+  unit64 max_kp_lifetime;
+  uint64 max_credential_lifetime;
+  uint64 resumption_psk_lifetime;
+  MinDefaultMaxTime sender_nonce_keypair_lifetime;
+  uint32 max_keypairs;
+  MinDefaultMaxTime buffer_incoming_message_time;
+  uint32 max_buffered_messages;
+} OperationalParameters;
+</pre><a href="#section-6.1-3" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
 <div id="not-relevant-to-mimi-between-client-and-its-provider">
@@ -1811,9 +1878,6 @@ explicitly address a handful of the issues in the document by taking a position 
           <li class="normal" id="section-6.2-1.2">
             <p id="section-6.2-1.2.1">how group IDs are constructed<a href="#section-6.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.2-1.3">
-            <p id="section-6.2-1.3.1">which ciphersuites are acceptable.<a href="#section-6.2-1.3.1" class="pilcrow">¶</a></p>
-</li>
         </ul>
 </section>
 </div>
@@ -1822,13 +1886,10 @@ explicitly address a handful of the issues in the document by taking a position 
         <h3 id="name-areas-for-future-works">
 <a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-areas-for-future-works" class="section-name selfRef">Areas for future works</a>
         </h3>
-<p id="section-6.3-1">Which credential types are allowed/required<a href="#section-6.3-1" class="pilcrow">¶</a></p>
-<p id="section-6.3-2">How to protect and share the GroupInfo objects needed for external joins.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
-<p id="section-6.3-3">If an application wishes to detect and possibly discipline members that send malformed commits with the intention of corrupting a group's state, there must be a method for reporting and validating malformed commits.
-MLS requires the following parameters to be defined, which must be the same for two implementations to interoperate:<a href="#section-6.3-3" class="pilcrow">¶</a></p>
-<p id="section-6.3-4">Which media types are required to send and required to understand in MIMI.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
-<p id="section-6.3-5">What Additional authenticated data, can/should be sent unencrypted in an otherwise encrypted message.<a href="#section-6.3-5" class="pilcrow">¶</a></p>
-<p id="section-6.3-6">Application-level identifiers of public key material (specifically the application_id extension as defined in Section 5.3.3 of [RFC9420]).<a href="#section-6.3-6" class="pilcrow">¶</a></p>
+<p id="section-6.3-1">How to protect and share the GroupInfo objects needed for external joins.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-2">If an application wishes to detect and possibly discipline members that send malformed commits with the intention of corrupting a group's state, there must be a method for reporting and validating malformed commits.
+MLS requires the following parameters to be defined, which must be the same for two implementations to interoperate:<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<p id="section-6.3-3">Application-level identifiers of public key material (specifically the application_id extension as defined in Section 5.3.3 of [RFC9420]).<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2332,19 +2393,19 @@ canSendMLSReinitProposal
 <dl class="references">
 <dt id="I-D.ietf-mimi-arch">[I-D.ietf-mimi-arch]</dt>
         <dd>
-<span class="refAuthor">Barnes, R.</span>, <span class="refTitle">"An Architecture for More Instant Messaging Interoperability (MIMI)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mimi-arch-01</span>, <time datetime="2024-11-21" class="refDate">21 November 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-arch-01">https://datatracker.ietf.org/doc/html/draft-ietf-mimi-arch-01</a>&gt;</span>. </dd>
+<span class="refAuthor">Barnes, R.</span>, <span class="refTitle">"An Architecture for More Instant Messaging Interoperability (MIMI)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mimi-arch-02</span>, <time datetime="2025-10-20" class="refDate">20 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-arch-02">https://datatracker.ietf.org/doc/html/draft-ietf-mimi-arch-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-mimi-content">[I-D.ietf-mimi-content]</dt>
         <dd>
-<span class="refAuthor">Mahy, R.</span>, <span class="refTitle">"More Instant Messaging Interoperability (MIMI) message content"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mimi-content-05</span>, <time datetime="2024-12-20" class="refDate">20 December 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-content-05">https://datatracker.ietf.org/doc/html/draft-ietf-mimi-content-05</a>&gt;</span>. </dd>
+<span class="refAuthor">Mahy, R.</span>, <span class="refTitle">"More Instant Messaging Interoperability (MIMI) message content"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mimi-content-07</span>, <time datetime="2025-07-07" class="refDate">7 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-content-07">https://datatracker.ietf.org/doc/html/draft-ietf-mimi-content-07</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-mimi-protocol">[I-D.ietf-mimi-protocol]</dt>
         <dd>
-<span class="refAuthor">Barnes, R.</span>, <span class="refAuthor">Hodgson, M.</span>, <span class="refAuthor">Kohbrok, K.</span>, <span class="refAuthor">Mahy, R.</span>, <span class="refAuthor">Ralston, T.</span>, and <span class="refAuthor">R. Robert</span>, <span class="refTitle">"More Instant Messaging Interoperability (MIMI) using HTTPS and MLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mimi-protocol-02</span>, <time datetime="2024-10-21" class="refDate">21 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-protocol-02">https://datatracker.ietf.org/doc/html/draft-ietf-mimi-protocol-02</a>&gt;</span>. </dd>
+<span class="refAuthor">Barnes, R.</span>, <span class="refAuthor">Hodgson, M.</span>, <span class="refAuthor">Kohbrok, K.</span>, <span class="refAuthor">Mahy, R.</span>, <span class="refAuthor">Ralston, T.</span>, and <span class="refAuthor">R. Robert</span>, <span class="refTitle">"More Instant Messaging Interoperability (MIMI) using HTTPS and MLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mimi-protocol-05</span>, <time datetime="2025-10-20" class="refDate">20 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-protocol-05">https://datatracker.ietf.org/doc/html/draft-ietf-mimi-protocol-05</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-mls-extensions">[I-D.ietf-mls-extensions]</dt>
         <dd>
-<span class="refAuthor">Robert, R.</span>, <span class="refTitle">"The Messaging Layer Security (MLS) Extensions"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mls-extensions-05</span>, <time datetime="2024-10-21" class="refDate">21 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mls-extensions-05">https://datatracker.ietf.org/doc/html/draft-ietf-mls-extensions-05</a>&gt;</span>. </dd>
+<span class="refAuthor">Robert, R.</span>, <span class="refTitle">"The Messaging Layer Security (MLS) Extensions"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mls-extensions-08</span>, <time datetime="2025-07-21" class="refDate">21 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mls-extensions-08">https://datatracker.ietf.org/doc/html/draft-ietf-mls-extensions-08</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -2363,9 +2424,9 @@ canSendMLSReinitProposal
 <a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.ietf-mls-architecture">[I-D.ietf-mls-architecture]</dt>
+<dt id="RFC9750">[RFC9750]</dt>
       <dd>
-<span class="refAuthor">Beurdouche, B.</span>, <span class="refAuthor">Rescorla, E.</span>, <span class="refAuthor">Omara, E.</span>, <span class="refAuthor">Inguva, S.</span>, and <span class="refAuthor">A. Duric</span>, <span class="refTitle">"The Messaging Layer Security (MLS) Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mls-architecture-15</span>, <time datetime="2024-08-03" class="refDate">3 August 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mls-architecture-15">https://datatracker.ietf.org/doc/html/draft-ietf-mls-architecture-15</a>&gt;</span>. </dd>
+<span class="refAuthor">Beurdouche, B.</span>, <span class="refAuthor">Rescorla, E.</span>, <span class="refAuthor">Omara, E.</span>, <span class="refAuthor">Inguva, S.</span>, and <span class="refAuthor">A. Duric</span>, <span class="refTitle">"The Messaging Layer Security (MLS) Architecture"</span>, <span class="seriesInfo">RFC 9750</span>, <span class="seriesInfo">DOI 10.17487/RFC9750</span>, <time datetime="2025-04" class="refDate">April 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9750">https://www.rfc-editor.org/rfc/rfc9750</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -4271,6 +4332,68 @@ struct {
 } PolicyExtension;
 
 struct {
+  ProtocolVersion versions&lt;V&gt;;
+  CipherSuite cipher_suites&lt;V&gt;;
+  ExtensionType extensions&lt;V&gt;;
+  ProposalType proposals&lt;V&gt;;
+  CredentialType credentials&lt;V&gt;;
+  WireFormats wire_formats&lt;V&gt;;
+  ComponentID component_ids&lt;V&gt;;
+  ComponentID safe_aad_types&lt;V&gt;;
+  MediaType media_types&lt;V&gt;;
+  ContentType content_types&lt;V&gt;;
+} ExtendedCapabilities;
+
+enum {
+  unspecified(0),
+  immediateCommit(1),
+  randomDelay(2),
+  preferenceWheel(3),
+  designatedCommitter(4),
+  (255)
+} PendingProposalStrategy;
+
+struct {
+  PendingProposalStrategy pending_proposal_strategy;
+  uint64 minimum_delay_ms;
+  uint64 maximum_delay_ms;
+} PendingProposalPolicy;
+
+struct {
+  uint64 minimum_time;
+  uint64 default_time;
+  uint64 maximum_time;
+} MinDefaultMaxTime;
+
+
+struct {
+  uint8  epoch_tolerance;
+  uint16 pad_to_size;
+  uint32 max_generations_skipahead;
+} AppMessagePolicy;
+
+struct {
+  ExtendedCapabilities mandatory_capabilities;
+  ExtendedCapabilities default_capabilities;
+  ExtendedCapabilities forbidden_capabilities;
+  WireFormats handshake_formats&lt;V&gt;;
+  bool external_proposal_allowed;
+  bool external_commit_allowed;
+  PendingProposalPolicy pending_proposal_policy;
+  MinDefaultMaxTime LeafNode_update_time;
+  AppMessagePolicy app_message_policy;
+  unit64 max_kp_lifetime;
+  uint64 max_credential_lifetime;
+  uint64 resumption_psk_lifetime;
+  MinDefaultMaxTime sender_nonce_keypair_lifetime;
+  uint32 max_keypairs;
+  MinDefaultMaxTime buffer_incoming_message_time;
+  uint32 max_buffered_messages;
+} OperationalParameters;
+
+
+
+struct {
   MembershipStyle membership_style;
   bool multi_device;
   Uri parent_room_uri;
@@ -4283,6 +4406,7 @@ struct {
   LoggingPolicy logging_policy;
   HistoryPolicy history_sharing;
   Bot allowed_bots&lt;V&gt;;
+  OperationalParameters operational_parameters;
   PolicyExtension policy_extensions&lt;V&gt;;
 } RoomPolicy;
 
