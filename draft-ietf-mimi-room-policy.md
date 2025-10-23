@@ -1479,6 +1479,36 @@ struct {
   Uri human_readable_policy;
 } LoggingPolicy;
 
+enum {
+  direct(0),
+  hubProxy(1),
+  ohttp(2),
+  (255)
+} DownloadPrivacyType;
+
+enum {
+  unspecified(0),
+  localProvider(1),
+  hub(2),
+  (255)
+} AssetUploadLocation;
+
+struct {
+  DownloadPrivacyType allowed_download_types<V>;
+  DownloadPrivacyType forbidden_download_types<V>;
+  DownloadPrivacyType default_download_type;
+} DownloadPrivacy;
+
+struct {
+  AssetUploadLocation asset_upload_location;
+  opaque upload_domain<V>;
+  DownloadPrivacy download_privacy;
+  uint64 max_image;
+  uint64 max_audio;
+  uint64 max_video;
+  uint64 max_attachment;
+} AssetPolicy;
+
 struct {
   bool on_request;
   Uri join_link;
@@ -1591,6 +1621,7 @@ struct {
   bool semi_anonymous_ids;
   bool discoverable;
   LinkPolicy link_policy;
+  AssetPolicy asset_policy;
   LoggingPolicy logging_policy;
   HistoryPolicy history_sharing;
   Bot allowed_bots<V>;
