@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                          R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                           20 October 2025
-Expires: 23 April 2026
+Intended status: Informational                           23 October 2025
+Expires: 26 April 2026
 
 
    Room Policy for the More Instant Messaging Interoperability (MIMI)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 April 2026.
+   This Internet-Draft will expire on 26 April 2026.
 
 Copyright Notice
 
@@ -2474,6 +2474,36 @@ Appendix B.  Complete TLS Presentation Language Syntax
      Uri human_readable_policy;
    } LoggingPolicy;
 
+   enum {
+     direct(0),
+     hubProxy(1),
+     ohttp(2),
+     (255)
+   } DownloadPrivacyType;
+
+   enum {
+     unspecified(0),
+     localProvider(1),
+     hub(2),
+     (255)
+   } AssetUploadLocation;
+
+   struct {
+     DownloadPrivacyType allowed_download_types<V>;
+     DownloadPrivacyType forbidden_download_types<V>;
+     DownloadPrivacyType default_download_type;
+   } DownloadPrivacy;
+
+   struct {
+     AssetUploadLocation asset_upload_location;
+     opaque upload_domain<V>;
+     DownloadPrivacy download_privacy;
+     uint64 max_image;
+     uint64 max_audio;
+     uint64 max_video;
+     uint64 max_attachment;
+   } AssetPolicy;
+
    struct {
      bool on_request;
      Uri join_link;
@@ -2586,6 +2616,7 @@ Appendix B.  Complete TLS Presentation Language Syntax
      bool semi_anonymous_ids;
      bool discoverable;
      LinkPolicy link_policy;
+     AssetPolicy asset_policy;
      LoggingPolicy logging_policy;
      HistoryPolicy history_sharing;
      Bot allowed_bots<V>;

@@ -1050,7 +1050,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Mahy</td>
-<td class="center">Expires 23 April 2026</td>
+<td class="center">Expires 26 April 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-mimi-room-policy-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-10-20" class="published">20 October 2025</time>
+<time datetime="2025-10-23" class="published">23 October 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-04-23">23 April 2026</time></dd>
+<dd class="expires"><time datetime="2026-04-26">26 April 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1121,7 +1121,7 @@ to model a wide range of chat and multimedia conference types.<a href="#section-
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 23 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 26 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -4333,6 +4333,36 @@ struct {
   Uri human_readable_policy;
 } LoggingPolicy;
 
+enum {
+  direct(0),
+  hubProxy(1),
+  ohttp(2),
+  (255)
+} DownloadPrivacyType;
+
+enum {
+  unspecified(0),
+  localProvider(1),
+  hub(2),
+  (255)
+} AssetUploadLocation;
+
+struct {
+  DownloadPrivacyType allowed_download_types&lt;V&gt;;
+  DownloadPrivacyType forbidden_download_types&lt;V&gt;;
+  DownloadPrivacyType default_download_type;
+} DownloadPrivacy;
+
+struct {
+  AssetUploadLocation asset_upload_location;
+  opaque upload_domain&lt;V&gt;;
+  DownloadPrivacy download_privacy;
+  uint64 max_image;
+  uint64 max_audio;
+  uint64 max_video;
+  uint64 max_attachment;
+} AssetPolicy;
+
 struct {
   bool on_request;
   Uri join_link;
@@ -4445,6 +4475,7 @@ struct {
   bool semi_anonymous_ids;
   bool discoverable;
   LinkPolicy link_policy;
+  AssetPolicy asset_policy;
   LoggingPolicy logging_policy;
   HistoryPolicy history_sharing;
   Bot allowed_bots&lt;V&gt;;
