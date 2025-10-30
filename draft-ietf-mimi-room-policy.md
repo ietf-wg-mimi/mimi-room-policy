@@ -808,16 +808,17 @@ Create a new registry with the following values assigned sequentially using the 
 | 0x0104 | canReplyToMessage                          |
 | 0x0105 | canReactToMessage                          |
 | 0x0106 | canEditReaction                            |
-| 0x0107 | canDeleteReaction                          |
-| 0x0108 | canEditOwnMessage                          |
-| 0x0109 | canDeleteOwnMessage                        |
-| 0x010a | canDeleteOtherMessage                      |
-| 0x010b | canStartTopic                              |
-| 0x010c | canReplyInTopic                            |
-| 0x010d | canEditOwnTopic                            |
-| 0x010e | canEditOtherTopic                          |
-| 0x010f | canSendDirectMessage (reserved)            |
-| 0x0110 | canTargetMessage (reserved)                |
+| 0x0107 | canDeleteOwnReaction                       |
+| 0x0108 | canDeleteOtherReaction                     |
+| 0x0109 | canEditOwnMessage                          |
+| 0x010a | canDeleteOwnMessage                        |
+| 0x010b | canDeleteOtherMessage                      |
+| 0x010c | canStartTopic                              |
+| 0x010d | canReplyInTopic                            |
+| 0x010e | canEditOwnTopic                            |
+| 0x010f | canEditOtherTopic                          |
+| 0x0111 | canSendDirectMessage (reserved)            |
+| 0x0111 | canTargetMessage (reserved)                |
 | 0x0200 | canUploadImage                             |
 | 0x0201 | canUploadAudio                             |
 | 0x0202 | canUploadVideo                             |
