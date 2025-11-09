@@ -661,7 +661,8 @@ message.
 - `canReportAbuse` - the holder can report a franked instant message as abusive.
 - `canReplyToMessage` - the holder can send a message replying to another message.
 - `canReactToMessage` - the holder can send a reaction, replying to another message, and using the "reaction" disposition.
-- `canDeleteOwnReaction` - the holder can retract (unlike) it own previous reaction.
+- `canEditReaction` - the holder can replace its own previous reaction with another reaction
+- `canDeleteOwnReaction` - the holder can retract (unlike) its own previous reaction.
 - `canDeleteOtherReaction` - the holder can delete the reaction of another user's previous reaction
 - `canEditOwnMessage` - the holder can edit the content of one of its own previously sent messages
 - `canDeleteOwnMessage` - the holder can retract one of its own previously sent messages
@@ -687,8 +688,8 @@ The Hub can enforce whether a member can send a message. It can also withhold fa
 - `canDownloadImage` - the holder can download a file with the media type of "image" and the disposition of "render"
 - `canUploadVideo` - the holder can upload a file with the media type of "video" and the disposition of "render"
 - `canDownloadVideo` - the holder can download a file with the media type of "video" and the disposition of "render"
-- `canUploadSound` - the holder can upload a file with the media type of "audio" and the disposition of "render"
-- `canDownloadSound` - the holder can download a file with the media type of "audio" and the disposition of "render"
+- `canUploadAudio` - the holder can upload a file with the media type of "audio" and the disposition of "render"
+- `canDownloadAudio` - the holder can download a file with the media type of "audio" and the disposition of "render"
 
 
 ## Real-time media
@@ -710,7 +711,7 @@ The MIMI Working has not yet defined requirements for real-time media, however t
 - `canChangeRoleDefinitions` - the holder is authorized to make changes to the definitions of the Roles component.
 - `canChangePreauthorizedUserList` - the holder is authorized to make changes to the Preauthorized Users component.
 - `canDestroyRoom` - the holder is authorized to completely destroy the room.
-- `canReinitGroup` - the holder is authorized to send an MLS ReInit proposal.
+- `canSendMLSReinitProposal` - the holder is authorized to send an MLS ReInit proposal.
 
 
 ## Reserved Capabilities
@@ -782,73 +783,83 @@ TBC
 
 Create a new registry with the following values assigned sequentially using the reference RFCXXXX.
 
-~~~
-canAddParticipant
-canRemoveParticipant
-canAddOwnClient
-canRemoveSelf
-canAddSelf
-canCreateJoinCode - reserved for future use
-canUseJoinCode
-canBan
-canUnBan
-canKick
-canKnock
-canAcceptKnock
-canChangeUserRole
-canChangeOwnRole
-canCreateSubgroup
-canSendMessage
-canReceiveMessage
-canCopyMessage
-canReportAbuse
-canReactToMessage
-canEditReaction
-canDeleteReaction
-canEditOwnMessage
-canDeleteOwnMessage
-canDeleteAnyMessage
-canStartTopic
-canReplyInTopic
-canEditTopic
-canSendDirectMessage
-canTargetMessage
-canUploadImage
-canUploadVideo
-canUploadAttachment
-canDownloadImage
-canDownloadVideo
-canDownloadAttachment
-canSendLink
-canSendLinkPreview
-canFollowLink
-canCopyLink
-canChangeRoomName
-canChangeRoomDescription
-canChangeRoomAvatar
-canChangeRoomSubject
-canChangeRoomMood
-canChangeOwnName
-canChangeOwnPresence
-canChangeOwnMood
-canChangeOwnAvatar
-canStartCall
-canJoinCall
-canSendAudio
-canReceiveAudio
-canSendVideo
-canReceiveVideo
-canShareScreen
-canViewSharedScreen
-canChangeRoomMembershipStyle
-canChangeRoleDefinitions
-canChangePreauthorizedUserList
-canChangeMlsOperationalPolicies
-canDestroyRoom
-canSendMLSReinitProposal
-~~~
-
-
+| Value  | Name                                       |
+|--------+--------------------------------------------|
+| 0x0000 | canAddParticipant                          |
+| 0x0001 | canRemoveParticipant                       |
+| 0x0002 | canAddOwnClient                            |
+| 0x0003 | canRemoveOwnClient                         |
+| 0x0004 | canAddSelf                                 |
+| 0x0005 | canRemoveSelf                              |
+| 0x0006 | canCreateJoinCode (reserved)               |
+| 0x0007 | canUseJoinCode                             |
+| 0x0008 | canBan                                     |
+| 0x0009 | canUnBan                                   |
+| 0x000a | canKick                                    |
+| 0x000b | canKnock (reserved)                        |
+| 0x000c | canAcceptKnock (reserved)                  |
+| 0x000d | canChangeUserRole                          |
+| 0x000e | canChangeOwnRole                           |
+| 0x000f | canCreateSubgroup (reserved)               |
+| 0x0100 | canSendMessage                             |
+| 0x0101 | canReceiveMessage                          |
+| 0x0102 | canCopyMessage                             |
+| 0x0103 | canReportAbuse                             |
+| 0x0104 | canReplyToMessage                          |
+| 0x0105 | canReactToMessage                          |
+| 0x0106 | canEditReaction                            |
+| 0x0107 | canDeleteOwnReaction                       |
+| 0x0108 | canDeleteOtherReaction                     |
+| 0x0109 | canEditOwnMessage                          |
+| 0x010a | canDeleteOwnMessage                        |
+| 0x010b | canDeleteOtherMessage                      |
+| 0x010c | canStartTopic                              |
+| 0x010d | canReplyInTopic                            |
+| 0x010e | canEditOwnTopic                            |
+| 0x010f | canEditOtherTopic                          |
+| 0x0111 | canSendDirectMessage (reserved)            |
+| 0x0111 | canTargetMessage (reserved)                |
+| 0x0200 | canUploadImage                             |
+| 0x0201 | canUploadAudio                             |
+| 0x0202 | canUploadVideo                             |
+| 0x0203 | canUploadAttachment                        |
+| 0x0204 | canDownloadImage                           |
+| 0x0205 | canDownloadAudio                           |
+| 0x0206 | canDownloadVideo                           |
+| 0x0207 | canDownloadAttachment                      |
+| 0x0208 | canSendLink                                |
+| 0x0209 | canSendLinkPreview                         |
+| 0x020a | canFollowLink                              |
+| 0x020b | canCopyLink                                |
+| 0x0300 | canChangeRoomName                          |
+| 0x0301 | canChangeRoomDescription                   |
+| 0x0302 | canChangeRoomAvatar                        |
+| 0x0303 | canChangeRoomSubject                       |
+| 0x0304 | canChangeRoomMood                          |
+| 0x0380 | canChangeOwnName (reserved)                |
+| 0x0381 | canChangeOwnPresence (reserved)            |
+| 0x0382 | canChangeOwnMood (reserved)                |
+| 0x0383 | canChangeOwnAvatar (reserved)              |
+| 0x0400 | canStartCall                               |
+| 0x0401 | canJoinCall                                |
+| 0x0402 | canSendAudio                               |
+| 0x0403 | canReceiveAudio                            |
+| 0x0404 | canSendVideo                               |
+| 0x0405 | canReceiveVideo                            |
+| 0x0406 | canShareScreen                             |
+| 0x0407 | canViewSharedScreen                        |
+| 0x0500 | canCreateRoom (reserved)                   |
+| 0x0501 | canDestroyRoom                             |
+| 0x0502 | canChangeRoomMembershipStyle               |
+| 0x0503 | canChangeRoleDefinitions                   |
+| 0x0504 | canChangePreauthorizedUserList             |
+| 0x0505 | canChangeOtherPolicyAttribute (reserved)   |
+| 0x0600 | canChangeMlsOperationalPolicies (reserved) |
+| 0x0601 | canSendMLSReinitProposal                   |
+| 0x0602 | canSendMLSUpdateProposal (reserved)        |
+| 0x0603 | canSendMLSPSKProposal (reserved)           |
+| 0x0604 | canSendMLSExternalProposal (reserved)      |
+| 0x0605 | canSendMLSExternalCommit (reserved)        |
 --- back
 
 # Role examples
@@ -899,11 +910,11 @@ This is an example set of role policies, which is suitable for friends and famil
       - canEditOwnTopic
       - canUploadImage
       - canUploadVideo
-      - canUploadSound
+      - canUploadAudio
       - canUploadAttachment
       - canDownloadImage
       - canDownloadVideo
-      - canDownloadSound
+      - canDownloadAudio
       - canDownloadAttachment
       - canSendLink
       - canSendLinkPreview
@@ -1027,11 +1038,11 @@ This is an example set of role policies, which is suitable for friends and famil
       - canReplyInTopic
       - canUploadImage
       - canUploadVideo
-      - canUploadSound
+      - canUploadAudio
       - canUploadAttachment
       - canDownloadImage
       - canDownloadVideo
-      - canDownloadSound
+      - canDownloadAudio
       - canDownloadAttachment
       - canSendLink
       - canSendLinkPreview
@@ -1149,7 +1160,7 @@ This is an example set of role policies, which is suitable for friends and famil
       - canCopyLink
       - canDownloadImage
       - canDownloadVideo
-      - canDownloadSound
+      - canDownloadAudio
    - constraints
       - minimum_participants_constraint = 0
       - maximum_participants_constraint = null
@@ -1188,7 +1199,7 @@ This is an example set of role policies, which is suitable for friends and famil
       - canStartTopic
       - canUploadImage
       - canUploadVideo
-      - canUploadSound
+      - canUploadAudio
       - canUploadAttachment
       - canSendLink
       - canSendLinkPreview
@@ -1326,7 +1337,7 @@ The non-host orgs do not have the `canChangeOwnRole` and `canAddSelf`, and are l
       - canCopyLink
       - canDownloadImage
       - canDownloadVideo
-      - canDownloadSound
+      - canDownloadAudio
       - canDownloadAttachment
       - canChangeOwnName
       - canChangeOwnPresence
@@ -1370,7 +1381,7 @@ The non-host orgs do not have the `canChangeOwnRole` and `canAddSelf`, and are l
       - canStartTopic
       - canUploadImage
       - canUploadVideo
-      - canUploadSound
+      - canUploadAudio
       - canUploadAttachment
       - canAddParticipant
       - canRemoveParticipant
