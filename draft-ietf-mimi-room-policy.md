@@ -63,7 +63,7 @@ Each room is owned by one provider at a time. The owning provider controls the r
 However we want to make it as easy as possible for clients from other providers to comply with the room policy primitives without enumerating specific features or requiring all clients implementations to present an identical user experience. An important aspect of this is the system of configurable Role-based access control with granular capabilities per role (described in {{roles}}).
 Each user in the participant list (defined in {{!I-D.ietf-mimi-protocol}}) has
 exactly one role. By virtue of a user's credential, a user might also be
-*preauthorized* with a specific role as described in {{preauthorized-users}}.
+*preauthorized* with a specific role as described in {{preauth}}.
 
 # Conventions and Definitions
 
@@ -104,28 +104,13 @@ To remove the permission to send messages in a room.
 **Grant Voice**:
 To grant the permission to send messages in a room.
 
-## Room Capabilities
-
-**Membership-Approach**:
-The overall approach of membership authorization in a room, which could be open, members-only (administrated), fixed-membership, or parent-dependent.
-
-- **Open room**: Typically an open room can be joined by any non-banned user. It can be represented solely by a permissive set of roles as defined in {{roles}}.
-
-- **Members-Only room**: A members-only room can only be joined by a user in the particpant list, or who is pre-authorized. Authorized users can add or remove users to the room. In an enterprise context, it is also common (but not required) for users from a particular domain, group, or workgroup to be pre-authorized to add themselves to a Members-Only room. It can be represented solely by a set of less permissive roles as defined in {{roles}}.
-
-- **Fixed-Membership room**: Fixed-membership rooms have the list of participants specified when they are created. Other users cannot be added. Ordinary users cannot leave or be removed, however a user can remove all its clients from the associated MLS group. The most common case of a fixed-membership room is a 1:1 conversation. This room membership style is used to implement Direct Message (DM) and Group DM features. Only a single fixed-membership room can exist for any unique set of participants.
-
-- **Parent-dependent room**: In a parent-dependent room, the list participants of the room must be a strict subset of the participants of the parent room. If a user leaves or is removed from the parent room, that user is automatically removed from any parent-dependent rooms of that parent.
-
-<!--
-Multi-device vs. Single-device:
-A multi-device room can have multiple simultaneous clients of the same user as participants in the room. A single-device room can have a maximum of one client per user in the room at any moment.
-
-Knock-Enabled vs. Knock-Disabled:
-In a knock-enabled room, non-banned users are allowed to programmatically request entry into the room. In a knock-disabled room this functionality is disabled.
--->
 
 # Role-Based Access Control {#roles}
+
+Most instant messaging systems have a concept of room membership being managed by a set of moderators or administrators, or collectively managed by existing members.
+In some cases, rooms are completely open to new joiners unless they have been banned in some way.
+In an enterprise context, it is also common (but not required) for users from a particular domain, group, or workgroup to be pre-authorized to add themselves to various types of rooms.
+All these variations of room access are managed in MIMI using roles, capabilities ({{caps}}), and preauthorization ({{preauth}}).
 
 The Role-Based Access Control component contains a list of all the roles in the room, and the capabilities associated with them.
 It contains a `role_index`, which is used to refer to the role elsewhere. (Note that role indexes might not be contiguous.)
@@ -151,7 +136,7 @@ RoleData is the format of the `data` field inside the ComponentData struct for t
 
 ~~~ tls-presentation
 /* See MIMI Capability Types IANA registry */
-uint16 CapablityType;
+uint16 CapabilityType;
 
 struct {
    uint32 from_role_index;
@@ -185,7 +170,7 @@ If the contents of the `update` field are valid and if the proposer is authorize
 Changing Role definitions is sufficiently disruptive, that an update to this component is not valid if it appear in the same commit as any Participant List change.
 
 
-# Preauthorized Users
+# Preauthorized Users {#preauth}
 
 Preauthorized users are MIMI users and external senders that have authorization to adopt a role in a room by virtue of certain credential claims or properties, as opposed to being individually enumerated in the participant list.
 For example, a room for employee benefits might be available to join with the regular participant role to all full-time employees with a residence in a specific country; while anyone working in the human resources department might be able to join the same room as a moderator.
@@ -265,42 +250,35 @@ Changing Preauthorized user definitions is sufficiently disruptive, that an upda
 Because the Preauthorized users component usually authorizes non-members, it is also a natural choice for providing concrete authorization for policy enforcing systems incorporated into or which run in coordination with the MIMI Hub provider or specific MLS Distribution Services. For example, a preauthorized role could allow the Hub to remove participants and to ban them, but not to add any users or devices. This unifies the authorization model for members and non-members.
 
 
-# Base Room policy format syntax
+# Base Room policy component syntax
 
-## Membership-related policy
+The following format is an MLS component which expresses top-level policy constraints, including global rules related to how membership is interpreted.
+The rest of the rules about membership (the bulk) are expressed using roles {{roles}}, capabilities {{caps}}, and preauthorization {{preauth}}.
 
-> **TODO**: refactor membership_style to be constraints to the role-based access control system
+Rooms with `fixed_membership` set to true (fixed-membership rooms) have the list of participants specified when they are created.
+While clients of existing participants can be added, other users cannot be added, so none of its non-zero, non-banned roles can contain the `canAddParticipant` capability.
+Ordinary users cannot leave or be removed, however a user can remove all its clients from the associated MLS group.
+The most common case of a fixed-membership room is a 1:1 conversation.
+This room membership style is used to implement Direct Message (DM) and Group DM features.
+Only a single fixed-membership room can exist for any unique set of participants.
 
-The `membership_style` of a room can express some additional constraints on
-membership transitions in a room. It can have one of the following values:
-
-- ordinary (default)
-- fixed-membership
-- parent-dependent
-
-~~~
-enum {
-  reserved(0)
-  ordinary(1),
-  fixed-membership(2),
-  parent-dependent(3),
-  (255)
-} MembershipStyle;
-~~~
-
-An ordinary room has no constraints beyond those of the role-based access control system.
-A fixed-membership room (which can be used for DMs or Group DMs) has a participant list set once at creation time that cannot be added to.
-A parent-dependent room always has a strict subset of the participants of its parent room.
+In rooms with `parent_dependent` set to true (a parent-dependent room), the list of participants of the room MUST be a strict subset of the participants of the parent room.
+If a user leaves or is removed from the parent room, that user is automatically removed from any parent-dependent rooms of that parent.
 A parent-dependent room is always hosted on the same Hub as the parent room.
 
-If the membership_style is `parent-dependent` the `parent_room_uri` MUST be set with the room ID of the parent.
-Otherwise the field is zero-length.
+If `parent-dependent` is true, the `parent_room` MUST be set with the room ID of the parent. Otherwise the field is zero-length.
+
+> Note: A room can be both `fixed_membership` and `parent_dependent`, for example, for room used for a multi-media call of clients in a Group DM.
 
 If `multi_device` is true (the default), the MLS group may contain multiple clients per user.
 If false only a single client can be an MLS member at one time.
-
-<!--If `knock_allowed` is true, a non-participant can send a knock requesting access to the target room. If false, a user cannot. This option can only be enabled if the membership_style is members-only. The default is false.
+<!--
+Multi-device vs. Single-device:
+A multi-device room can have multiple simultaneous clients of the same user as participants in the room. A single-device room can have a maximum of one client per user in the room at any moment.
 -->
+
+When `max_clients` has a value, the room's associated MLS group MUST NOT have more clients than the provided value.
+Likewise when `max_users` has a value, the room MUST NOT have more non-banned entries in the participant list than that value.
 
 ~~~
 enum {
@@ -309,19 +287,35 @@ enum {
 } bool;
 
 struct {
-  MembershipStyle membership_style;
-  Uri parent_room_uri<V>;
-  bool multi_device;
-  bool persistent_room;
-  ...
+    bool fixed_membership;
+    bool parent_dependant;
+    Uri parent_room<V>;
+    bool multi_device;
+    optional uint32 max_clients;
+    optional uint32 max_users;
+    bool pseudonyms_allowed;
+    bool persistent_room;
+    Component policy_components<V>;
 } BaseRoomPolicy;
+
+BaseRoomPolicy BaseRoomData;
+BaseRoomPolicy BaseRoomUpdate;
 ~~~
 
-If persistent_room is false, the room will be automatically inaccsessible when the corresponding MLS group is destroyed (when there are no clients in the group).
-If persistent_room is true, the room policy will remain and a client whose user has appropriate authorization can create a new MLS group for the same room.
+If `pseudonyms_allowed` is true, clients in the MLS group are free to use pseudonymous identifiers in their MLS credentials.
+Otherwise the policy of the room is that "real" long-term identifiers are required in MLS credentials in the room's corresponding MLS group.
 
+If `persistent_room` is false, the room will be automatically inaccsessible when the corresponding MLS group is destroyed (when there are no clients in the group).
+If `persistent_room` is true, the room policy will remain and a client whose user has appropriate authorization can create a new MLS group for the same room.
 
-## Delivery and Read notifications, Pseudonyms
+Finally, the other policy components that are relevant to this room are listed in the `policy_components` vector, including the `roles_list` and `preauth_list` components (if present).
+
+# Other policy components
+
+## Status Notifications component
+
+Delivery and Read notifications are a very popular feature of instant messaging systems, but also can leak private information such as the online status of participants.
+Such status notifications can also consume a large amount of resources, especially in large rooms.
 
 ~~~
 enum {
@@ -331,21 +325,22 @@ enum {
 } Optionality;
 
 struct {
-  ...
   Optionality delivery_notifications;
   Optionality read_receipts;
-  bool pseudonymous_ids;
-  ...
-} RoomPolicy;
+} StatusNotificationPolicy;
+
+StatusNotificationPolicy StatusNotificationPolicyData;
+StatusNotificationPolicy StatusNotificationPolicyUpdate;
 ~~~
 
-The delivery_notifications value can be set to "forbidden", "optional", or "required". If the value is set to "optional", the client uses its local configuration to determine if it should send delivery notifications in the group.
+The `delivery_notifications` value can be set to "forbidden", "optional", or "required".
+If the value is set to "optional", the client uses its local configuration to determine if it should send delivery notifications in the room.
 
-The read_receipts value can be set to "forbidden", "optional", or "required". If the value is set to "optional", the client uses its local configuration to determine if it should send read receipts in the group.
+The `read_receipts` value can be set to "forbidden", "optional", or "required".
+If the value is set to "optional", the client uses its local configuration to determine if it should send read receipts in the room.
 
-The format for delivery notifications and read receipts is described in Section 5.12 of {{?I-D.ietf-mimi-content}}.
+The format for delivery notifications and read receipts is described in {{?I-D.mahy-mimi-message-status}}.
 
-If pseudonymous_ids is true, clients in the MLS group are free to use pseudonymous identifiers in their MLS credentials. Otherwise the policy of the room is that "real" long-term identifiers are required in MLS credentials in the room's corresponding MLS group.
 
 ## Link, Logging, History, and Bot policies
 
@@ -570,7 +565,7 @@ MLS requires the following parameters to be defined, which must be the same for 
 Application-level identifiers of public key material (specifically the application_id extension as defined in Section 5.3.3 of [RFC9420]).
 
 
-# Role Capabilities
+# Role Capabilities {#caps}
 
 As described in {{roles}}, each role has a list of capabilities, which in rare cases could be empty.
 When we say that the holder of a capability can take some action, we mean that whatever entity is taking the action (a participant, a potential future participant, or an external party) has a specific entry in the Participant List struct and a corresponding role--or is preauthorized to take action with a specific role via the Preauthorized Users struct--and that the `role_capabilities` list contains the relevant capability.
@@ -619,7 +614,7 @@ The membership capabilities below allow authorized holders to update the Partici
 - `canChangeUserRole` - the holder of this capability is authorized to change the role of another participant (but not itself), according to the holder's `authorized_role_changes` list, from a role represented by an entry where the target's current role matches `from_role_index` to any of the non-zero `target_role_indexes` in the same element of `authorized_role_changes`.
   The `minimum_participants_constraint` and `minimum_active_participants_constraint` for the target user's current role, and the `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) for the target user's target role must also be satisfied.
 
-- `canChangeOwnRole` - the holder of this capability is authorized to change its own role to the first non-zero role it matches in the Preauthorized users component (see {{preauthorized-users}}).
+- `canChangeOwnRole` - the holder of this capability is authorized to change its own role to the first non-zero role it matches in the Preauthorized users component (see {{preauth}}).
   The `authorized_role_changes` list is *not* consulted.
   The `minimum_participants_constraint` and `minimum_active_participants_constraint` for the holder's original role, and the
 `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) for the holder's target role must also be satisfied.
@@ -736,6 +731,13 @@ The following capability names are reserved for possible future use
   - PSK - psk policy
   - external proposal - general operational policy rules
   - external commit - general operational policy rules
+
+<!--If `knock_allowed` is true, a non-participant can send a knock requesting access to the target room. If false, a user cannot. This option can only be enabled if the membership_style is members-only. The default is false.
+-->
+<!-- Knock-Enabled vs. Knock-Disabled:
+In a knock-enabled room, non-banned users are allowed to programmatically request entry into the room. In a knock-disabled room this functionality is disabled.
+-->
+
 
 # Extensibility of the policy format
 
