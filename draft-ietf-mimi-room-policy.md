@@ -295,6 +295,7 @@ struct {
     optional uint32 max_users;
     bool pseudonyms_allowed;
     bool persistent_room;
+    bool discoverable;
     Component policy_components<V>;
 } BaseRoomPolicy;
 
@@ -307,6 +308,9 @@ Otherwise the policy of the room is that "real" long-term identifiers are requir
 
 If `persistent_room` is false, the room will be automatically inaccsessible when the corresponding MLS group is destroyed (when there are no clients in the group).
 If `persistent_room` is true, the room policy will remain and a client whose user has appropriate authorization can create a new MLS group for the same room.
+
+If `discoverable` is true, the room is searchable in some way.
+Presumably this means that if `discoverable` is false, the only way to join the room in a client user interface is to be added by an administrator or to use a joining link.
 
 Finally, the other policy components that are relevant to this room are listed in the `policy_components` vector, including the `roles_list` and `preauth_list` components (if present).
 
@@ -342,7 +346,15 @@ If the value is set to "optional", the client uses its local configuration to de
 The format for delivery notifications and read receipts is described in {{?I-D.mahy-mimi-message-status}}.
 
 
-## Link, Logging, History, and Bot policies
+##  Join Link policies component
+
+Inside the LinkPolicy are several fields that describe the behavior of join links.
+If the `on_request` field is true, no joining link will be provided in the room policy; the client will need to fetch a joining link out-of-band or generate a valid one for itself.
+If present, the URI in `link_requests` can be used by the client to request an invite code.
+The value of `join_link` is empty and the other fields are ignored.
+
+If the `on_request` field is false, the `join_link` field will contain a joining link.
+If the link will work for multiple users, `multiuser` is true. The `expiration` field represents the time, in seconds after the start of the UNIX epoch (1-January-1970) when the link will expire. The `link_requests` field can be empty.
 
 ~~~ tls
 struct {
@@ -351,8 +363,23 @@ struct {
   bool multiuser;
   uint32 expiration;
   Uri link_requests;
-} LinkPolicy;
+} JoinLinkPolicy;
 
+JoinLinkPolicy JoinLinkPolicyData;
+JoinLinkPolicy JoinLinkPolicyUpdate;
+~~~
+
+## Link Preview policy component
+
+TBC
+
+## Asset policies component
+
+Assets refer to attached files, images, audio files, and video files.
+
+TBC
+
+~~~ tls
 enum {
   direct(0),
   hubProxy(1),
@@ -383,6 +410,24 @@ struct {
   uint64 max_attachment;
 } AssetPolicy;
 
+AssetPolicy AssetPolicyData;
+AssetPolicy AssetPolicyUpdate;
+~~~
+
+
+## Logging policy component
+
+Some messaging systems (for example in the health care or financial services sectors) often require mandatory logging of calls and messages.
+The goal of these policies is to make detection of such policies automatic, to allow clients to make appropriate local policy decisions when such policies exist.
+
+Inside the LoggingPolicy, the `logging` field can be forbidden, optional, or required.
+If `logging` is forbidden then the other fields are empty.
+If logging is required, the list of `logging_clients` needs to contain at least one logging URI.
+Each provider should have no more than one logging client at a time in a room.
+The `machine_readable_policy` and `human_readable_policy` fields optionally contain pointers to the owning provider's machine readable and human readable logging policies, respectively.
+If logging is optional and there is at least one `logging_client` then logging is active for the room.
+
+~~~ tls
 struct {
   Optionality logging;
   Uri logging_clients<V>;
@@ -390,61 +435,69 @@ struct {
   Uri human_readable_policy;
 } LoggingPolicy;
 
+LoggingPolicy LoggingPolicyData;
+LoggingPolicy LoggingPolicyUpdate;
+~~~
+
+
+## Chat history policy component
+
+One of the most requested features of instant messaging systems is that new joiners can view some or all of the message history before joining.
+While useful, it has serious implications to the privacy of existing members, and substantially weakens forward secrecy (FS) (See {{Section 8.2.2 of ?RFC9750}}).
+
+Inside the HistoryPolicy, if `history_sharing` is forbidden, this means that clients (including bots) are expected to not to share chat history with new joiners, in which case `roles_that_can_share` is empty, `automatically_share` is false, and `max_time_period` is zero.
+Otherwise `roles_that_can_share` is a list of roles that are authorized to share history (for example, only admins and owners can share). The role index zero (non-participant) and one (banned) cannot be used in the `who_can_share` list, nor can any role where `max_active_participants` is zero.
+If `automatically_share` is true, clients can share history with new joiners without user initiation.
+The history that is shared is limited to `max_time_period` seconds worth of history.
+
+~~~ tls
 struct {
   Optionality history_sharing;
-  Role who_can_share<V>;
+  uint32 roles_that_can_share<V>;
   bool automatically_share;
   uint32 max_time_period;
 } HistoryPolicy;
 
+HistoryPolicy HistoryPolicyData;
+HistoryPolicy HistoryPolicyUpdate;
+~~~
+
+
+## Chat bot policy component
+
+There are several types of chat bot in instant messaging systems, some of which only interact with
+
+Inside the BotPolicy there is a list of `allowed_bots`, each of which has several fields.
+The `name`, `description`, and `homepage` are merely descriptive.
+The `bot_role_index` indicates the role index in that the bot operates, which controls the capbilities of the bot.
+
+If `can_target_message_in_group` is true it indicates that the chat bot can send an MLS targeted message (see Section 2.2 of [I-D.ietf-mls-extensions]) or use a different conversation or out-of-band channel to send a message to specific individual users in the room.
+
+If `per_user_content` is true, the chat bot is allowed to send messages with distinct content to each member.
+(For example a poker bot could deal a different hand to each user in a chat).
+
+Users could set policies to reject or leave groups with bots rights that are inconsistent with the user's privacy goals.
+
+~~~ tls
 struct {
   opaque name<V>;
   opaque description<V>;
   Uri homepage;
-  Role bot_role;
-  bool can_read;
-  bool can_write;
+  uint32 bot_role_index_;
   bool can_target_message_in_group;
   bool per_user_content;
 } Bot;
 
 struct {
-  ...
-  bool discoverable;
-  LinkPolicy link_policy;
-  AssetPolicy asset_policy;
-  LoggingPolicy logging_policy;
-  HistoryPolicy history_sharing;
   Bot allowed_bots<V>;
-  ...
-} RoomPolicy;
+} BotPolicy;
+
+BotPolicy BotPolicyData;
+BotPolicy BotPolicyUpdate;
 ~~~
 
-## Link policies
 
-If discoverable is true, the room is searchable. Presumably this means the the only way to join the room in a client user interface is to be added by an administrator or to use a joining link.
-Inside the LinkPolicy are several fields that describe the behavior of links.If the on_request field is true, no joining link will be provided in the room policy; the client will need to fetch a joining link out-of-band or generate a valid one for itself. If present, the URI in link_requests can be used by the client to request an invite code. The value of join_link is empty and the other fields are ignored.If the on_request field is false, the join_link field will contain a joining link. If the link will work for multiple users, multiuser is true. The expiration field represents the time, in seconds after the start of the UNIX epoch (1-January-1970) when the link will expire. The link_requests field can be empty.
-
-## Asset policies
-
-Assets refer to attached files, images, audio files, and video files.
-
-## Logging policies
-
-Inside the LoggingPolicy, the logging field can be forbidden, optional, or required. If logging is forbidden then the other fields are empty. If logging is required, the list of logging_clients needs to contain at least one logging URI. Each provider should have no more than one logging client at a time in a room. The machine_readable_policy and human_readable_policy fields optionally contain pointers to the owning provider's machine readable and human readable logging policies, respectively. If logging is optional and there is at least one logging_client then logging is active for the room.
-
-## Chat history policies
-
-Inside the HistoryPolicy, if history_sharing is forbidden, this means that clients (including bots) are expected to not to share chat history with new joiners, in which case who_can_share is empty, automatically_share is false, and max_time_period is zero.
-Otherwise who_can_share is a list of roles that are authorized to share history (for example, only admins and owners can share). The values of none and outcast cannot be used in who_can_share. If automatically_share is true, clients can share history with new joiners without user initiation. The history that is shared is limited to max_time_period seconds worth of history.
-
-## Chat bot policies
-
-Inside the RoomPolicy there is a list of allowed_bots. Each of which has several fields. The name, description, and homepage are merely descriptive. The bot_role indicates if the chat bot would be treated as a system-user, owner, admin, regular_user, or visitor.
-The can_read and can_write fields indicate if the chat bot is allowed to read messages or send messages in the MLS group, respectively. If can_target_message_in_group is true it indicates that the chat bot can send an MLS targeted message (see Section 2.2 of [I-D.ietf-mls-extensions]) or use a different conversation or out-of-band channel to send a message to specific individual users in the room. If per_user_content is true, the chat bot is allowed to send messages with distinct content to each member. (For example a poker bot could deal a different hand to each user in a chat).Users could set policies to reject or leave groups with bots rights that are inconsistent with the user's privacy goals.
-
-
-# Operational policy
+# Operational policy component
 
 Section 7 of the {{?RFC9750}} defines a set of operational
 policy considerations that influence interoperability of MLS clients. MIMI
@@ -508,6 +561,7 @@ enum {
   randomDelay(2),
   preferenceWheel(3),
   designatedCommitter(4),
+  treeProximity(5)
   (255)
 } PendingProposalStrategy;
 
@@ -548,6 +602,9 @@ struct {
   MinDefaultMaxTime buffer_incoming_message_time;
   uint32 max_buffered_messages;
 } OperationalParameters;
+
+OperationalParameters OperationalParametersData;
+OperationalParameters OperationalParametersUpdate;
 ~~~
 
 ## Not relevant to MIMI (between client and its provider)
@@ -560,6 +617,8 @@ struct {
 How to protect and share the GroupInfo objects needed for external joins.
 
 If an application wishes to detect and possibly discipline members that send malformed commits with the intention of corrupting a group's state, there must be a method for reporting and validating malformed commits.
+
+
 MLS requires the following parameters to be defined, which must be the same for two implementations to interoperate:
 
 Application-level identifiers of public key material (specifically the application_id extension as defined in Section 5.3.3 of [RFC9420]).
