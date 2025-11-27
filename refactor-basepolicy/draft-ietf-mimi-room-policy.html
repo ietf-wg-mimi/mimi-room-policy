@@ -1050,7 +1050,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Mahy</td>
-<td class="center">Expires 30 May 2026</td>
+<td class="center">Expires 31 May 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-mimi-room-policy-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-11-26" class="published">26 November 2025</time>
+<time datetime="2025-11-27" class="published">27 November 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-05-30">30 May 2026</time></dd>
+<dd class="expires"><time datetime="2026-05-31">31 May 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1121,7 +1121,7 @@ to model a wide range of chat and multimedia conference types.<a href="#section-
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 30 May 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 31 May 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1171,7 +1171,7 @@ to model a wide range of chat and multimedia conference types.<a href="#section-
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-base-room-policy-component-" class="internal xref">Base Room policy component syntax</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-other-policy-components" class="internal xref">Other policy components</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-other-mimi-policy-component" class="internal xref">Other MIMI policy components</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-status-notifications-compon" class="internal xref">Status Notifications component</a></p>
@@ -1193,6 +1193,9 @@ to model a wide range of chat and multimedia conference types.<a href="#section-
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.7">
                 <p id="section-toc.1-1.6.2.7.1"><a href="#section-6.7" class="auto internal xref">6.7</a>.  <a href="#name-chat-bot-policy-component" class="internal xref">Chat bot policy component</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.8">
+                <p id="section-toc.1-1.6.2.8.1"><a href="#section-6.8" class="auto internal xref">6.8</a>.  <a href="#name-message-expiration-policy-c" class="internal xref">Message expiration policy component</a></p>
 </li>
             </ul>
 </li>
@@ -1246,13 +1249,45 @@ to model a wide range of chat and multimedia conference types.<a href="#section-
             <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
-                <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="auto internal xref">11.1</a>.  <a href="#name-preauthorized-users-mls-app" class="internal xref">Preauthorized users MLS application component</a></p>
+                <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="auto internal xref">11.1</a>.  <a href="#name-new-mls-application-compone" class="internal xref">New MLS application components</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.1">
+                    <p id="section-toc.1-1.11.2.1.2.1.1"><a href="#section-11.1.1" class="auto internal xref">11.1.1</a>.  <a href="#name-mls_operational_policy-mls-" class="internal xref">mls_operational_policy MLS Component Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.2">
+                    <p id="section-toc.1-1.11.2.1.2.2.1"><a href="#section-11.1.2" class="auto internal xref">11.1.2</a>.  <a href="#name-role_list-mls-component-typ" class="internal xref">role_list MLS Component Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.3">
+                    <p id="section-toc.1-1.11.2.1.2.3.1"><a href="#section-11.1.3" class="auto internal xref">11.1.3</a>.  <a href="#name-preauth_list-mls-component-" class="internal xref">preauth_list MLS Component Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.4">
+                    <p id="section-toc.1-1.11.2.1.2.4.1"><a href="#section-11.1.4" class="auto internal xref">11.1.4</a>.  <a href="#name-status_notification_policy-" class="internal xref">status_notification_policy MLS Component Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.5">
+                    <p id="section-toc.1-1.11.2.1.2.5.1"><a href="#section-11.1.5" class="auto internal xref">11.1.5</a>.  <a href="#name-join_link_policy-mls-compon" class="internal xref">join_link_policy MLS Component Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.6">
+                    <p id="section-toc.1-1.11.2.1.2.6.1"><a href="#section-11.1.6" class="auto internal xref">11.1.6</a>.  <a href="#name-link_preview_policy-mls-com" class="internal xref">link_preview_policy MLS Component Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.7">
+                    <p id="section-toc.1-1.11.2.1.2.7.1"><a href="#section-11.1.7" class="auto internal xref">11.1.7</a>.  <a href="#name-asset_policy-mls-component-" class="internal xref">asset_policy MLS Component Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.8">
+                    <p id="section-toc.1-1.11.2.1.2.8.1"><a href="#section-11.1.8" class="auto internal xref">11.1.8</a>.  <a href="#name-logging_policy-mls-componen" class="internal xref">logging_policy MLS Component Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.9">
+                    <p id="section-toc.1-1.11.2.1.2.9.1"><a href="#section-11.1.9" class="auto internal xref">11.1.9</a>.  <a href="#name-chat_history_policy-mls-com" class="internal xref">chat_history_policy MLS Component Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.10">
+                    <p id="section-toc.1-1.11.2.1.2.10.1"><a href="#section-11.1.10" class="auto internal xref">11.1.10</a>. <a href="#name-bot_policy-mls-component-ty" class="internal xref">bot_policy MLS Component Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.11">
+                    <p id="section-toc.1-1.11.2.1.2.11.1"><a href="#section-11.1.11" class="auto internal xref">11.1.11</a>. <a href="#name-message-expiration-policy-co" class="internal xref">Message expiration policy component</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
-                <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="auto internal xref">11.2</a>.  <a href="#name-role-definitions-mls-applic" class="internal xref">Role definitions MLS application component</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3">
-                <p id="section-toc.1-1.11.2.3.1"><a href="#section-11.3" class="auto internal xref">11.3</a>.  <a href="#name-new-mimi-role-capabilities-" class="internal xref">New MIMI Role Capabilities registry</a></p>
+                <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="auto internal xref">11.2</a>.  <a href="#name-new-mimi-role-capabilities-" class="internal xref">New MIMI Role Capabilities registry</a></p>
 </li>
             </ul>
 </li>
@@ -1549,12 +1584,12 @@ Presumably this means that if <code>discoverable</code> is false, the only way t
 <p id="section-5-12">Finally, the other policy components that are relevant to this room are listed in the <code>policy_components</code> vector, including the <code>roles_list</code> and <code>preauth_list</code> components (if present).<a href="#section-5-12" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="other-policy-components">
+<div id="other-mimi-policy-components">
 <section id="section-6">
-      <h2 id="name-other-policy-components">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-other-policy-components" class="section-name selfRef">Other policy components</a>
+      <h2 id="name-other-mimi-policy-component">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-other-mimi-policy-component" class="section-name selfRef">Other MIMI policy components</a>
       </h2>
-<div id="status-notifications-component">
+<div id="status-notification">
 <section id="section-6.1">
         <h3 id="name-status-notifications-compon">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-status-notifications-compon" class="section-name selfRef">Status Notifications component</a>
@@ -1585,7 +1620,7 @@ If the value is set to "optional", the client uses its local configuration to de
 <p id="section-6.1-5">The format for delivery notifications and read receipts is described in <span>[<a href="#I-D.mahy-mimi-message-status" class="cite xref">I-D.mahy-mimi-message-status</a>]</span>.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="join-link-policies-component">
+<div id="join-link">
 <section id="section-6.2">
         <h3 id="name-join-link-policies-componen">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-join-link-policies-componen" class="section-name selfRef">Join Link policies component</a>
@@ -1612,7 +1647,7 @@ JoinLinkPolicy JoinLinkPolicyUpdate;
 </div>
 </section>
 </div>
-<div id="link-preview-policy-component">
+<div id="link-preview">
 <section id="section-6.3">
         <h3 id="name-link-preview-policy-compone">
 <a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-link-preview-policy-compone" class="section-name selfRef">Link Preview policy component</a>
@@ -1620,7 +1655,7 @@ JoinLinkPolicy JoinLinkPolicyUpdate;
 <p id="section-6.3-1">TBC<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="asset-policies-component">
+<div id="assets">
 <section id="section-6.4">
         <h3 id="name-asset-policies-component">
 <a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-asset-policies-component" class="section-name selfRef">Asset policies component</a>
@@ -1665,7 +1700,7 @@ AssetPolicy AssetPolicyUpdate;
 </div>
 </section>
 </div>
-<div id="logging-policy-component">
+<div id="logging">
 <section id="section-6.5">
         <h3 id="name-logging-policy-component">
 <a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-logging-policy-component" class="section-name selfRef">Logging policy component</a>
@@ -1693,7 +1728,7 @@ LoggingPolicy LoggingPolicyUpdate;
 </div>
 </section>
 </div>
-<div id="chat-history-policy-component">
+<div id="history">
 <section id="section-6.6">
         <h3 id="name-chat-history-policy-compone">
 <a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-chat-history-policy-compone" class="section-name selfRef">Chat history policy component</a>
@@ -1719,7 +1754,7 @@ HistoryPolicy HistoryPolicyUpdate;
 </div>
 </section>
 </div>
-<div id="chat-bot-policy-component">
+<div id="bots">
 <section id="section-6.7">
         <h3 id="name-chat-bot-policy-component">
 <a href="#section-6.7" class="section-number selfRef">6.7. </a><a href="#name-chat-bot-policy-component" class="section-name selfRef">Chat bot policy component</a>
@@ -1753,9 +1788,35 @@ BotPolicy BotPolicyUpdate;
 </div>
 </section>
 </div>
+<div id="message-expiration">
+<section id="section-6.8">
+        <h3 id="name-message-expiration-policy-c">
+<a href="#section-6.8" class="section-number selfRef">6.8. </a><a href="#name-message-expiration-policy-c" class="section-name selfRef">Message expiration policy component</a>
+        </h3>
+<p id="section-6.8-1">Many instant messaging systems have an automatically expiring messages feature.<a href="#section-6.8-1" class="pilcrow">¶</a></p>
+<p id="section-6.8-2">If expiring messages are required, optional, or forbidden is controlled by the <code>expiring_messages</code> field.<a href="#section-6.8-2" class="pilcrow">¶</a></p>
+<p id="section-6.8-3">When <code>expiring_messages</code> are required or optional, the <code>min_expiration_duration</code> indicates the shortest acceptable expiration duration in seconds.
+The <code>max_expiration_duration</code> indicates the longest acceptable duration in seconds.
+The <code>default_expiration_duration</code> optionally indicates a preferred duration in seconds.<a href="#section-6.8-3" class="pilcrow">¶</a></p>
+<p id="section-6.8-4">When <code>expiring_messages</code> is forbidden, both the <code>min_expiration_duration</code> and the <code>max_expiration_duration</code> are set to zero, and the <code>default_expiration_duration</code> is not present.<a href="#section-6.8-4" class="pilcrow">¶</a></p>
+<div class="lang-tls sourcecode" id="section-6.8-5">
+<pre>
+struct {
+  Optionality expiring_messages;
+  uint32 min_expiration_duration;
+  uint32 max_expiration_duration;
+  optional uint32 default_expiration_duration;
+} MessageExpiration;
+
+MessageExpiration MessageExpirationData;
+MessageExpiration MessageExpirationUpdate;
+</pre><a href="#section-6.8-5" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
-<div id="operational-policy-component">
+</section>
+</div>
+<div id="operational">
 <section id="section-7">
       <h2 id="name-operational-policy-componen">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-operational-policy-componen" class="section-name selfRef">Operational policy component</a>
@@ -1954,7 +2015,7 @@ OperationalParameters OperationalParametersUpdate;
 <p id="section-7.3-1">How to protect and share the GroupInfo objects needed for external joins.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 <p id="section-7.3-2">If an application wishes to detect and possibly discipline members that send malformed commits with the intention of corrupting a group's state, there must be a method for reporting and validating malformed commits.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
 <p id="section-7.3-3">MLS requires the following parameters to be defined, which must be the same for two implementations to interoperate:<a href="#section-7.3-3" class="pilcrow">¶</a></p>
-<p id="section-7.3-4">Application-level identifiers of public key material (specifically the application_id extension as defined in Section 5.3.3 of [RFC9420]).<a href="#section-7.3-4" class="pilcrow">¶</a></p>
+<p id="section-7.3-4">Application-level identifiers of public key material (specifically the application_id extension as defined in <span><a href="https://rfc-editor.org/rfc/rfc9420#section-5.3.3" class="relref">Section 5.3.3</a> of [<a href="#RFC9420" class="cite xref">RFC9420</a>]</span>).<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2355,336 +2416,684 @@ TODO More Security<a href="#section-10-1" class="pilcrow">¶</a></p>
       <h2 id="name-iana-considerations">
 <a href="#section-11" class="section-number selfRef">11. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<div id="preauthorized-users-mls-application-component">
+<p id="section-11-1">RFC EDITOR: Please replace XXXX throughout with the RFC number assigned to this document.<a href="#section-11-1" class="pilcrow">¶</a></p>
+<div id="new-mls-application-components">
 <section id="section-11.1">
-        <h3 id="name-preauthorized-users-mls-app">
-<a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-preauthorized-users-mls-app" class="section-name selfRef">Preauthorized users MLS application component</a>
+        <h3 id="name-new-mls-application-compone">
+<a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-new-mls-application-compone" class="section-name selfRef">New MLS application components</a>
         </h3>
-<p id="section-11.1-1">TBC<a href="#section-11.1-1" class="pilcrow">¶</a></p>
+<p id="section-11.1-1">This document registers the following MLS Component Types per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-mls-extensions-08#section-7.5" class="relref">Section 7.5</a> of [<a href="#I-D.ietf-mls-extensions" class="cite xref">I-D.ietf-mls-extensions</a>]</span>.<a href="#section-11.1-1" class="pilcrow">¶</a></p>
+<div id="mlsoperationalpolicy-mls-component-type">
+<section id="section-11.1.1">
+          <h4 id="name-mls_operational_policy-mls-">
+<a href="#section-11.1.1" class="section-number selfRef">11.1.1. </a><a href="#name-mls_operational_policy-mls-" class="section-name selfRef">mls_operational_policy MLS Component Type</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-11.1.1-1.1">
+              <p id="section-11.1.1-1.1.1">Value: TBD0<a href="#section-11.1.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.1-1.2">
+              <p id="section-11.1.1-1.2.1">Name: mls_operational_policy<a href="#section-11.1.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.1-1.3">
+              <p id="section-11.1.1-1.3.1">Where: GC<a href="#section-11.1.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.1-1.4">
+              <p id="section-11.1.1-1.4.1">Recommended: Y<a href="#section-11.1.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.1-1.5">
+              <p id="section-11.1.1-1.5.1">Reference: <a href="#operational" class="auto internal xref">Section 7</a> of RFCXXXX<a href="#section-11.1.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
-<div id="role-definitions-mls-application-component">
-<section id="section-11.2">
-        <h3 id="name-role-definitions-mls-applic">
-<a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-role-definitions-mls-applic" class="section-name selfRef">Role definitions MLS application component</a>
-        </h3>
-<p id="section-11.2-1">TBC<a href="#section-11.2-1" class="pilcrow">¶</a></p>
+<div id="rolelist-mls-component-type">
+<section id="section-11.1.2">
+          <h4 id="name-role_list-mls-component-typ">
+<a href="#section-11.1.2" class="section-number selfRef">11.1.2. </a><a href="#name-role_list-mls-component-typ" class="section-name selfRef">role_list MLS Component Type</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-11.1.2-1.1">
+              <p id="section-11.1.2-1.1.1">Value: TBD1<a href="#section-11.1.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.2-1.2">
+              <p id="section-11.1.2-1.2.1">Name: role_list<a href="#section-11.1.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.2-1.3">
+              <p id="section-11.1.2-1.3.1">Where: GC<a href="#section-11.1.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.2-1.4">
+              <p id="section-11.1.2-1.4.1">Recommended: Y<a href="#section-11.1.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.2-1.5">
+              <p id="section-11.1.2-1.5.1">Reference: <a href="#roles" class="auto internal xref">Section 3</a> of RFCXXXX<a href="#section-11.1.2-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="preauthlist-mls-component-type">
+<section id="section-11.1.3">
+          <h4 id="name-preauth_list-mls-component-">
+<a href="#section-11.1.3" class="section-number selfRef">11.1.3. </a><a href="#name-preauth_list-mls-component-" class="section-name selfRef">preauth_list MLS Component Type</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-11.1.3-1.1">
+              <p id="section-11.1.3-1.1.1">Value: TBD2<a href="#section-11.1.3-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.3-1.2">
+              <p id="section-11.1.3-1.2.1">Name: preauth_list<a href="#section-11.1.3-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.3-1.3">
+              <p id="section-11.1.3-1.3.1">Where: GC<a href="#section-11.1.3-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.3-1.4">
+              <p id="section-11.1.3-1.4.1">Recommended: Y<a href="#section-11.1.3-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.3-1.5">
+              <p id="section-11.1.3-1.5.1">Reference: <a href="#preauth" class="auto internal xref">Section 4</a> of RFCXXXX<a href="#section-11.1.3-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="statusnotificationpolicy-mls-component-type">
+<section id="section-11.1.4">
+          <h4 id="name-status_notification_policy-">
+<a href="#section-11.1.4" class="section-number selfRef">11.1.4. </a><a href="#name-status_notification_policy-" class="section-name selfRef">status_notification_policy MLS Component Type</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-11.1.4-1.1">
+              <p id="section-11.1.4-1.1.1">Value: TBD3<a href="#section-11.1.4-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.4-1.2">
+              <p id="section-11.1.4-1.2.1">Name: status_notification_policy<a href="#section-11.1.4-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.4-1.3">
+              <p id="section-11.1.4-1.3.1">Where: GC<a href="#section-11.1.4-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.4-1.4">
+              <p id="section-11.1.4-1.4.1">Recommended: Y<a href="#section-11.1.4-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.4-1.5">
+              <p id="section-11.1.4-1.5.1">Reference: <a href="#status-notification" class="auto internal xref">Section 6.1</a> of RFCXXXX<a href="#section-11.1.4-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="joinlinkpolicy-mls-component-type">
+<section id="section-11.1.5">
+          <h4 id="name-join_link_policy-mls-compon">
+<a href="#section-11.1.5" class="section-number selfRef">11.1.5. </a><a href="#name-join_link_policy-mls-compon" class="section-name selfRef">join_link_policy MLS Component Type</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-11.1.5-1.1">
+              <p id="section-11.1.5-1.1.1">Value: TBD4<a href="#section-11.1.5-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.5-1.2">
+              <p id="section-11.1.5-1.2.1">Name: join_link_policy<a href="#section-11.1.5-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.5-1.3">
+              <p id="section-11.1.5-1.3.1">Where: GC<a href="#section-11.1.5-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.5-1.4">
+              <p id="section-11.1.5-1.4.1">Recommended: Y<a href="#section-11.1.5-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.5-1.5">
+              <p id="section-11.1.5-1.5.1">Reference: <a href="#join-link" class="auto internal xref">Section 6.2</a> of RFCXXXX<a href="#section-11.1.5-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="linkpreviewpolicy-mls-component-type">
+<section id="section-11.1.6">
+          <h4 id="name-link_preview_policy-mls-com">
+<a href="#section-11.1.6" class="section-number selfRef">11.1.6. </a><a href="#name-link_preview_policy-mls-com" class="section-name selfRef">link_preview_policy MLS Component Type</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-11.1.6-1.1">
+              <p id="section-11.1.6-1.1.1">Value: TBD5<a href="#section-11.1.6-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.6-1.2">
+              <p id="section-11.1.6-1.2.1">Name: link_preview_policy<a href="#section-11.1.6-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.6-1.3">
+              <p id="section-11.1.6-1.3.1">Where: GC<a href="#section-11.1.6-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.6-1.4">
+              <p id="section-11.1.6-1.4.1">Recommended: Y<a href="#section-11.1.6-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.6-1.5">
+              <p id="section-11.1.6-1.5.1">Reference: <a href="#link-preview" class="auto internal xref">Section 6.3</a> of RFCXXXX<a href="#section-11.1.6-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="assetpolicy-mls-component-type">
+<section id="section-11.1.7">
+          <h4 id="name-asset_policy-mls-component-">
+<a href="#section-11.1.7" class="section-number selfRef">11.1.7. </a><a href="#name-asset_policy-mls-component-" class="section-name selfRef">asset_policy MLS Component Type</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-11.1.7-1.1">
+              <p id="section-11.1.7-1.1.1">Value: TBD6<a href="#section-11.1.7-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.7-1.2">
+              <p id="section-11.1.7-1.2.1">Name: asset_policy<a href="#section-11.1.7-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.7-1.3">
+              <p id="section-11.1.7-1.3.1">Where: GC<a href="#section-11.1.7-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.7-1.4">
+              <p id="section-11.1.7-1.4.1">Recommended: Y<a href="#section-11.1.7-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.7-1.5">
+              <p id="section-11.1.7-1.5.1">Reference: <a href="#assets" class="auto internal xref">Section 6.4</a> of RFCXXXX<a href="#section-11.1.7-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="loggingpolicy-mls-component-type">
+<section id="section-11.1.8">
+          <h4 id="name-logging_policy-mls-componen">
+<a href="#section-11.1.8" class="section-number selfRef">11.1.8. </a><a href="#name-logging_policy-mls-componen" class="section-name selfRef">logging_policy MLS Component Type</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-11.1.8-1.1">
+              <p id="section-11.1.8-1.1.1">Value: TBD7<a href="#section-11.1.8-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.8-1.2">
+              <p id="section-11.1.8-1.2.1">Name: logging_policy<a href="#section-11.1.8-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.8-1.3">
+              <p id="section-11.1.8-1.3.1">Where: GC<a href="#section-11.1.8-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.8-1.4">
+              <p id="section-11.1.8-1.4.1">Recommended: Y<a href="#section-11.1.8-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.8-1.5">
+              <p id="section-11.1.8-1.5.1">Reference: <a href="#logging" class="auto internal xref">Section 6.5</a> of RFCXXXX<a href="#section-11.1.8-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="chathistorypolicy-mls-component-type">
+<section id="section-11.1.9">
+          <h4 id="name-chat_history_policy-mls-com">
+<a href="#section-11.1.9" class="section-number selfRef">11.1.9. </a><a href="#name-chat_history_policy-mls-com" class="section-name selfRef">chat_history_policy MLS Component Type</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-11.1.9-1.1">
+              <p id="section-11.1.9-1.1.1">Value: TBD8<a href="#section-11.1.9-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.9-1.2">
+              <p id="section-11.1.9-1.2.1">Name: chat_history_policy<a href="#section-11.1.9-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.9-1.3">
+              <p id="section-11.1.9-1.3.1">Where: GC<a href="#section-11.1.9-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.9-1.4">
+              <p id="section-11.1.9-1.4.1">Recommended: Y<a href="#section-11.1.9-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.9-1.5">
+              <p id="section-11.1.9-1.5.1">Reference: <a href="#history" class="auto internal xref">Section 6.6</a> of RFCXXXX<a href="#section-11.1.9-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="botpolicy-mls-component-type">
+<section id="section-11.1.10">
+          <h4 id="name-bot_policy-mls-component-ty">
+<a href="#section-11.1.10" class="section-number selfRef">11.1.10. </a><a href="#name-bot_policy-mls-component-ty" class="section-name selfRef">bot_policy MLS Component Type</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-11.1.10-1.1">
+              <p id="section-11.1.10-1.1.1">Value: TBD9<a href="#section-11.1.10-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.10-1.2">
+              <p id="section-11.1.10-1.2.1">Name: bot_policy<a href="#section-11.1.10-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.10-1.3">
+              <p id="section-11.1.10-1.3.1">Where: GC<a href="#section-11.1.10-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.10-1.4">
+              <p id="section-11.1.10-1.4.1">Recommended: Y<a href="#section-11.1.10-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.10-1.5">
+              <p id="section-11.1.10-1.5.1">Reference: <a href="#bots" class="auto internal xref">Section 6.7</a> of RFCXXXX<a href="#section-11.1.10-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="message-expiration-policy-component">
+<section id="section-11.1.11">
+          <h4 id="name-message-expiration-policy-co">
+<a href="#section-11.1.11" class="section-number selfRef">11.1.11. </a><a href="#name-message-expiration-policy-co" class="section-name selfRef">Message expiration policy component</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-11.1.11-1.1">
+              <p id="section-11.1.11-1.1.1">Value: TBD10<a href="#section-11.1.11-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.11-1.2">
+              <p id="section-11.1.11-1.2.1">Name: message_expiration_policy<a href="#section-11.1.11-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.11-1.3">
+              <p id="section-11.1.11-1.3.1">Where: GC<a href="#section-11.1.11-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.11-1.4">
+              <p id="section-11.1.11-1.4.1">Recommended: Y<a href="#section-11.1.11-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-11.1.11-1.5">
+              <p id="section-11.1.11-1.5.1">Reference: <a href="#message-expiration" class="auto internal xref">Section 6.8</a> of RFCXXXX<a href="#section-11.1.11-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="new-mimi-role-capabilities-registry">
-<section id="section-11.3">
+<section id="section-11.2">
         <h3 id="name-new-mimi-role-capabilities-">
-<a href="#section-11.3" class="section-number selfRef">11.3. </a><a href="#name-new-mimi-role-capabilities-" class="section-name selfRef">New MIMI Role Capabilities registry</a>
+<a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-new-mimi-role-capabilities-" class="section-name selfRef">New MIMI Role Capabilities registry</a>
         </h3>
-<p id="section-11.3-1">Create a new registry with the following values assigned sequentially using the reference RFCXXXX.<a href="#section-11.3-1" class="pilcrow">¶</a></p>
+<p id="section-11.2-1">This document requests the creation of a new IANA "MIMI Role Capabilities" registry.
+The registry should be under the heading of "More Instant Messaging Interoperability (MIMI)".
+Assignments to this registry in the range 0x0000 to 0xF000 are via Specification Required policy <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span> using the MIMI Designated Experts.
+Assignments in the range 0xF000 to 0xFFFF are for private use.<a href="#section-11.2-1" class="pilcrow">¶</a></p>
+<p id="section-11.2-2">Template:<a href="#section-11.2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-11.2-3.1">
+            <p id="section-11.2-3.1.1">Value: The numeric value of the role capability<a href="#section-11.2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-11.2-3.2">
+            <p id="section-11.2-3.2.1">Name: The name of the role capability<a href="#section-11.2-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-11.2-3.3">
+            <p id="section-11.2-3.3.1">Reference: The document where this role capability is defined<a href="#section-11.2-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 <table class="center" id="table-1">
           <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Value</th>
               <th class="text-left" rowspan="1" colspan="1">Name</th>
+              <th class="text-left" rowspan="1" colspan="1">Reference</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0000</td>
               <td class="text-left" rowspan="1" colspan="1">canAddParticipant</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0001</td>
               <td class="text-left" rowspan="1" colspan="1">canRemoveParticipant</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0002</td>
               <td class="text-left" rowspan="1" colspan="1">canAddOwnClient</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0003</td>
               <td class="text-left" rowspan="1" colspan="1">canRemoveOwnClient</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0004</td>
               <td class="text-left" rowspan="1" colspan="1">canAddSelf</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0005</td>
               <td class="text-left" rowspan="1" colspan="1">canRemoveSelf</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0006</td>
               <td class="text-left" rowspan="1" colspan="1">canCreateJoinCode (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0007</td>
               <td class="text-left" rowspan="1" colspan="1">canUseJoinCode</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0008</td>
               <td class="text-left" rowspan="1" colspan="1">canBan</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0009</td>
               <td class="text-left" rowspan="1" colspan="1">canUnBan</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000a</td>
               <td class="text-left" rowspan="1" colspan="1">canKick</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000b</td>
               <td class="text-left" rowspan="1" colspan="1">canKnock (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000c</td>
               <td class="text-left" rowspan="1" colspan="1">canAcceptKnock (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000d</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeUserRole</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000e</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeOwnRole</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000f</td>
               <td class="text-left" rowspan="1" colspan="1">canCreateSubgroup (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0100</td>
               <td class="text-left" rowspan="1" colspan="1">canSendMessage</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0101</td>
               <td class="text-left" rowspan="1" colspan="1">canReceiveMessage</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0102</td>
               <td class="text-left" rowspan="1" colspan="1">canCopyMessage</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0103</td>
               <td class="text-left" rowspan="1" colspan="1">canReportAbuse</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0104</td>
               <td class="text-left" rowspan="1" colspan="1">canReplyToMessage</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0105</td>
               <td class="text-left" rowspan="1" colspan="1">canReactToMessage</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0106</td>
               <td class="text-left" rowspan="1" colspan="1">canEditReaction</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0107</td>
               <td class="text-left" rowspan="1" colspan="1">canDeleteOwnReaction</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0108</td>
               <td class="text-left" rowspan="1" colspan="1">canDeleteOtherReaction</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0109</td>
               <td class="text-left" rowspan="1" colspan="1">canEditOwnMessage</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x010a</td>
               <td class="text-left" rowspan="1" colspan="1">canDeleteOwnMessage</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x010b</td>
               <td class="text-left" rowspan="1" colspan="1">canDeleteOtherMessage</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x010c</td>
               <td class="text-left" rowspan="1" colspan="1">canStartTopic</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x010d</td>
               <td class="text-left" rowspan="1" colspan="1">canReplyInTopic</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x010e</td>
               <td class="text-left" rowspan="1" colspan="1">canEditOwnTopic</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x010f</td>
               <td class="text-left" rowspan="1" colspan="1">canEditOtherTopic</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0111</td>
               <td class="text-left" rowspan="1" colspan="1">canSendDirectMessage (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0111</td>
               <td class="text-left" rowspan="1" colspan="1">canTargetMessage (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0200</td>
               <td class="text-left" rowspan="1" colspan="1">canUploadImage</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0201</td>
               <td class="text-left" rowspan="1" colspan="1">canUploadAudio</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0202</td>
               <td class="text-left" rowspan="1" colspan="1">canUploadVideo</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0203</td>
               <td class="text-left" rowspan="1" colspan="1">canUploadAttachment</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0204</td>
               <td class="text-left" rowspan="1" colspan="1">canDownloadImage</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0205</td>
               <td class="text-left" rowspan="1" colspan="1">canDownloadAudio</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0206</td>
               <td class="text-left" rowspan="1" colspan="1">canDownloadVideo</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0207</td>
               <td class="text-left" rowspan="1" colspan="1">canDownloadAttachment</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0208</td>
               <td class="text-left" rowspan="1" colspan="1">canSendLink</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0209</td>
               <td class="text-left" rowspan="1" colspan="1">canSendLinkPreview</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x020a</td>
               <td class="text-left" rowspan="1" colspan="1">canFollowLink</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x020b</td>
               <td class="text-left" rowspan="1" colspan="1">canCopyLink</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0300</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeRoomName</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0301</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeRoomDescription</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0302</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeRoomAvatar</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0303</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeRoomSubject</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0304</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeRoomMood</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0380</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeOwnName (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0381</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeOwnPresence (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0382</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeOwnMood (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0383</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeOwnAvatar (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0400</td>
               <td class="text-left" rowspan="1" colspan="1">canStartCall</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0401</td>
               <td class="text-left" rowspan="1" colspan="1">canJoinCall</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0402</td>
               <td class="text-left" rowspan="1" colspan="1">canSendAudio</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0403</td>
               <td class="text-left" rowspan="1" colspan="1">canReceiveAudio</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0404</td>
               <td class="text-left" rowspan="1" colspan="1">canSendVideo</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0405</td>
               <td class="text-left" rowspan="1" colspan="1">canReceiveVideo</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0406</td>
               <td class="text-left" rowspan="1" colspan="1">canShareScreen</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0407</td>
               <td class="text-left" rowspan="1" colspan="1">canViewSharedScreen</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0500</td>
               <td class="text-left" rowspan="1" colspan="1">canCreateRoom (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0501</td>
               <td class="text-left" rowspan="1" colspan="1">canDestroyRoom</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0502</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeRoomMembershipStyle</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0503</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeRoleDefinitions</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0504</td>
               <td class="text-left" rowspan="1" colspan="1">canChangePreauthorizedUserList</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0505</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeOtherPolicyAttribute (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0600</td>
               <td class="text-left" rowspan="1" colspan="1">canChangeMlsOperationalPolicies (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0601</td>
               <td class="text-left" rowspan="1" colspan="1">canSendMLSReinitProposal</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0602</td>
               <td class="text-left" rowspan="1" colspan="1">canSendMLSUpdateProposal (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0603</td>
               <td class="text-left" rowspan="1" colspan="1">canSendMLSPSKProposal (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0604</td>
               <td class="text-left" rowspan="1" colspan="1">canSendMLSExternalProposal (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0605</td>
               <td class="text-left" rowspan="1" colspan="1">canSendMLSExternalCommit (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
           </tbody>
         </table>
@@ -2723,9 +3132,17 @@ TODO More Security<a href="#section-10-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC8126">[RFC8126]</dt>
+        <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9420">[RFC9420]</dt>
+      <dd>
+<span class="refAuthor">Barnes, R.</span>, <span class="refAuthor">Beurdouche, B.</span>, <span class="refAuthor">Robert, R.</span>, <span class="refAuthor">Millican, J.</span>, <span class="refAuthor">Omara, E.</span>, and <span class="refAuthor">K. Cohn-Gordon</span>, <span class="refTitle">"The Messaging Layer Security (MLS) Protocol"</span>, <span class="seriesInfo">RFC 9420</span>, <span class="seriesInfo">DOI 10.17487/RFC9420</span>, <time datetime="2023-07" class="refDate">July 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9420">https://www.rfc-editor.org/rfc/rfc9420</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
