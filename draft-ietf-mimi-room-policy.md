@@ -314,9 +314,9 @@ Presumably this means that if `discoverable` is false, the only way to join the 
 
 Finally, the other policy components that are relevant to this room are listed in the `policy_components` vector, including the `roles_list` and `preauth_list` components (if present).
 
-# Other policy components
+# Other MIMI policy components
 
-## Status Notifications component
+## Status Notifications component {#status-notification}
 
 Delivery and Read notifications are a very popular feature of instant messaging systems, but also can leak private information such as the online status of participants.
 Such status notifications can also consume a large amount of resources, especially in large rooms.
@@ -346,7 +346,7 @@ If the value is set to "optional", the client uses its local configuration to de
 The format for delivery notifications and read receipts is described in {{?I-D.mahy-mimi-message-status}}.
 
 
-##  Join Link policies component
+## Join Link policies component {#join-link}
 
 Inside the LinkPolicy are several fields that describe the behavior of join links.
 If the `on_request` field is true, no joining link will be provided in the room policy; the client will need to fetch a joining link out-of-band or generate a valid one for itself.
@@ -369,11 +369,11 @@ JoinLinkPolicy JoinLinkPolicyData;
 JoinLinkPolicy JoinLinkPolicyUpdate;
 ~~~
 
-## Link Preview policy component
+## Link Preview policy component {#link-preview}
 
 TBC
 
-## Asset policies component
+## Asset policies component {#assets}
 
 Assets refer to attached files, images, audio files, and video files.
 
@@ -415,7 +415,7 @@ AssetPolicy AssetPolicyUpdate;
 ~~~
 
 
-## Logging policy component
+## Logging policy component {#logging}
 
 Some messaging systems (for example in the health care or financial services sectors) often require mandatory logging of calls and messages.
 The goal of these policies is to make detection of such policies automatic, to allow clients to make appropriate local policy decisions when such policies exist.
@@ -440,7 +440,7 @@ LoggingPolicy LoggingPolicyUpdate;
 ~~~
 
 
-## Chat history policy component
+## Chat history policy component {#history}
 
 One of the most requested features of instant messaging systems is that new joiners can view some or all of the message history before joining.
 While useful, it has serious implications to the privacy of existing members, and substantially weakens forward secrecy (FS) (See {{Section 8.2.2 of ?RFC9750}}).
@@ -463,7 +463,7 @@ HistoryPolicy HistoryPolicyUpdate;
 ~~~
 
 
-## Chat bot policy component
+## Chat bot policy component {#bots}
 
 There are several types of chat bot in instant messaging systems, some of which only interact with
 
@@ -496,8 +496,33 @@ BotPolicy BotPolicyData;
 BotPolicy BotPolicyUpdate;
 ~~~
 
+## Message expiration policy component {#message-expiration}
 
-# Operational policy component
+Many instant messaging systems have an automatically expiring messages feature.
+
+If expiring messages are required, optional, or forbidden is controlled by the `expiring_messages` field.
+
+When `expiring_messages` are required or optional, the `min_expiration_duration` indicates the shortest acceptable expiration duration in seconds.
+The `max_expiration_duration` indicates the longest acceptable duration in seconds.
+The `default_expiration_duration` optionally indicates a preferred duration in seconds.
+
+When `expiring_messages` is forbidden, both the `min_expiration_duration` and the `max_expiration_duration` are set to zero, and the `default_expiration_duration` is not present.
+
+
+~~~ tls
+struct {
+  Optionality expiring_messages;
+  uint32 min_expiration_duration;
+  uint32 max_expiration_duration;
+  optional uint32 default_expiration_duration;
+} MessageExpiration;
+
+MessageExpiration MessageExpirationData;
+MessageExpiration MessageExpirationUpdate;
+~~~
+
+
+# Operational policy component {#operational}
 
 Section 7 of the {{?RFC9750}} defines a set of operational
 policy considerations that influence interoperability of MLS clients. MIMI
@@ -621,7 +646,7 @@ If an application wishes to detect and possibly discipline members that send mal
 
 MLS requires the following parameters to be defined, which must be the same for two implementations to interoperate:
 
-Application-level identifiers of public key material (specifically the application_id extension as defined in Section 5.3.3 of [RFC9420]).
+Application-level identifiers of public key material (specifically the application_id extension as defined in {{Section 5.3.3 of !RFC9420}}).
 
 
 # Role Capabilities {#caps}
@@ -832,95 +857,191 @@ TODO More Security
 
 # IANA Considerations
 
-## Preauthorized users MLS application component
+RFC EDITOR: Please replace XXXX throughout with the RFC number assigned to this document.
 
-TBC
+## New MLS application components
 
-## Role definitions MLS application component
+This document registers the following MLS Component Types per {{Section 7.5 of !I-D.ietf-mls-extensions}}.
 
-TBC
+### mls_operational_policy MLS Component Type
+
+- Value: TBD0
+- Name: mls_operational_policy
+- Where: GC
+- Recommended: Y
+- Reference: {{operational}} of RFCXXXX
+
+### role_list MLS Component Type
+
+- Value: TBD1
+- Name: role_list
+- Where: GC
+- Recommended: Y
+- Reference: {{roles}} of RFCXXXX
+
+### preauth_list MLS Component Type
+
+- Value: TBD2
+- Name: preauth_list
+- Where: GC
+- Recommended: Y
+- Reference: {{preauth}} of RFCXXXX
+
+### status_notification_policy MLS Component Type
+
+- Value: TBD3
+- Name: status_notification_policy
+- Where: GC
+- Recommended: Y
+- Reference: {{status-notification}} of RFCXXXX
+
+### join_link_policy MLS Component Type
+
+- Value: TBD4
+- Name: join_link_policy
+- Where: GC
+- Recommended: Y
+- Reference: {{join-link}} of RFCXXXX
+
+### link_preview_policy MLS Component Type
+
+- Value: TBD5
+- Name: link_preview_policy
+- Where: GC
+- Recommended: Y
+- Reference: {{link-preview}} of RFCXXXX
+
+### asset_policy MLS Component Type
+
+- Value: TBD6
+- Name: asset_policy
+- Where: GC
+- Recommended: Y
+- Reference: {{assets}} of RFCXXXX
+
+### logging_policy MLS Component Type
+
+- Value: TBD7
+- Name: logging_policy
+- Where: GC
+- Recommended: Y
+- Reference: {{logging}} of RFCXXXX
+
+### chat_history_policy MLS Component Type
+
+- Value: TBD8
+- Name: chat_history_policy
+- Where: GC
+- Recommended: Y
+- Reference: {{history}} of RFCXXXX
+
+### bot_policy MLS Component Type
+
+- Value: TBD9
+- Name: bot_policy
+- Where: GC
+- Recommended: Y
+- Reference: {{bots}} of RFCXXXX
+
+### Message expiration policy component
+
+- Value: TBD10
+- Name: message_expiration_policy
+- Where: GC
+- Recommended: Y
+- Reference: {{message-expiration}} of RFCXXXX
 
 ## New MIMI Role Capabilities registry
 
-Create a new registry with the following values assigned sequentially using the reference RFCXXXX.
+This document requests the creation of a new IANA "MIMI Role Capabilities" registry.
+The registry should be under the heading of "More Instant Messaging Interoperability (MIMI)".
+Assignments to this registry in the range 0x0000 to 0xF000 are via Specification Required policy {{!RFC8126}} using the MIMI Designated Experts.
+Assignments in the range 0xF000 to 0xFFFF are for private use.
 
-| Value  | Name                                       |
-|--------+--------------------------------------------|
-| 0x0000 | canAddParticipant                          |
-| 0x0001 | canRemoveParticipant                       |
-| 0x0002 | canAddOwnClient                            |
-| 0x0003 | canRemoveOwnClient                         |
-| 0x0004 | canAddSelf                                 |
-| 0x0005 | canRemoveSelf                              |
-| 0x0006 | canCreateJoinCode (reserved)               |
-| 0x0007 | canUseJoinCode                             |
-| 0x0008 | canBan                                     |
-| 0x0009 | canUnBan                                   |
-| 0x000a | canKick                                    |
-| 0x000b | canKnock (reserved)                        |
-| 0x000c | canAcceptKnock (reserved)                  |
-| 0x000d | canChangeUserRole                          |
-| 0x000e | canChangeOwnRole                           |
-| 0x000f | canCreateSubgroup (reserved)               |
-| 0x0100 | canSendMessage                             |
-| 0x0101 | canReceiveMessage                          |
-| 0x0102 | canCopyMessage                             |
-| 0x0103 | canReportAbuse                             |
-| 0x0104 | canReplyToMessage                          |
-| 0x0105 | canReactToMessage                          |
-| 0x0106 | canEditReaction                            |
-| 0x0107 | canDeleteOwnReaction                       |
-| 0x0108 | canDeleteOtherReaction                     |
-| 0x0109 | canEditOwnMessage                          |
-| 0x010a | canDeleteOwnMessage                        |
-| 0x010b | canDeleteOtherMessage                      |
-| 0x010c | canStartTopic                              |
-| 0x010d | canReplyInTopic                            |
-| 0x010e | canEditOwnTopic                            |
-| 0x010f | canEditOtherTopic                          |
-| 0x0111 | canSendDirectMessage (reserved)            |
-| 0x0111 | canTargetMessage (reserved)                |
-| 0x0200 | canUploadImage                             |
-| 0x0201 | canUploadAudio                             |
-| 0x0202 | canUploadVideo                             |
-| 0x0203 | canUploadAttachment                        |
-| 0x0204 | canDownloadImage                           |
-| 0x0205 | canDownloadAudio                           |
-| 0x0206 | canDownloadVideo                           |
-| 0x0207 | canDownloadAttachment                      |
-| 0x0208 | canSendLink                                |
-| 0x0209 | canSendLinkPreview                         |
-| 0x020a | canFollowLink                              |
-| 0x020b | canCopyLink                                |
-| 0x0300 | canChangeRoomName                          |
-| 0x0301 | canChangeRoomDescription                   |
-| 0x0302 | canChangeRoomAvatar                        |
-| 0x0303 | canChangeRoomSubject                       |
-| 0x0304 | canChangeRoomMood                          |
-| 0x0380 | canChangeOwnName (reserved)                |
-| 0x0381 | canChangeOwnPresence (reserved)            |
-| 0x0382 | canChangeOwnMood (reserved)                |
-| 0x0383 | canChangeOwnAvatar (reserved)              |
-| 0x0400 | canStartCall                               |
-| 0x0401 | canJoinCall                                |
-| 0x0402 | canSendAudio                               |
-| 0x0403 | canReceiveAudio                            |
-| 0x0404 | canSendVideo                               |
-| 0x0405 | canReceiveVideo                            |
-| 0x0406 | canShareScreen                             |
-| 0x0407 | canViewSharedScreen                        |
-| 0x0500 | canCreateRoom (reserved)                   |
-| 0x0501 | canDestroyRoom                             |
-| 0x0502 | canChangeRoomMembershipStyle               |
-| 0x0503 | canChangeRoleDefinitions                   |
-| 0x0504 | canChangePreauthorizedUserList             |
-| 0x0505 | canChangeOtherPolicyAttribute (reserved)   |
-| 0x0600 | canChangeMlsOperationalPolicies (reserved) |
-| 0x0601 | canSendMLSReinitProposal                   |
-| 0x0602 | canSendMLSUpdateProposal (reserved)        |
-| 0x0603 | canSendMLSPSKProposal (reserved)           |
-| 0x0604 | canSendMLSExternalProposal (reserved)      |
-| 0x0605 | canSendMLSExternalCommit (reserved)        |
+Template:
+
+- Value: The numeric value of the role capability
+- Name: The name of the role capability
+- Reference: The document where this role capability is defined
+
+| Value  | Name                                       | Reference |
+|--------+--------------------------------------------+-----------|
+| 0x0000 | canAddParticipant                          | RFCXXXX   |
+| 0x0001 | canRemoveParticipant                       | RFCXXXX   |
+| 0x0002 | canAddOwnClient                            | RFCXXXX   |
+| 0x0003 | canRemoveOwnClient                         | RFCXXXX   |
+| 0x0004 | canAddSelf                                 | RFCXXXX   |
+| 0x0005 | canRemoveSelf                              | RFCXXXX   |
+| 0x0006 | canCreateJoinCode (reserved)               | RFCXXXX   |
+| 0x0007 | canUseJoinCode                             | RFCXXXX   |
+| 0x0008 | canBan                                     | RFCXXXX   |
+| 0x0009 | canUnBan                                   | RFCXXXX   |
+| 0x000a | canKick                                    | RFCXXXX   |
+| 0x000b | canKnock (reserved)                        | RFCXXXX   |
+| 0x000c | canAcceptKnock (reserved)                  | RFCXXXX   |
+| 0x000d | canChangeUserRole                          | RFCXXXX   |
+| 0x000e | canChangeOwnRole                           | RFCXXXX   |
+| 0x000f | canCreateSubgroup (reserved)               | RFCXXXX   |
+| 0x0100 | canSendMessage                             | RFCXXXX   |
+| 0x0101 | canReceiveMessage                          | RFCXXXX   |
+| 0x0102 | canCopyMessage                             | RFCXXXX   |
+| 0x0103 | canReportAbuse                             | RFCXXXX   |
+| 0x0104 | canReplyToMessage                          | RFCXXXX   |
+| 0x0105 | canReactToMessage                          | RFCXXXX   |
+| 0x0106 | canEditReaction                            | RFCXXXX   |
+| 0x0107 | canDeleteOwnReaction                       | RFCXXXX   |
+| 0x0108 | canDeleteOtherReaction                     | RFCXXXX   |
+| 0x0109 | canEditOwnMessage                          | RFCXXXX   |
+| 0x010a | canDeleteOwnMessage                        | RFCXXXX   |
+| 0x010b | canDeleteOtherMessage                      | RFCXXXX   |
+| 0x010c | canStartTopic                              | RFCXXXX   |
+| 0x010d | canReplyInTopic                            | RFCXXXX   |
+| 0x010e | canEditOwnTopic                            | RFCXXXX   |
+| 0x010f | canEditOtherTopic                          | RFCXXXX   |
+| 0x0111 | canSendDirectMessage (reserved)            | RFCXXXX   |
+| 0x0111 | canTargetMessage (reserved)                | RFCXXXX   |
+| 0x0200 | canUploadImage                             | RFCXXXX   |
+| 0x0201 | canUploadAudio                             | RFCXXXX   |
+| 0x0202 | canUploadVideo                             | RFCXXXX   |
+| 0x0203 | canUploadAttachment                        | RFCXXXX   |
+| 0x0204 | canDownloadImage                           | RFCXXXX   |
+| 0x0205 | canDownloadAudio                           | RFCXXXX   |
+| 0x0206 | canDownloadVideo                           | RFCXXXX   |
+| 0x0207 | canDownloadAttachment                      | RFCXXXX   |
+| 0x0208 | canSendLink                                | RFCXXXX   |
+| 0x0209 | canSendLinkPreview                         | RFCXXXX   |
+| 0x020a | canFollowLink                              | RFCXXXX   |
+| 0x020b | canCopyLink                                | RFCXXXX   |
+| 0x0300 | canChangeRoomName                          | RFCXXXX   |
+| 0x0301 | canChangeRoomDescription                   | RFCXXXX   |
+| 0x0302 | canChangeRoomAvatar                        | RFCXXXX   |
+| 0x0303 | canChangeRoomSubject                       | RFCXXXX   |
+| 0x0304 | canChangeRoomMood                          | RFCXXXX   |
+| 0x0380 | canChangeOwnName (reserved)                | RFCXXXX   |
+| 0x0381 | canChangeOwnPresence (reserved)            | RFCXXXX   |
+| 0x0382 | canChangeOwnMood (reserved)                | RFCXXXX   |
+| 0x0383 | canChangeOwnAvatar (reserved)              | RFCXXXX   |
+| 0x0400 | canStartCall                               | RFCXXXX   |
+| 0x0401 | canJoinCall                                | RFCXXXX   |
+| 0x0402 | canSendAudio                               | RFCXXXX   |
+| 0x0403 | canReceiveAudio                            | RFCXXXX   |
+| 0x0404 | canSendVideo                               | RFCXXXX   |
+| 0x0405 | canReceiveVideo                            | RFCXXXX   |
+| 0x0406 | canShareScreen                             | RFCXXXX   |
+| 0x0407 | canViewSharedScreen                        | RFCXXXX   |
+| 0x0500 | canCreateRoom (reserved)                   | RFCXXXX   |
+| 0x0501 | canDestroyRoom                             | RFCXXXX   |
+| 0x0502 | canChangeRoomMembershipStyle               | RFCXXXX   |
+| 0x0503 | canChangeRoleDefinitions                   | RFCXXXX   |
+| 0x0504 | canChangePreauthorizedUserList             | RFCXXXX   |
+| 0x0505 | canChangeOtherPolicyAttribute (reserved)   | RFCXXXX   |
+| 0x0600 | canChangeMlsOperationalPolicies (reserved) | RFCXXXX   |
+| 0x0601 | canSendMLSReinitProposal                   | RFCXXXX   |
+| 0x0602 | canSendMLSUpdateProposal (reserved)        | RFCXXXX   |
+| 0x0603 | canSendMLSPSKProposal (reserved)           | RFCXXXX   |
+| 0x0604 | canSendMLSExternalProposal (reserved)      | RFCXXXX   |
+| 0x0605 | canSendMLSExternalCommit (reserved)        | RFCXXXX   |
+
 --- back
 
 # Role examples
