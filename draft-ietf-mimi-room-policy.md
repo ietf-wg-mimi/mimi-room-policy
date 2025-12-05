@@ -313,6 +313,8 @@ If `discoverable` is true, the room is searchable in some way.
 Presumably this means that if `discoverable` is false, the only way to join the room in a client user interface is to be added by an administrator or to use a joining link.
 
 Finally, the other policy components that are relevant to this room are listed in the `policy_components` vector, including the `roles_list` and `preauth_list` components (if present).
+This extensibility mechanism allows for future addition or replacement of new room policies.
+
 
 # Other MIMI policy components
 
@@ -444,12 +446,6 @@ struct {
   DownloadPrivacyType forbidden_download_types<V>;
   DownloadPrivacyType default_download_type;
 } DownloadPrivacy;
-
-struct {
-  opaque media_type<V>;
-} MediaType;
-
-
 
 struct {
   AssetUploadLocation asset_upload_location;
@@ -888,31 +884,6 @@ The following capability names are reserved for possible future use
 In a knock-enabled room, non-banned users are allowed to programmatically request entry into the room. In a knock-disabled room this functionality is disabled.
 -->
 
-
-# Extensibility of the policy format
-
-Finally, The extensibility mechanism allows for future addition of new room policies.
-
-~~~
-enum {
-  null(0),
-  boolean(1),
-  number(2),
-  string(3),
-  jsonObject(4)
-} ExtType;
-
-struct {
-  opaque name<V>;
-  ExtType type;
-  opaque value<V>;
-} PolicyExtension;
-
-struct {
-  ...
-  PolicyExtension policy_extensions<V>;
-} RoomPolicy;
-~~~
 
 
 # Security Considerations
@@ -1716,34 +1687,98 @@ struct {
   opaque uri<V>;
 } Uri;
 
+
+/* See MIMI Capability Types IANA registry */
+uint16 CapabilityType;
+
+struct {
+   uint32 from_role_index;
+   uint32 target_role_indexes<V>;
+} SingleSourceRoleChangeTargets;
+
+struct {
+  uint32 role_index;
+  opaque role_name<V>;
+  opaque role_description<V>;
+  CapabilityType role_capabilities<V>;
+  uint32 minimum_participants_constraint;
+  optional uint32 maximum_participants_constraint;
+  uint32 minimum_active_participants_constraint;
+  optional uint32 maximum_active_participants_constraint;
+  SingleSourceRoleChangeTargets authorized_role_changes<V>;
+} Role;
+
+struct {
+  Role roles<V>;
+} RoleData;
+
+RoleData RoleUpdate;
+
+
+struct {
+  /* MLS Credential Type of the "claim"  */
+  CredentialType credential_type;
+  /* the binary representation of an X.509 OID, a JWT claim name  */
+  /* string, or the CBOR map claim key in a CWT (an int or tstr)  */
+  opaque id<V>;
+} ClaimId;
+
+struct {
+  ClaimId claim_id;
+  opaque claim_value<V>;
+} Claim;
+
+struct {
+  /* when all claims in the claimset are satisfied, the claimset */
+  */ is satisfied */
+  Claim claimset<V>;
+  Role target_role;
+} PreAuthRoleEntry;
+
+struct {
+  PreAuthRoleEntry preauthorized_entries<V>;
+} PreAuthData;
+
+PreAuthData PreAuthUpdate;
+
+
 enum {
   optional(0),
   required(1),
   forbidden(2)
 } Optionality;
 
-enum {
-  reserved(0)
-  ordinary(1),
-  fixed-membership(2),
-  parent-dependent(3),
-  (255)
-} MembershipStyle;
+struct {
+  Optionality delivery_notifications;
+  Optionality read_receipts;
+} StatusNotificationPolicy;
+
+StatusNotificationPolicy StatusNotificationPolicyData;
+StatusNotificationPolicy StatusNotificationPolicyUpdate;
+
 
 struct {
-  Optionality logging;
-  bool enabled;
-  Uri logging_clients<V>;
-  Uri machine_readable_policy;
-  Uri human_readable_policy;
-} LoggingPolicy;
+  bool on_request;
+  Uri join_link;
+  bool multiuser;
+  uint32 expiration;
+  Uri link_requests;
+} JoinLinkPolicy;
 
-enum {
-  direct(0),
-  hubProxy(1),
-  ohttp(2),
-  (255)
-} DownloadPrivacyType;
+JoinLinkPolicy JoinLinkPolicyData;
+JoinLinkPolicy JoinLinkPolicyUpdate;
+
+
+struct {
+  Optionality automatic_link_previews;
+  Optionality link_preview_proxy_use;
+  Uri link_preview_proxy<V>;
+  Optionality autodetect_hyperlinks_in_text;
+} LinkPreviewPolicy;
+
+LinkPreviewPolicy LinkPreviewPolicyData;
+LinkPreviewPolicy LinkPreviewPolicyUpdate;
+
 
 enum {
   unspecified(0),
@@ -1753,6 +1788,22 @@ enum {
 } AssetUploadLocation;
 
 struct {
+  opaque domain<V>;
+} DomainName;
+
+struct {
+  DomainName provider;
+  DomainName asset_upload_destinations<V>;
+} ProviderAssetUploadDomains;
+
+enum {
+  direct(0),
+  hubProxy(1),
+  ohttp(2),
+  (255)
+} DownloadPrivacyType;
+
+struct {
   DownloadPrivacyType allowed_download_types<V>;
   DownloadPrivacyType forbidden_download_types<V>;
   DownloadPrivacyType default_download_type;
@@ -1760,53 +1811,70 @@ struct {
 
 struct {
   AssetUploadLocation asset_upload_location;
-  opaque upload_domain<V>;
+  ProviderAssetUploadDomains upload_domains<V>;
   DownloadPrivacy download_privacy;
   uint64 max_image;
   uint64 max_audio;
   uint64 max_video;
   uint64 max_attachment;
+  MediaType forbidden_media_types<V>;
+  optional MediaType permitted_media_types<V>;
 } AssetPolicy;
 
+AssetPolicy AssetPolicyData;
+AssetPolicy AssetPolicyUpdate;
+
+
 struct {
-  bool on_request;
-  Uri join_link;
-  bool multiuser;
-  uint32 expiration;
-  Uri link_requests;
-} LinkPolicy;
+  Optionality logging;
+  Uri logging_clients<V>;
+  Uri machine_readable_policy;
+  Uri human_readable_policy;
+} LoggingPolicy;
+
+LoggingPolicy LoggingPolicyData;
+LoggingPolicy LoggingPolicyUpdate;
+
+
+struct {
+  Optionality history_sharing;
+  uint32 roles_that_can_share<V>;
+  bool automatically_share;
+  uint32 max_time_period;
+} HistoryPolicy;
+
+HistoryPolicy HistoryPolicyData;
+HistoryPolicy HistoryPolicyUpdate;
+
 
 struct {
   opaque name<V>;
   opaque description<V>;
   Uri homepage;
-  Role bot_role;
-  bool can_read;
-  bool can_write;
+  bool local_client_bot;
+  uint32 bot_role_index;
   bool can_target_message_in_group;
   bool per_user_content;
 } Bot;
 
 struct {
-  Optionality history_sharing;
-  Role who_can_share<V>;
-  bool automatically_share;
-  uint32 max_time_period;
-} HistoryPolicy;
+  Bot allowed_bots<V>;
+} BotPolicy;
 
-enum {
-  null(0),
-  boolean(1),
-  number(2),
-  string(3),
-  jsonObject(4)
-} ExtType;
+BotPolicy BotPolicyData;
+BotPolicy BotPolicyUpdate;
+
 
 struct {
-  opaque name<V>;
-  ExtType type;
-  opaque value<V>;
-} PolicyExtension;
+  Optionality expiring_messages;
+  uint32 min_expiration_duration;
+  uint32 max_expiration_duration;
+  optional uint32 default_expiration_duration;
+} MessageExpiration;
+
+MessageExpiration MessageExpirationData;
+MessageExpiration MessageExpirationUpdate;
+
 
 struct {
   ProtocolVersion versions<V>;
@@ -1827,19 +1895,20 @@ enum {
   randomDelay(2),
   preferenceWheel(3),
   designatedCommitter(4),
+  treeProximity(5)
   (255)
 } PendingProposalStrategy;
 
 struct {
   PendingProposalStrategy pending_proposal_strategy;
-  uint64 minimum_delay_ms;
-  uint64 maximum_delay_ms;
+  uint64 minimumDelayMs;
+  uint64 maximumDelayMs;
 } PendingProposalPolicy;
 
 struct {
-  uint64 minimum_time;
-  uint64 default_time;
-  uint64 maximum_time;
+  uint64 minimumTime;
+  uint64 defaultTime;
+  uint64 maximumTime;
 } MinDefaultMaxTime;
 
 
@@ -1868,27 +1937,25 @@ struct {
   uint32 max_buffered_messages;
 } OperationalParameters;
 
+OperationalParameters OperationalParametersData;
+OperationalParameters OperationalParametersUpdate;
 
 
 struct {
-  MembershipStyle membership_style;
-  bool multi_device;
-  Uri parent_room_uri;
-  bool persistent_room;
-  Optionality delivery_notifications;
-  Optionality read_receipts;
-  bool semi_anonymous_ids;
-  bool discoverable;
-  LinkPolicy link_policy;
-  AssetPolicy asset_policy;
-  LoggingPolicy logging_policy;
-  HistoryPolicy history_sharing;
-  Bot allowed_bots<V>;
-  OperationalParameters operational_parameters;
-  PolicyExtension policy_extensions<V>;
-} RoomPolicy;
+    bool fixed_membership;
+    bool parent_dependant;
+    Uri parent_room<V>;
+    bool multi_device;
+    optional uint32 max_clients;
+    optional uint32 max_users;
+    bool pseudonyms_allowed;
+    bool persistent_room;
+    bool discoverable;
+    Component policy_components<V>;
+} BaseRoomPolicy;
 
-RoomPolicy room_policy;
+BaseRoomPolicy BaseRoomData;
+BaseRoomPolicy BaseRoomUpdate;
 ~~~
 
 
