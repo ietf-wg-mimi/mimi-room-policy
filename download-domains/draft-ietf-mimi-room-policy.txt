@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                          R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                           30 October 2025
-Expires: 3 May 2026
+Intended status: Informational                           5 December 2025
+Expires: 8 June 2026
 
 
    Room Policy for the More Instant Messaging Interoperability (MIMI)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 May 2026.
+   This Internet-Draft will expire on 8 June 2026.
 
 Copyright Notice
 
@@ -73,39 +73,49 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Definitions
      2.1.  Moderation Terms
-     2.2.  Room Capabilities
    3.  Role-Based Access Control
    4.  Preauthorized Users
-   5.  Base Room policy format syntax
-     5.1.  Membership-related policy
-     5.2.  Delivery and Read notifications, Pseudonyms
-     5.3.  Link, Logging, History, and Bot policies
-     5.4.  Link policies
-     5.5.  Asset policies
-     5.6.  Logging policies
-     5.7.  Chat history policies
-     5.8.  Chat bot policies
-   6.  Operational policy
-     6.1.  Some MLS-related policy that could be tied to a room
-     6.2.  Not relevant to MIMI (between client and its provider)
-     6.3.  Areas for future works
-   7.  Role Capabilities
-     7.1.  Membership Capabilities
-     7.2.  Adjust metadata
-     7.3.  Message Capabilities
-     7.4.  Asset Capabilities
-     7.5.  Real-time media
-     7.6.  Disruptive Policy Changes
-     7.7.  Reserved Capabilities
-   8.  Extensibility of the policy format
-   9.  Security Considerations
-   10. IANA Considerations
-     10.1.  Preauthorized users MLS application component
-     10.2.  Role definitions MLS application component
-     10.3.  New MIMI Role Capabilities registry
-   11. References
-     11.1.  Normative References
-     11.2.  Informative References
+   5.  Base Room policy component syntax
+   6.  Other MIMI policy components
+     6.1.  Status Notifications component
+     6.2.  Join Link policies component
+     6.3.  Link Preview policy component
+     6.4.  Asset policies component
+     6.5.  Logging policy component
+     6.6.  Chat history policy component
+     6.7.  Chat bot policy component
+     6.8.  Message expiration policy component
+   7.  Operational policy component
+     7.1.  Some MLS-related policy that could be tied to a room
+     7.2.  Not relevant to MIMI (between client and its provider)
+     7.3.  Areas for future works
+   8.  Role Capabilities
+     8.1.  Membership Capabilities
+     8.2.  Adjust metadata
+     8.3.  Message Capabilities
+     8.4.  Asset Capabilities
+     8.5.  Real-time media
+     8.6.  Disruptive Policy Changes
+     8.7.  Reserved Capabilities
+   9.  Extensibility of the policy format
+   10. Security Considerations
+   11. IANA Considerations
+     11.1.  New MLS application components
+       11.1.1.  mls_operational_policy MLS Component Type
+       11.1.2.  role_list MLS Component Type
+       11.1.3.  preauth_list MLS Component Type
+       11.1.4.  status_notification_policy MLS Component Type
+       11.1.5.  join_link_policy MLS Component Type
+       11.1.6.  link_preview_policy MLS Component Type
+       11.1.7.  asset_policy MLS Component Type
+       11.1.8.  logging_policy MLS Component Type
+       11.1.9.  chat_history_policy MLS Component Type
+       11.1.10. bot_policy MLS Component Type
+       11.1.11. Message expiration policy component
+     11.2.  New MIMI Role Capabilities registry
+   12. References
+     12.1.  Normative References
+     12.2.  Informative References
    Appendix A.  Role examples
      A.1.  Cooperatively administered room
      A.2.  Strictly administered room
@@ -196,40 +206,17 @@ Table of Contents
 
    *Grant Voice*: To grant the permission to send messages in a room.
 
-2.2.  Room Capabilities
-
-   *Membership-Approach*: The overall approach of membership
-   authorization in a room, which could be open, members-only
-   (administrated), fixed-membership, or parent-dependent.
-
-   *  *Open room*: Typically an open room can be joined by any non-
-      banned user.  It can be represented solely by a permissive set of
-      roles as defined in Section 3.
-
-   *  *Members-Only room*: A members-only room can only be joined by a
-      user in the particpant list, or who is pre-authorized.  Authorized
-      users can add or remove users to the room.  In an enterprise
-      context, it is also common (but not required) for users from a
-      particular domain, group, or workgroup to be pre-authorized to add
-      themselves to a Members-Only room.  It can be represented solely
-      by a set of less permissive roles as defined in Section 3.
-
-   *  *Fixed-Membership room*: Fixed-membership rooms have the list of
-      participants specified when they are created.  Other users cannot
-      be added.  Ordinary users cannot leave or be removed, however a
-      user can remove all its clients from the associated MLS group.
-      The most common case of a fixed-membership room is a 1:1
-      conversation.  This room membership style is used to implement
-      Direct Message (DM) and Group DM features.  Only a single fixed-
-      membership room can exist for any unique set of participants.
-
-   *  *Parent-dependent room*: In a parent-dependent room, the list
-      participants of the room must be a strict subset of the
-      participants of the parent room.  If a user leaves or is removed
-      from the parent room, that user is automatically removed from any
-      parent-dependent rooms of that parent.
-
 3.  Role-Based Access Control
+
+   Most instant messaging systems have a concept of room membership
+   being managed by a set of moderators or administrators, or
+   collectively managed by existing members.  In some cases, rooms are
+   completely open to new joiners unless they have been banned in some
+   way.  In an enterprise context, it is also common (but not required)
+   for users from a particular domain, group, or workgroup to be pre-
+   authorized to add themselves to various types of rooms.  All these
+   variations of room access are managed in MIMI using roles,
+   capabilities (Section 8), and preauthorization (Section 4).
 
    The Role-Based Access Control component contains a list of all the
    roles in the room, and the capabilities associated with them.  It
@@ -273,7 +260,7 @@ Table of Contents
    [I-D.ietf-mls-extensions].
 
    /* See MIMI Capability Types IANA registry */
-   uint16 CapablityType;
+   uint16 CapabilityType;
 
    struct {
       uint32 from_role_index;
@@ -396,45 +383,47 @@ Table of Contents
    users or devices.  This unifies the authorization model for members
    and non-members.
 
-5.  Base Room policy format syntax
+5.  Base Room policy component syntax
 
-5.1.  Membership-related policy
+   The following format is an MLS component which expresses top-level
+   policy constraints, including global rules related to how membership
+   is interpreted.  The rest of the rules about membership (the bulk)
+   are expressed using roles Section 3, capabilities Section 8, and
+   preauthorization Section 4.
 
-      *TODO*: refactor membership_style to be constraints to the role-
-      based access control system
+   Rooms with fixed_membership set to true (fixed-membership rooms) have
+   the list of participants specified when they are created.  While
+   clients of existing participants can be added, other users cannot be
+   added, so none of its non-zero, non-banned roles can contain the
+   canAddParticipant capability.  Ordinary users cannot leave or be
+   removed, however a user can remove all its clients from the
+   associated MLS group.  The most common case of a fixed-membership
+   room is a 1:1 conversation.  This room membership style is used to
+   implement Direct Message (DM) and Group DM features.  Only a single
+   fixed-membership room can exist for any unique set of participants.
 
-   The membership_style of a room can express some additional
-   constraints on membership transitions in a room.  It can have one of
-   the following values:
+   In rooms with parent_dependent set to true (a parent-dependent room),
+   the list of participants of the room MUST be a strict subset of the
+   participants of the parent room.  If a user leaves or is removed from
+   the parent room, that user is automatically removed from any parent-
+   dependent rooms of that parent.  A parent-dependent room is always
+   hosted on the same Hub as the parent room.
 
-   *  ordinary (default)
+   If parent-dependent is true, the parent_room MUST be set with the
+   room ID of the parent.  Otherwise the field is zero-length.
 
-   *  fixed-membership
-
-   *  parent-dependent
-
-   enum {
-     reserved(0)
-     ordinary(1),
-     fixed-membership(2),
-     parent-dependent(3),
-     (255)
-   } MembershipStyle;
-
-   An ordinary room has no constraints beyond those of the role-based
-   access control system.  A fixed-membership room (which can be used
-   for DMs or Group DMs) has a participant list set once at creation
-   time that cannot be added to.  A parent-dependent room always has a
-   strict subset of the participants of its parent room.  A parent-
-   dependent room is always hosted on the same Hub as the parent room.
-
-   If the membership_style is parent-dependent the parent_room_uri MUST
-   be set with the room ID of the parent.  Otherwise the field is zero-
-   length.
+      Note: A room can be both fixed_membership and parent_dependent,
+      for example, for room used for a multi-media call of clients in a
+      Group DM.
 
    If multi_device is true (the default), the MLS group may contain
    multiple clients per user.  If false only a single client can be an
    MLS member at one time.
+
+   When max_clients has a value, the room's associated MLS group MUST
+   NOT have more clients than the provided value.  Likewise when
+   max_users has a value, the room MUST NOT have more non-banned entries
+   in the participant list than that value.
 
    enum {
      false(0),
@@ -442,12 +431,25 @@ Table of Contents
    } bool;
 
    struct {
-     MembershipStyle membership_style;
-     Uri parent_room_uri<V>;
-     bool multi_device;
-     bool persistent_room;
-     ...
+       bool fixed_membership;
+       bool parent_dependant;
+       Uri parent_room<V>;
+       bool multi_device;
+       optional uint32 max_clients;
+       optional uint32 max_users;
+       bool pseudonyms_allowed;
+       bool persistent_room;
+       bool discoverable;
+       Component policy_components<V>;
    } BaseRoomPolicy;
+
+   BaseRoomPolicy BaseRoomData;
+   BaseRoomPolicy BaseRoomUpdate;
+
+   If pseudonyms_allowed is true, clients in the MLS group are free to
+   use pseudonymous identifiers in their MLS credentials.  Otherwise the
+   policy of the room is that "real" long-term identifiers are required
+   in MLS credentials in the room's corresponding MLS group.
 
    If persistent_room is false, the room will be automatically
    inaccsessible when the corresponding MLS group is destroyed (when
@@ -455,7 +457,23 @@ Table of Contents
    room policy will remain and a client whose user has appropriate
    authorization can create a new MLS group for the same room.
 
-5.2.  Delivery and Read notifications, Pseudonyms
+   If discoverable is true, the room is searchable in some way.
+   Presumably this means that if discoverable is false, the only way to
+   join the room in a client user interface is to be added by an
+   administrator or to use a joining link.
+
+   Finally, the other policy components that are relevant to this room
+   are listed in the policy_components vector, including the roles_list
+   and preauth_list components (if present).
+
+6.  Other MIMI policy components
+
+6.1.  Status Notifications component
+
+   Delivery and Read notifications are a very popular feature of instant
+   messaging systems, but also can leak private information such as the
+   online status of participants.  Such status notifications can also
+   consume a large amount of resources, especially in large rooms.
 
    enum {
      optional(0),
@@ -464,32 +482,41 @@ Table of Contents
    } Optionality;
 
    struct {
-     ...
      Optionality delivery_notifications;
      Optionality read_receipts;
-     bool pseudonymous_ids;
-     ...
-   } RoomPolicy;
+   } StatusNotificationPolicy;
+
+   StatusNotificationPolicy StatusNotificationPolicyData;
+   StatusNotificationPolicy StatusNotificationPolicyUpdate;
 
    The delivery_notifications value can be set to "forbidden",
    "optional", or "required".  If the value is set to "optional", the
    client uses its local configuration to determine if it should send
-   delivery notifications in the group.
+   delivery notifications in the room.
 
    The read_receipts value can be set to "forbidden", "optional", or
    "required".  If the value is set to "optional", the client uses its
    local configuration to determine if it should send read receipts in
-   the group.
+   the room.
 
    The format for delivery notifications and read receipts is described
-   in Section 5.12 of [I-D.ietf-mimi-content].
+   in [I-D.mahy-mimi-message-status].
 
-   If pseudonymous_ids is true, clients in the MLS group are free to use
-   pseudonymous identifiers in their MLS credentials.  Otherwise the
-   policy of the room is that "real" long-term identifiers are required
-   in MLS credentials in the room's corresponding MLS group.
+6.2.  Join Link policies component
 
-5.3.  Link, Logging, History, and Bot policies
+   Inside the LinkPolicy are several fields that describe the behavior
+   of join links.  If the on_request field is true, no joining link will
+   be provided in the room policy; the client will need to fetch a
+   joining link out-of-band or generate a valid one for itself.  If
+   present, the URI in link_requests can be used by the client to
+   request an invite code.  The value of join_link is empty and the
+   other fields are ignored.
+
+   If the on_request field is false, the join_link field will contain a
+   joining link.  If the link will work for multiple users, multiuser is
+   true.  The expiration field represents the time, in seconds after the
+   start of the UNIX epoch (1-January-1970) when the link will expire.
+   The link_requests field can be empty.
 
    struct {
      bool on_request;
@@ -497,14 +524,72 @@ Table of Contents
      bool multiuser;
      uint32 expiration;
      Uri link_requests;
-   } LinkPolicy;
+   } JoinLinkPolicy;
 
-   enum {
-     direct(0),
-     hubProxy(1),
-     ohttp(2),
-     (255)
-   } DownloadPrivacyType;
+   JoinLinkPolicy JoinLinkPolicyData;
+   JoinLinkPolicy JoinLinkPolicyUpdate;
+
+6.3.  Link Preview policy component
+
+   Link preview policy is concerned with the safe rendering of explicit
+   or implicit hyperlinks in the text of an instant message.  The
+   automatic_link_previews setting indicates if the receiver of a
+   message generating link previews (a desirable feature, but a
+   potential privacy concern) is mandatory, optional, or forbidden.
+
+   The link_preview_proxy_use setting indicates if using a specialized
+   link preview proxy is mandatory, optional, or forbidden when link
+   previews are generated.  Its value MUST be forbidden if
+   automatic_link_previews is fobidden.
+
+   The link_preview_proxy setting MUST include the URI of a link preview
+   proxy if link_preview_proxy_uses is mandatory or optional.
+
+   The autodetect_hyperlinks_in_text setting indicates if a message
+   composer is expected to detect hyperlinks from text which resembles
+   links (ex: http://example.com).  The value of
+   autodetect_hyperlinks_in_text MUST NOT be mandatory.
+
+   struct {
+     Optionality automatic_link_previews;
+     Optionality link_preview_proxy_use;
+     Uri link_preview_proxy<V>;
+     Optionality autodetect_hyperlinks_in_text;
+   } LinkPreviewPolicy;
+
+   LinkPreviewPolicy LinkPreviewPolicyData;
+   LinkPreviewPolicy LinkPreviewPolicyUpdate;
+
+6.4.  Asset policies component
+
+   Assets refer to attached files, images, audio files, and video files.
+
+   The asset_upload_location could be unspecified, indicating any
+   location; localProvider, indicating that each client uploads assets
+   to its local provider; or hub, indicating that all clients upload
+   assets to the hub.  Using localProvider is RECOMMENDED.
+
+   The asset_upload_domains is a list of asset_upload_destinations per
+   provider domain name.  If the asset_upload_location is hub, only one
+   provider matching the hub domain is present in asset_upload_domains.
+
+   Unless asset_upload_location is unspecified, the clients verify that
+   assets in the host part of the url of any MIMI content
+   [I-D.ietf-mimi-content] ExternalPart corresponds to an entry in
+   asset_upload_domains.  If the asset_upload_location is localProvider
+   the asset_upload_domains list is from the provider domain name that
+   exactly matches the sender URI domain name.
+
+   download_privacy describes the mechanisms acceptable for downloading
+   assets.  The allowed_download_types and forbidden_download_types
+   specify the download mechanisms which are are allowed and forbidden,
+   respectively.  The default_download_type is the default or suggested
+   download mechanism. direct refers to client direct download as
+   described in Section 5.10.1 of [I-D.ietf-mimi-protocol]. hubProxy
+   refers to client download through a proxy on the hub as described in
+   Section 5.10.2 of [I-D.ietf-mimi-protocol]. ohttp refers to client
+   download through Oblivious HTTP [RFC9458] through the hub as
+   described in Section 5.10.3 of [I-D.ietf-mimi-protocol].
 
    enum {
      unspecified(0),
@@ -514,79 +599,70 @@ Table of Contents
    } AssetUploadLocation;
 
    struct {
+     opaque domain<V>;
+   } DomainName;
+
+   struct {
+     DomainName provider;
+     DomainName asset_upload_destinations<V>;
+   } ProviderAssetUploadDomains;
+
+   enum {
+     direct(0),
+     hubProxy(1),
+     ohttp(2),
+     (255)
+   } DownloadPrivacyType;
+
+   struct {
      DownloadPrivacyType allowed_download_types<V>;
      DownloadPrivacyType forbidden_download_types<V>;
      DownloadPrivacyType default_download_type;
    } DownloadPrivacy;
 
    struct {
+     opaque media_type<V>;
+   } MediaType;
+
+   struct {
      AssetUploadLocation asset_upload_location;
-     opaque upload_domain<V>;
+     ProviderAssetUploadDomains upload_domains<V>;
      DownloadPrivacy download_privacy;
      uint64 max_image;
      uint64 max_audio;
      uint64 max_video;
      uint64 max_attachment;
+     MediaType forbidden_media_types<V>;
+     optional MediaType permitted_media_types<V>;
    } AssetPolicy;
 
-   struct {
-     Optionality logging;
-     Uri logging_clients<V>;
-     Uri machine_readable_policy;
-     Uri human_readable_policy;
-   } LoggingPolicy;
+   AssetPolicy AssetPolicyData;
+   AssetPolicy AssetPolicyUpdate;
 
-   struct {
-     Optionality history_sharing;
-     Role who_can_share<V>;
-     bool automatically_share;
-     uint32 max_time_period;
-   } HistoryPolicy;
+   The max_image, max_audio, max_video, and max_attachment fields
+   indication the maximum size in bytes of the corresponding assets that
+   will be accepted.  These amounts could be further limited at the
+   client according to local policy or at the upload location based on
+   various forms of authorization and quotas.
 
-   struct {
-     opaque name<V>;
-     opaque description<V>;
-     Uri homepage;
-     Role bot_role;
-     bool can_read;
-     bool can_write;
-     bool can_target_message_in_group;
-     bool per_user_content;
-   } Bot;
+   forbidden_media_types is a list of media types that are not allowed
+   at all in the room.  If present, permitted_media_types is a list of
+   media types that are permitted.  When it is present, media types MUST
+   be one of the entries in the permitted_media_types list, and MUST NOT
+   be in the forbidden_media_types list.  If a media type without a
+   subtype (for example, audio) is present in one of these lists, it
+   matches all media types of any subtype with that type.  If a media
+   type without parameters (for example, text/markdown) is present in
+   one of these lists, it matches all media types of that type and
+   subtype regardless of additional parameters.
 
-   struct {
-     ...
-     bool discoverable;
-     LinkPolicy link_policy;
-     AssetPolicy asset_policy;
-     LoggingPolicy logging_policy;
-     HistoryPolicy history_sharing;
-     Bot allowed_bots<V>;
-     ...
-   } RoomPolicy;
+6.5.  Logging policy component
 
-5.4.  Link policies
-
-   If discoverable is true, the room is searchable.  Presumably this
-   means the the only way to join the room in a client user interface is
-   to be added by an administrator or to use a joining link.  Inside the
-   LinkPolicy are several fields that describe the behavior of links.If
-   the on_request field is true, no joining link will be provided in the
-   room policy; the client will need to fetch a joining link out-of-band
-   or generate a valid one for itself.  If present, the URI in
-   link_requests can be used by the client to request an invite code.
-   The value of join_link is empty and the other fields are ignored.If
-   the on_request field is false, the join_link field will contain a
-   joining link.  If the link will work for multiple users, multiuser is
-   true.  The expiration field represents the time, in seconds after the
-   start of the UNIX epoch (1-January-1970) when the link will expire.
-   The link_requests field can be empty.
-
-5.5.  Asset policies
-
-   Assets refer to attached files, images, audio files, and video files.
-
-5.6.  Logging policies
+   Some messaging systems (for example in the health care or financial
+   services sectors) often require mandatory logging of calls and
+   messages.  The goal of these policies is to make detection of such
+   policies automatic, to allow clients to make appropriate local policy
+   decisions when such policies exist.
 
    Inside the LoggingPolicy, the logging field can be forbidden,
    optional, or required.  If logging is forbidden then the other fields
@@ -599,38 +675,123 @@ Table of Contents
    there is at least one logging_client then logging is active for the
    room.
 
-5.7.  Chat history policies
+   struct {
+     Optionality logging;
+     Uri logging_clients<V>;
+     Uri machine_readable_policy;
+     Uri human_readable_policy;
+   } LoggingPolicy;
+
+   LoggingPolicy LoggingPolicyData;
+   LoggingPolicy LoggingPolicyUpdate;
+
+6.6.  Chat history policy component
+
+   One of the most requested features of instant messaging systems is
+   that new joiners can view some or all of the message history before
+   joining.  While useful, it has serious implications to the privacy of
+   existing members, and substantially weakens forward secrecy (FS) (See
+   Section 8.2.2 of [RFC9750]).
 
    Inside the HistoryPolicy, if history_sharing is forbidden, this means
    that clients (including bots) are expected to not to share chat
-   history with new joiners, in which case who_can_share is empty,
-   automatically_share is false, and max_time_period is zero.  Otherwise
-   who_can_share is a list of roles that are authorized to share history
-   (for example, only admins and owners can share).  The values of none
-   and outcast cannot be used in who_can_share.  If automatically_share
-   is true, clients can share history with new joiners without user
-   initiation.  The history that is shared is limited to max_time_period
-   seconds worth of history.
+   history with new joiners, in which case roles_that_can_share is
+   empty, automatically_share is false, and max_time_period is zero.
+   Otherwise roles_that_can_share is a list of roles that are authorized
+   to share history (for example, only admins and owners can share).
+   The role index zero (non-participant) and one (banned) cannot be used
+   in the who_can_share list, nor can any role where
+   max_active_participants is zero.  If automatically_share is true,
+   clients can share history with new joiners without user initiation.
+   The history that is shared is limited to max_time_period seconds
+   worth of history.
 
-5.8.  Chat bot policies
+   struct {
+     Optionality history_sharing;
+     uint32 roles_that_can_share<V>;
+     bool automatically_share;
+     uint32 max_time_period;
+   } HistoryPolicy;
 
-   Inside the RoomPolicy there is a list of allowed_bots.  Each of which
+   HistoryPolicy HistoryPolicyData;
+   HistoryPolicy HistoryPolicyUpdate;
+
+6.7.  Chat bot policy component
+
+   There are several types of chat bot in instant messaging systems,
+   some of which only interact with the local client.
+
+   Inside the BotPolicy there is a list of allowed_bots, each of which
    has several fields.  The name, description, and homepage are merely
-   descriptive.  The bot_role indicates if the chat bot would be treated
-   as a system-user, owner, admin, regular_user, or visitor.  The
-   can_read and can_write fields indicate if the chat bot is allowed to
-   read messages or send messages in the MLS group, respectively.  If
-   can_target_message_in_group is true it indicates that the chat bot
+   descriptive.
+
+   If local_client_bot is true, the bot would not act as a participant;
+   it would have access to the contents of room only with another client
+   operated by a (presumably human) user.
+
+   The bot_role_index indicates the role index in which the bot
+   operates; this controls the capabilities of the bot.
+
+   If can_target_message_in_group is true it indicates that the chat bot
    can send an MLS targeted message (see Section 2.2 of
    [I-D.ietf-mls-extensions]) or use a different conversation or out-of-
    band channel to send a message to specific individual users in the
-   room.  If per_user_content is true, the chat bot is allowed to send
-   messages with distinct content to each member.  (For example a poker
-   bot could deal a different hand to each user in a chat).Users could
-   set policies to reject or leave groups with bots rights that are
-   inconsistent with the user's privacy goals.
+   room.
 
-6.  Operational policy
+   If per_user_content is true, the chat bot is allowed to send messages
+   with distinct content to each member.  (For example a poker bot could
+   deal a different hand to each user in a chat).
+
+   Users could set policies to reject or leave groups with bots rights
+   that are inconsistent with the user's privacy goals.
+
+   struct {
+     opaque name<V>;
+     opaque description<V>;
+     Uri homepage;
+     bool local_client_bot;
+     uint32 bot_role_index;
+     bool can_target_message_in_group;
+     bool per_user_content;
+   } Bot;
+
+   struct {
+     Bot allowed_bots<V>;
+   } BotPolicy;
+
+   BotPolicy BotPolicyData;
+   BotPolicy BotPolicyUpdate;
+
+6.8.  Message expiration policy component
+
+   Many instant messaging systems have an automatically expiring
+   messages feature.
+
+   If expiring messages are required, optional, or forbidden is
+   controlled by the expiring_messages field.
+
+   When expiring_messages are required or optional, the
+   min_expiration_duration indicates the shortest acceptable expiration
+   duration in seconds.  The max_expiration_duration indicates the
+   longest acceptable duration in seconds.  The
+   default_expiration_duration optionally indicates a preferred duration
+   in seconds.
+
+   When expiring_messages is forbidden, both the min_expiration_duration
+   and the max_expiration_duration are set to zero, and the
+   default_expiration_duration is not present.
+
+   struct {
+     Optionality expiring_messages;
+     uint32 min_expiration_duration;
+     uint32 max_expiration_duration;
+     optional uint32 default_expiration_duration;
+   } MessageExpiration;
+
+   MessageExpiration MessageExpirationData;
+   MessageExpiration MessageExpirationUpdate;
+
+7.  Operational policy component
 
    Section 7 of the [RFC9750] defines a set of operational policy
    considerations that influence interoperability of MLS clients.  MIMI
@@ -645,7 +806,7 @@ Table of Contents
    room needs to take a position; nor different rooms on a Hub need to
    have different policies for these items.
 
-6.1.  Some MLS-related policy that could be tied to a room
+7.1.  Some MLS-related policy that could be tied to a room
 
    *  any mandatory or forbidden MLS extensions.
 
@@ -738,6 +899,7 @@ Table of Contents
      randomDelay(2),
      preferenceWheel(3),
      designatedCommitter(4),
+     treeProximity(5)
      (255)
    } PendingProposalStrategy;
 
@@ -779,13 +941,16 @@ Table of Contents
      uint32 max_buffered_messages;
    } OperationalParameters;
 
-6.2.  Not relevant to MIMI (between client and its provider)
+   OperationalParameters OperationalParametersData;
+   OperationalParameters OperationalParametersUpdate;
+
+7.2.  Not relevant to MIMI (between client and its provider)
 
    *  how many KPs to keep active
 
    *  how group IDs are constructed
 
-6.3.  Areas for future works
+7.3.  Areas for future works
 
    How to protect and share the GroupInfo objects needed for external
    joins.
@@ -793,15 +958,16 @@ Table of Contents
    If an application wishes to detect and possibly discipline members
    that send malformed commits with the intention of corrupting a
    group's state, there must be a method for reporting and validating
-   malformed commits.  MLS requires the following parameters to be
-   defined, which must be the same for two implementations to
-   interoperate:
+   malformed commits.
+
+   MLS requires the following parameters to be defined, which must be
+   the same for two implementations to interoperate:
 
    Application-level identifiers of public key material (specifically
    the application_id extension as defined in Section 5.3.3 of
    [RFC9420]).
 
-7.  Role Capabilities
+8.  Role Capabilities
 
    As described in Section 3, each role has a list of capabilities,
    which in rare cases could be empty.  When we say that the holder of a
@@ -817,7 +983,7 @@ Table of Contents
    the corresponding MLS group, and to sending an MLS commit containing
    a set of consistent MLS proposals.
 
-7.1.  Membership Capabilities
+8.1.  Membership Capabilities
 
    The membership capabilities below allow authorized holders to update
    the Participant list, or change the active participants (by removing
@@ -970,7 +1136,7 @@ Table of Contents
       for the unbanned user MUST be 1, and the role_name of role 1 MUST
       be "banned".
 
-7.2.  Adjust metadata
+8.2.  Adjust metadata
 
    The holder of each of the following capabilities is authorized to
    update the Room metadata defined in [I-D.ietf-mimi-protocol],
@@ -986,7 +1152,7 @@ Table of Contents
 
    *  canChangeRoomMood
 
-7.3.  Message Capabilities
+8.3.  Message Capabilities
 
    The capabilities below refer to functionality related to the instant
    messages, for example sent using the MIMI content format
@@ -1054,7 +1220,7 @@ Table of Contents
    other capabilities in this section can only be enforced by other
    clients.
 
-7.4.  Asset Capabilities
+8.4.  Asset Capabilities
 
    *  canUploadAttachment - the holder can upload a file with the
       "attachent" disposition.
@@ -1080,7 +1246,7 @@ Table of Contents
    *  canDownloadAudio - the holder can download a file with the media
       type of "audio" and the disposition of "render"
 
-7.5.  Real-time media
+8.5.  Real-time media
 
    The MIMI Working has not yet defined requirements for real-time
    media, however the capabilities below are widely representative of
@@ -1110,7 +1276,7 @@ Table of Contents
    *  canViewSharedScreen - the holder is authorized to receive screen
       sharing in a call/conference
 
-7.6.  Disruptive Policy Changes
+8.6.  Disruptive Policy Changes
 
    *  canChangeRoomMembershipStyle - the holder is authorized to modify
       the base room membership style.
@@ -1127,7 +1293,7 @@ Table of Contents
    *  canSendMLSReinitProposal - the holder is authorized to send an MLS
       ReInit proposal.
 
-7.7.  Reserved Capabilities
+8.7.  Reserved Capabilities
 
    The following capability names are reserved for possible future use
 
@@ -1167,7 +1333,7 @@ Table of Contents
 
       -  external commit - general operational policy rules
 
-8.  Extensibility of the policy format
+9.  Extensibility of the policy format
 
    Finally, The extensibility mechanism allows for future addition of
    new room policies.
@@ -1191,185 +1357,329 @@ Table of Contents
      PolicyExtension policy_extensions<V>;
    } RoomPolicy;
 
-9.  Security Considerations
+10.  Security Considerations
 
    This entire document focuses on authorization policy.  TODO More
    Security
 
-10.  IANA Considerations
+11.  IANA Considerations
 
-10.1.  Preauthorized users MLS application component
+   RFC EDITOR: Please replace XXXX throughout with the RFC number
+   assigned to this document.
 
-   TBC
+11.1.  New MLS application components
 
-10.2.  Role definitions MLS application component
+   This document registers the following MLS Component Types per
+   Section 7.5 of [I-D.ietf-mls-extensions].
 
-   TBC
+11.1.1.  mls_operational_policy MLS Component Type
 
-10.3.  New MIMI Role Capabilities registry
+   *  Value: TBD0
 
-   Create a new registry with the following values assigned sequentially
-   using the reference RFCXXXX.
+   *  Name: mls_operational_policy
 
-          +========+============================================+
-          | Value  | Name                                       |
-          +========+============================================+
-          | 0x0000 | canAddParticipant                          |
-          +--------+--------------------------------------------+
-          | 0x0001 | canRemoveParticipant                       |
-          +--------+--------------------------------------------+
-          | 0x0002 | canAddOwnClient                            |
-          +--------+--------------------------------------------+
-          | 0x0003 | canRemoveOwnClient                         |
-          +--------+--------------------------------------------+
-          | 0x0004 | canAddSelf                                 |
-          +--------+--------------------------------------------+
-          | 0x0005 | canRemoveSelf                              |
-          +--------+--------------------------------------------+
-          | 0x0006 | canCreateJoinCode (reserved)               |
-          +--------+--------------------------------------------+
-          | 0x0007 | canUseJoinCode                             |
-          +--------+--------------------------------------------+
-          | 0x0008 | canBan                                     |
-          +--------+--------------------------------------------+
-          | 0x0009 | canUnBan                                   |
-          +--------+--------------------------------------------+
-          | 0x000a | canKick                                    |
-          +--------+--------------------------------------------+
-          | 0x000b | canKnock (reserved)                        |
-          +--------+--------------------------------------------+
-          | 0x000c | canAcceptKnock (reserved)                  |
-          +--------+--------------------------------------------+
-          | 0x000d | canChangeUserRole                          |
-          +--------+--------------------------------------------+
-          | 0x000e | canChangeOwnRole                           |
-          +--------+--------------------------------------------+
-          | 0x000f | canCreateSubgroup (reserved)               |
-          +--------+--------------------------------------------+
-          | 0x0100 | canSendMessage                             |
-          +--------+--------------------------------------------+
-          | 0x0101 | canReceiveMessage                          |
-          +--------+--------------------------------------------+
-          | 0x0102 | canCopyMessage                             |
-          +--------+--------------------------------------------+
-          | 0x0103 | canReportAbuse                             |
-          +--------+--------------------------------------------+
-          | 0x0104 | canReplyToMessage                          |
-          +--------+--------------------------------------------+
-          | 0x0105 | canReactToMessage                          |
-          +--------+--------------------------------------------+
-          | 0x0106 | canEditReaction                            |
-          +--------+--------------------------------------------+
-          | 0x0107 | canDeleteOwnReaction                       |
-          +--------+--------------------------------------------+
-          | 0x0108 | canDeleteOtherReaction                     |
-          +--------+--------------------------------------------+
-          | 0x0109 | canEditOwnMessage                          |
-          +--------+--------------------------------------------+
-          | 0x010a | canDeleteOwnMessage                        |
-          +--------+--------------------------------------------+
-          | 0x010b | canDeleteOtherMessage                      |
-          +--------+--------------------------------------------+
-          | 0x010c | canStartTopic                              |
-          +--------+--------------------------------------------+
-          | 0x010d | canReplyInTopic                            |
-          +--------+--------------------------------------------+
-          | 0x010e | canEditOwnTopic                            |
-          +--------+--------------------------------------------+
-          | 0x010f | canEditOtherTopic                          |
-          +--------+--------------------------------------------+
-          | 0x0111 | canSendDirectMessage (reserved)            |
-          +--------+--------------------------------------------+
-          | 0x0111 | canTargetMessage (reserved)                |
-          +--------+--------------------------------------------+
-          | 0x0200 | canUploadImage                             |
-          +--------+--------------------------------------------+
-          | 0x0201 | canUploadAudio                             |
-          +--------+--------------------------------------------+
-          | 0x0202 | canUploadVideo                             |
-          +--------+--------------------------------------------+
-          | 0x0203 | canUploadAttachment                        |
-          +--------+--------------------------------------------+
-          | 0x0204 | canDownloadImage                           |
-          +--------+--------------------------------------------+
-          | 0x0205 | canDownloadAudio                           |
-          +--------+--------------------------------------------+
-          | 0x0206 | canDownloadVideo                           |
-          +--------+--------------------------------------------+
-          | 0x0207 | canDownloadAttachment                      |
-          +--------+--------------------------------------------+
-          | 0x0208 | canSendLink                                |
-          +--------+--------------------------------------------+
-          | 0x0209 | canSendLinkPreview                         |
-          +--------+--------------------------------------------+
-          | 0x020a | canFollowLink                              |
-          +--------+--------------------------------------------+
-          | 0x020b | canCopyLink                                |
-          +--------+--------------------------------------------+
-          | 0x0300 | canChangeRoomName                          |
-          +--------+--------------------------------------------+
-          | 0x0301 | canChangeRoomDescription                   |
-          +--------+--------------------------------------------+
-          | 0x0302 | canChangeRoomAvatar                        |
-          +--------+--------------------------------------------+
-          | 0x0303 | canChangeRoomSubject                       |
-          +--------+--------------------------------------------+
-          | 0x0304 | canChangeRoomMood                          |
-          +--------+--------------------------------------------+
-          | 0x0380 | canChangeOwnName (reserved)                |
-          +--------+--------------------------------------------+
-          | 0x0381 | canChangeOwnPresence (reserved)            |
-          +--------+--------------------------------------------+
-          | 0x0382 | canChangeOwnMood (reserved)                |
-          +--------+--------------------------------------------+
-          | 0x0383 | canChangeOwnAvatar (reserved)              |
-          +--------+--------------------------------------------+
-          | 0x0400 | canStartCall                               |
-          +--------+--------------------------------------------+
-          | 0x0401 | canJoinCall                                |
-          +--------+--------------------------------------------+
-          | 0x0402 | canSendAudio                               |
-          +--------+--------------------------------------------+
-          | 0x0403 | canReceiveAudio                            |
-          +--------+--------------------------------------------+
-          | 0x0404 | canSendVideo                               |
-          +--------+--------------------------------------------+
-          | 0x0405 | canReceiveVideo                            |
-          +--------+--------------------------------------------+
-          | 0x0406 | canShareScreen                             |
-          +--------+--------------------------------------------+
-          | 0x0407 | canViewSharedScreen                        |
-          +--------+--------------------------------------------+
-          | 0x0500 | canCreateRoom (reserved)                   |
-          +--------+--------------------------------------------+
-          | 0x0501 | canDestroyRoom                             |
-          +--------+--------------------------------------------+
-          | 0x0502 | canChangeRoomMembershipStyle               |
-          +--------+--------------------------------------------+
-          | 0x0503 | canChangeRoleDefinitions                   |
-          +--------+--------------------------------------------+
-          | 0x0504 | canChangePreauthorizedUserList             |
-          +--------+--------------------------------------------+
-          | 0x0505 | canChangeOtherPolicyAttribute (reserved)   |
-          +--------+--------------------------------------------+
-          | 0x0600 | canChangeMlsOperationalPolicies (reserved) |
-          +--------+--------------------------------------------+
-          | 0x0601 | canSendMLSReinitProposal                   |
-          +--------+--------------------------------------------+
-          | 0x0602 | canSendMLSUpdateProposal (reserved)        |
-          +--------+--------------------------------------------+
-          | 0x0603 | canSendMLSPSKProposal (reserved)           |
-          +--------+--------------------------------------------+
-          | 0x0604 | canSendMLSExternalProposal (reserved)      |
-          +--------+--------------------------------------------+
-          | 0x0605 | canSendMLSExternalCommit (reserved)        |
-          +--------+--------------------------------------------+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 7 of RFCXXXX
+
+11.1.2.  role_list MLS Component Type
+
+   *  Value: TBD1
+
+   *  Name: role_list
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 3 of RFCXXXX
+
+11.1.3.  preauth_list MLS Component Type
+
+   *  Value: TBD2
+
+   *  Name: preauth_list
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 4 of RFCXXXX
+
+11.1.4.  status_notification_policy MLS Component Type
+
+   *  Value: TBD3
+
+   *  Name: status_notification_policy
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 6.1 of RFCXXXX
+
+11.1.5.  join_link_policy MLS Component Type
+
+   *  Value: TBD4
+
+   *  Name: join_link_policy
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 6.2 of RFCXXXX
+
+11.1.6.  link_preview_policy MLS Component Type
+
+   *  Value: TBD5
+
+   *  Name: link_preview_policy
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 6.3 of RFCXXXX
+
+11.1.7.  asset_policy MLS Component Type
+
+   *  Value: TBD6
+
+   *  Name: asset_policy
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 6.4 of RFCXXXX
+
+11.1.8.  logging_policy MLS Component Type
+
+   *  Value: TBD7
+
+   *  Name: logging_policy
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 6.5 of RFCXXXX
+
+11.1.9.  chat_history_policy MLS Component Type
+
+   *  Value: TBD8
+
+   *  Name: chat_history_policy
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 6.6 of RFCXXXX
+
+11.1.10.  bot_policy MLS Component Type
+
+   *  Value: TBD9
+
+   *  Name: bot_policy
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 6.7 of RFCXXXX
+
+11.1.11.  Message expiration policy component
+
+   *  Value: TBD10
+
+   *  Name: message_expiration_policy
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 6.8 of RFCXXXX
+
+11.2.  New MIMI Role Capabilities registry
+
+   This document requests the creation of a new IANA "MIMI Role
+   Capabilities" registry.  The registry should be under the heading of
+   "More Instant Messaging Interoperability (MIMI)".  Assignments to
+   this registry in the range 0x0000 to 0xF000 are via Specification
+   Required policy [RFC8126] using the MIMI Designated Experts.
+   Assignments in the range 0xF000 to 0xFFFF are for private use.
+
+   Template:
+
+   *  Value: The numeric value of the role capability
+
+   *  Name: The name of the role capability
+
+   *  Reference: The document where this role capability is defined
+
+    +========+============================================+===========+
+    | Value  | Name                                       | Reference |
+    +========+============================================+===========+
+    | 0x0000 | canAddParticipant                          | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0001 | canRemoveParticipant                       | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0002 | canAddOwnClient                            | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0003 | canRemoveOwnClient                         | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0004 | canAddSelf                                 | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0005 | canRemoveSelf                              | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0006 | canCreateJoinCode (reserved)               | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0007 | canUseJoinCode                             | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0008 | canBan                                     | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0009 | canUnBan                                   | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x000a | canKick                                    | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x000b | canKnock (reserved)                        | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x000c | canAcceptKnock (reserved)                  | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x000d | canChangeUserRole                          | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x000e | canChangeOwnRole                           | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x000f | canCreateSubgroup (reserved)               | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0100 | canSendMessage                             | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0101 | canReceiveMessage                          | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0102 | canCopyMessage                             | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0103 | canReportAbuse                             | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0104 | canReplyToMessage                          | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0105 | canReactToMessage                          | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0106 | canEditReaction                            | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0107 | canDeleteOwnReaction                       | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0108 | canDeleteOtherReaction                     | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0109 | canEditOwnMessage                          | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x010a | canDeleteOwnMessage                        | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x010b | canDeleteOtherMessage                      | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x010c | canStartTopic                              | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x010d | canReplyInTopic                            | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x010e | canEditOwnTopic                            | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x010f | canEditOtherTopic                          | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0111 | canSendDirectMessage (reserved)            | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0111 | canTargetMessage (reserved)                | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0200 | canUploadImage                             | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0201 | canUploadAudio                             | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0202 | canUploadVideo                             | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0203 | canUploadAttachment                        | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0204 | canDownloadImage                           | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0205 | canDownloadAudio                           | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0206 | canDownloadVideo                           | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0207 | canDownloadAttachment                      | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0208 | canSendLink                                | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0209 | canSendLinkPreview                         | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x020a | canFollowLink                              | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x020b | canCopyLink                                | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0300 | canChangeRoomName                          | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0301 | canChangeRoomDescription                   | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0302 | canChangeRoomAvatar                        | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0303 | canChangeRoomSubject                       | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0304 | canChangeRoomMood                          | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0380 | canChangeOwnName (reserved)                | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0381 | canChangeOwnPresence (reserved)            | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0382 | canChangeOwnMood (reserved)                | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0383 | canChangeOwnAvatar (reserved)              | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0400 | canStartCall                               | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0401 | canJoinCall                                | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0402 | canSendAudio                               | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0403 | canReceiveAudio                            | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0404 | canSendVideo                               | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0405 | canReceiveVideo                            | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0406 | canShareScreen                             | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0407 | canViewSharedScreen                        | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0500 | canCreateRoom (reserved)                   | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0501 | canDestroyRoom                             | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0502 | canChangeRoomMembershipStyle               | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0503 | canChangeRoleDefinitions                   | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0504 | canChangePreauthorizedUserList             | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0505 | canChangeOtherPolicyAttribute (reserved)   | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0600 | canChangeMlsOperationalPolicies (reserved) | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0601 | canSendMLSReinitProposal                   | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0602 | canSendMLSUpdateProposal (reserved)        | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0603 | canSendMLSPSKProposal (reserved)           | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0604 | canSendMLSExternalProposal (reserved)      | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0605 | canSendMLSExternalCommit (reserved)        | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
 
                                   Table 1
 
-11.  References
+12.  References
 
-11.1.  Normative References
+12.1.  Normative References
 
    [I-D.ietf-mimi-arch]
               Barnes, R., "An Architecture for More Instant Messaging
@@ -1405,11 +1715,32 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
+   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, DOI 10.17487/RFC8126, June 2017,
+              <https://www.rfc-editor.org/rfc/rfc8126>.
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-11.2.  Informative References
+   [RFC9420]  Barnes, R., Beurdouche, B., Robert, R., Millican, J.,
+              Omara, E., and K. Cohn-Gordon, "The Messaging Layer
+              Security (MLS) Protocol", RFC 9420, DOI 10.17487/RFC9420,
+              July 2023, <https://www.rfc-editor.org/rfc/rfc9420>.
+
+12.2.  Informative References
+
+   [I-D.mahy-mimi-message-status]
+              Mahy, R., "A Message Status format for the More Instant
+              Messaging Interoperability (MIMI) content format", Work in
+              Progress, Internet-Draft, draft-mahy-mimi-message-status-
+              00, 4 July 2025, <https://datatracker.ietf.org/doc/html/
+              draft-mahy-mimi-message-status-00>.
+
+   [RFC9458]  Thomson, M. and C. A. Wood, "Oblivious HTTP", RFC 9458,
+              DOI 10.17487/RFC9458, January 2024,
+              <https://www.rfc-editor.org/rfc/rfc9458>.
 
    [RFC9750]  Beurdouche, B., Rescorla, E., Omara, E., Inguva, S., and
               A. Duric, "The Messaging Layer Security (MLS)
