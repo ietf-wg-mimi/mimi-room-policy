@@ -449,6 +449,8 @@ struct {
   opaque media_type<V>;
 } MediaType;
 
+
+
 struct {
   AssetUploadLocation asset_upload_location;
   ProviderAssetUploadDomains upload_domains<V>;
@@ -468,11 +470,11 @@ AssetPolicy AssetPolicyUpdate;
 The `max_image`, `max_audio`, `max_video`, and `max_attachment` fields indication the maximum size in bytes  of the corresponding assets that will be accepted.
 These amounts could be further limited at the client according to local policy or at the upload location based on various forms of authorization and quotas.
 
-`forbidden_media_types` is a list of media types that are not allowed at all in the room.
+The following paragraph refers to fields that use the `MediaType` struct defined in {{Section 6.2.2 of !I-D.ietf-mls-extensions}}.
+`forbidden_media_types` is a list of media types (type and subtype) that are not allowed at all in the room.
 If present, `permitted_media_types` is a list of media types that are permitted.
 When it is present, media types MUST be one of the entries in the `permitted_media_types` list, and MUST NOT be in the `forbidden_media_types` list.
-If a media type without a subtype (for example, `audio`) is present in one of these lists, it matches all media types of any subtype with that type.
-If a media type without parameters (for example, `text/markdown`) is present in one of these lists, it matches all media types of that type and subtype regardless of additional parameters.
+If a media type with no parameters (for example, `text/markdown`) is present in one of these lists, that entry matches all media types of that type and subtype that contain additional parameters.
 
 
 ## Logging policy component {#logging}
