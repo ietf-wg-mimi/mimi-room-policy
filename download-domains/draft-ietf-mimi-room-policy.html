@@ -1692,7 +1692,7 @@ The <code>default_download_type</code> is the default or suggested download mech
 <code>direct</code> refers to client direct download as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-protocol-05#section-5.10.1" class="relref">Section 5.10.1</a> of [<a href="#I-D.ietf-mimi-protocol" class="cite xref">I-D.ietf-mimi-protocol</a>]</span>.
 <code>hubProxy</code> refers to client download through a proxy on the hub as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-protocol-05#section-5.10.2" class="relref">Section 5.10.2</a> of [<a href="#I-D.ietf-mimi-protocol" class="cite xref">I-D.ietf-mimi-protocol</a>]</span>.
 <code>ohttp</code> refers to client download through Oblivious HTTP <span>[<a href="#RFC9458" class="cite xref">RFC9458</a>]</span> through the hub as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-protocol-05#section-5.10.3" class="relref">Section 5.10.3</a> of [<a href="#I-D.ietf-mimi-protocol" class="cite xref">I-D.ietf-mimi-protocol</a>]</span>.<a href="#section-6.4-5" class="pilcrow">¶</a></p>
-<div class="lang-tls sourcecode" id="section-6.4-6">
+<div class="breakable lang-tls sourcecode" id="section-6.4-6">
 <pre>
 enum {
   unspecified(0),
@@ -1727,6 +1727,8 @@ struct {
   opaque media_type&lt;V&gt;;
 } MediaType;
 
+
+
 struct {
   AssetUploadLocation asset_upload_location;
   ProviderAssetUploadDomains upload_domains&lt;V&gt;;
@@ -1745,11 +1747,11 @@ AssetPolicy AssetPolicyUpdate;
 </div>
 <p id="section-6.4-7">The <code>max_image</code>, <code>max_audio</code>, <code>max_video</code>, and <code>max_attachment</code> fields indication the maximum size in bytes  of the corresponding assets that will be accepted.
 These amounts could be further limited at the client according to local policy or at the upload location based on various forms of authorization and quotas.<a href="#section-6.4-7" class="pilcrow">¶</a></p>
-<p id="section-6.4-8"><code>forbidden_media_types</code> is a list of media types that are not allowed at all in the room.
+<p id="section-6.4-8">The following paragraph refers to fields that use the <code>MediaType</code> struct defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-mls-extensions-08#section-6.2.2" class="relref">Section 6.2.2</a> of [<a href="#I-D.ietf-mls-extensions" class="cite xref">I-D.ietf-mls-extensions</a>]</span>.
+<code>forbidden_media_types</code> is a list of media types (type and subtype) that are not allowed at all in the room.
 If present, <code>permitted_media_types</code> is a list of media types that are permitted.
 When it is present, media types <span class="bcp14">MUST</span> be one of the entries in the <code>permitted_media_types</code> list, and <span class="bcp14">MUST NOT</span> be in the <code>forbidden_media_types</code> list.
-If a media type without a subtype (for example, <code>audio</code>) is present in one of these lists, it matches all media types of any subtype with that type.
-If a media type without parameters (for example, <code>text/markdown</code>) is present in one of these lists, it matches all media types of that type and subtype regardless of additional parameters.<a href="#section-6.4-8" class="pilcrow">¶</a></p>
+If a media type with no parameters (for example, <code>text/markdown</code>) is present in one of these lists, that entry matches all media types of that type and subtype that contain additional parameters.<a href="#section-6.4-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="logging">
