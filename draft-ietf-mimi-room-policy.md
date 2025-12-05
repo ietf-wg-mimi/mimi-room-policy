@@ -371,22 +371,51 @@ JoinLinkPolicy JoinLinkPolicyUpdate;
 
 ## Link Preview policy component {#link-preview}
 
-TBC
+Link preview policy is concerned with the safe rendering of explicit or implicit hyperlinks in the text of an instant message.
+The `automatic_link_previews` setting indicates if the receiver of a message generating link previews (a desirable feature, but a potential privacy concern) is mandatory, optional, or forbidden.
+
+The `link_preview_proxy_use` setting indicates if using a specialized link preview proxy is mandatory, optional, or forbidden when link previews are generated.
+Its value MUST be `forbidden` if `automatic_link_previews` is `fobidden`.
+
+The `link_preview_proxy` setting MUST include the URI of a link preview proxy if `link_preview_proxy_uses` is `mandatory` or `optional`.
+
+The `autodetect_hyperlinks_in_text` setting indicates if a message composer is expected to detect hyperlinks from text which resembles links (ex: `http://example.com`).
+The value of `autodetect_hyperlinks_in_text` MUST NOT be `mandatory`.
+
+~~~ tls
+struct {
+  Optionality automatic_link_previews;
+  Optionality link_preview_proxy_use;
+  Uri link_preview_proxy<V>;
+  Optionality autodetect_hyperlinks_in_text;
+} LinkPreviewPolicy;
+
+LinkPreviewPolicy LinkPreviewPolicyData;
+LinkPreviewPolicy LinkPreviewPolicyUpdate;
+~~~
+
 
 ## Asset policies component {#assets}
 
 Assets refer to attached files, images, audio files, and video files.
 
-TBC
+The `asset_upload_location` could be `unspecified`, indicating any location; `localProvider`, indicating that each client uploads assets to its local provider; or `hub`, indicating that all clients upload assets to the hub.
+Using `localProvider` is RECOMMENDED.
+
+The `asset_upload_domains` is a list of `asset_upload_destinations` per `provider` domain name.
+If the `asset_upload_location` is `hub`, only one `provider` matching the hub domain is present in `asset_upload_domains`.
+
+Unless `asset_upload_location` is `unspecified`, the clients verify that assets in the host part of the `url` of any MIMI content {{!I-D.ietf-mimi-content}} ExternalPart corresponds to an entry in `asset_upload_domains`.
+If the `asset_upload_location` is `localProvider` the `asset_upload_domains` list is from the `provider` domain name that exactly matches the sender URI domain name.
+
+`download_privacy` describes the mechanisms acceptable for downloading assets.
+The `allowed_download_types` and `forbidden_download_types` specify the download mechanisms which are are allowed and forbidden, respectively.
+The `default_download_type` is the default or suggested download mechanism.
+`direct` refers to client direct download as described in {{Section 5.10.1 of !I-D.ietf-mimi-protocol}}.
+`hubProxy` refers to client download through a proxy on the hub as described in {{Section 5.10.2 of !I-D.ietf-mimi-protocol}}.
+`ohttp` refers to client download through Oblivious HTTP {{?RFC9458}} through the hub as described in {{Section 5.10.3 of !I-D.ietf-mimi-protocol}}.
 
 ~~~ tls
-enum {
-  direct(0),
-  hubProxy(1),
-  ohttp(2),
-  (255)
-} DownloadPrivacyType;
-
 enum {
   unspecified(0),
   localProvider(1),
@@ -395,24 +424,55 @@ enum {
 } AssetUploadLocation;
 
 struct {
+  opaque domain<V>;
+} DomainName;
+
+struct {
+  DomainName provider;
+  DomainName asset_upload_destinations<V>;
+} ProviderAssetUploadDomains;
+
+enum {
+  direct(0),
+  hubProxy(1),
+  ohttp(2),
+  (255)
+} DownloadPrivacyType;
+
+struct {
   DownloadPrivacyType allowed_download_types<V>;
   DownloadPrivacyType forbidden_download_types<V>;
   DownloadPrivacyType default_download_type;
 } DownloadPrivacy;
 
 struct {
+  opaque media_type<V>;
+} MediaType;
+
+struct {
   AssetUploadLocation asset_upload_location;
-  opaque upload_domain<V>;
+  ProviderAssetUploadDomains upload_domains<V>;
   DownloadPrivacy download_privacy;
   uint64 max_image;
   uint64 max_audio;
   uint64 max_video;
   uint64 max_attachment;
+  MediaType forbidden_media_types<V>;
+  optional MediaType permitted_media_types<V>;
 } AssetPolicy;
 
 AssetPolicy AssetPolicyData;
 AssetPolicy AssetPolicyUpdate;
 ~~~
+
+The `max_image`, `max_audio`, `max_video`, and `max_attachment` fields indication the maximum size in bytes  of the corresponding assets that will be accepted.
+These amounts could be further limited at the client according to local policy or at the upload location based on various forms of authorization and quotas.
+
+`forbidden_media_types` is a list of media types that are not allowed at all in the room.
+If present, `permitted_media_types` is a list of media types that are permitted.
+When it is present, media types MUST be one of the entries in the `permitted_media_types` list, and MUST NOT be in the `forbidden_media_types` list.
+If a media type without a subtype (for example, `audio`) is present in one of these lists, it matches all media types of any subtype with that type.
+If a media type without parameters (for example, `text/markdown`) is present in one of these lists, it matches all media types of that type and subtype regardless of additional parameters.
 
 
 ## Logging policy component {#logging}
@@ -465,11 +525,14 @@ HistoryPolicy HistoryPolicyUpdate;
 
 ## Chat bot policy component {#bots}
 
-There are several types of chat bot in instant messaging systems, some of which only interact with
+There are several types of chat bot in instant messaging systems, some of which only interact with the local client.
 
 Inside the BotPolicy there is a list of `allowed_bots`, each of which has several fields.
 The `name`, `description`, and `homepage` are merely descriptive.
-The `bot_role_index` indicates the role index in that the bot operates, which controls the capbilities of the bot.
+
+If `local_client_bot` is true, the bot would not act as a participant; it would have access to the contents of room only with another client operated by a (presumably human) user.
+
+The `bot_role_index` indicates the role index in which the bot operates; this controls the capabilities of the bot.
 
 If `can_target_message_in_group` is true it indicates that the chat bot can send an MLS targeted message (see Section 2.2 of [I-D.ietf-mls-extensions]) or use a different conversation or out-of-band channel to send a message to specific individual users in the room.
 
@@ -483,7 +546,8 @@ struct {
   opaque name<V>;
   opaque description<V>;
   Uri homepage;
-  uint32 bot_role_index_;
+  bool local_client_bot;
+  uint32 bot_role_index;
   bool can_target_message_in_group;
   bool per_user_content;
 } Bot;
