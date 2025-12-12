@@ -1046,11 +1046,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">MIMI Room Policy</td>
-<td class="right">November 2025</td>
+<td class="right">December 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Mahy</td>
-<td class="center">Expires 31 May 2026</td>
+<td class="center">Expires 15 June 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-mimi-room-policy-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-11-27" class="published">27 November 2025</time>
+<time datetime="2025-12-12" class="published">12 December 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-05-31">31 May 2026</time></dd>
+<dd class="expires"><time datetime="2026-06-15">15 June 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1121,7 +1121,7 @@ to model a wide range of chat and multimedia conference types.<a href="#section-
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 31 May 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 15 June 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1218,6 +1218,17 @@ to model a wide range of chat and multimedia conference types.<a href="#section-
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
                 <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-membership-capabilities" class="internal xref">Membership Capabilities</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.1">
+                    <p id="section-toc.1-1.8.2.1.2.1.1"><a href="#section-8.1.1" class="auto internal xref">8.1.1</a>.  <a href="#name-adding" class="internal xref">Adding</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.2">
+                    <p id="section-toc.1-1.8.2.1.2.2.1"><a href="#section-8.1.2" class="auto internal xref">8.1.2</a>.  <a href="#name-removing" class="internal xref">Removing</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.3">
+                    <p id="section-toc.1-1.8.2.1.2.3.1"><a href="#section-8.1.3" class="auto internal xref">8.1.3</a>.  <a href="#name-role-changes" class="internal xref">Role Changes</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
                 <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-adjust-metadata" class="internal xref">Adjust metadata</a></p>
@@ -2034,85 +2045,106 @@ When we say that the holder of a capability can take some action, we mean that w
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-membership-capabilities" class="section-name selfRef">Membership Capabilities</a>
         </h3>
 <p id="section-8.1-1">The membership capabilities below allow authorized holders to update the Participant list, or change the active participants (by removing and adding MLS clients corresponding to those participants), or both.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<div id="adding">
+<section id="section-8.1.1">
+          <h4 id="name-adding">
+<a href="#section-8.1.1" class="section-number selfRef">8.1.1. </a><a href="#name-adding" class="section-name selfRef">Adding</a>
+          </h4>
 <ul class="normal">
-<li class="normal" id="section-8.1-2.1">
-            <p id="section-8.1-2.1.1"><code>canAddParticipant</code> - the holder of this capability can add another user, that is not already in the participant list, to the participant list.
+<li class="normal" id="section-8.1.1-1.1">
+              <p id="section-8.1.1-1.1.1"><code>canAddParticipant</code> - the holder of this capability can add another user, that is not already in the participant list, to the participant list.
 (This capability does not apply to the holder adding itself.)
 The <code>authorized_role_changes</code> list in the holder's role is consulted to authorize the added user's target role.
 The <code>authorized_role_changes</code> list <span class="bcp14">MUST</span> have an entry where the <code>authorized_role_changes.from_role_index</code> equals zero, and that entry's <code>target_role_indexes</code> list includes the target role.
 The proposed action is only authorized if the action respects both the <code>maximum_participants_constraint</code> (if present) and <code>maximum_active_participants_constraint</code> (if present) for the added user's target role.
-When the participant list addition for the target role is authorized, the holder is also authorized to add any MLS clients matching the added user to the room's MLS group .<a href="#section-8.1-2.1.1" class="pilcrow">¶</a></p>
+When the participant list addition for the target role is authorized, the holder is also authorized to add any MLS clients matching the added user to the room's MLS group .<a href="#section-8.1.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-2.2">
-            <p id="section-8.1-2.2.1"><code>canAddOwnClient</code> - a holder of this capability that is in the participant list, can add its own client (via an external commit or external proposal); and can add other clients that share the same user identity (via Add proposals) if the holder's client is already a member of the corresponding MLS group.<a href="#section-8.1-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-8.1.1-1.2">
+              <p id="section-8.1.1-1.2.1"><code>canAddOwnClient</code> - a holder of this capability that is in the participant list, can add its own client (via an external commit or external proposal); and can add other clients that share the same user identity (via Add proposals) if the holder's client is already a member of the corresponding MLS group.<a href="#section-8.1.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-2.3">
-            <p id="section-8.1-2.3.1"><code>canAddSelf</code> - the holder of this capability can use an external commit or external proposal to add itself to the participant list.
-(The holder <span class="bcp14">MUST NOT</span> already appear in the participant list).
-Its usage differs slightly based on in which role it appears.<a href="#section-8.1-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-8.1.1-1.3">
+              <p id="section-8.1.1-1.3.1"><code>canOpenJoin</code> - when this capability appears on role zero, any user who is not already in the participant list can add itself externally, with certain conditions.
+The <code>authorized_role_changes</code> list <span class="bcp14">MUST</span> have an entry with <code>from_role_index</code> equal to zero.
+The holder can add itself with any non-zero <code>target_role_indexes</code> from that entry, if the action respects both the <code>maximum_participants_constraint</code> (if present) and <code>maximum_active_participants_constraint</code> (if present) for the added user's target role.
+<code>canOpenJoin</code> <span class="bcp14">MUST NOT</span> appear in any non-zero role.<a href="#section-8.1.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-8.1.1-1.4">
+              <p id="section-8.1.1-1.4.1"><code>canJoinIfPreauthorized</code> - when this capability appears on a non-zero role, a client that is not already in the participant list can externally join as that target role if authorized for that role as the first matching role in the Preauthorized users mechanism.
+The <code>authorized_role_changes</code> list is not consulted for this capability.
+The action <span class="bcp14">MUST</span> respect both the <code>maximum_participants_constraint</code> (if present) and <code>maximum_active_participants_constraint</code> (if present) for the added user's target role.<a href="#section-8.1.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-8.1.1-1.5">
+              <p id="section-8.1.1-1.5.1"><code>canUseJoinCode</code> - the holder of this capability can externally join a room using a join code for that room, provided the join code is valid, the join code refers to a valid target role, and both the <code>maximum_participants_constraint</code> (if present) and <code>maximum_active_participants_constraint</code> (if present) constraints are respected.<a href="#section-8.1.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="removing">
+<section id="section-8.1.2">
+          <h4 id="name-removing">
+<a href="#section-8.1.2" class="section-number selfRef">8.1.2. </a><a href="#name-removing" class="section-name selfRef">Removing</a>
+          </h4>
 <ul class="normal">
-<li class="normal" id="section-8.1-2.3.2.1">
-                <p id="section-8.1-2.3.2.1.1">When <code>canAddSelf</code> appears on role zero, any user who is not already in the participant list can add itself, with certain provisions. The holder consults the <code>authorized_role_changes</code> list for an entry with <code>from_role_index</code> equal to zero. The holder can add itself with any non-zero <code>target_role_indexes</code> from that entry, if the action respects both the <code>maximum_participants_constraint</code> (if present) and <code>maximum_active_participants_constraint</code> (if present) for the added user's target role.<a href="#section-8.1-2.3.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-8.1-2.3.2.2">
-                <p id="section-8.1-2.3.2.2.1">When <code>canAddSelf</code> appears on a non-zero role, a client can only become the holder of this capability via the Preauthorized users mechanism.
-The <code>authorized_role_changes</code> list in the target role <span class="bcp14">MUST</span> have an entry where the <code>from_role_index</code> is zero and the <code>target_role_indexes</code> contains the target role.
-In addition, the action <span class="bcp14">MUST</span> respect both the <code>maximum_participants_constraint</code> (if present) and <code>maximum_active_participants_constraint</code> (if present) for the added user's target role.<a href="#section-8.1-2.3.2.2.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-</li>
-          <li class="normal" id="section-8.1-2.4">
-            <p id="section-8.1-2.4.1"><code>canUseJoinCode</code> - the holder of this capability can externally join a room using a join code for that room, provided the join code is valid, the join code refers to a valid target role, and both the <code>maximum_participants_constraint</code> (if present) and <code>maximum_active_participants_constraint</code> (if present) constraints are respected.<a href="#section-8.1-2.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-8.1-2.5">
-            <p id="section-8.1-2.5.1"><code>canRemoveParticipant</code> - the holder of this capability can propose a) the removal of another user (excluding itself) from the participant list, and b) removal of all of that user's clients, as a single action.
+<li class="normal" id="section-8.1.2-1.1">
+              <p id="section-8.1.2-1.1.1"><code>canRemoveParticipant</code> - the holder of this capability can propose a) the removal of another user (excluding itself) from the participant list, and b) removal of all of that user's clients, as a single action.
 There <span class="bcp14">MUST NOT</span> be any clients of the removed user in the MLS group after the corresponding commit.
-A proposer holding this capability consults its role's <code>authorized_role_changes</code> entries for an entry where <code>from_role_index</code> matches the target user's current role; if the <code>target_role_indexes</code> for that entry contains zero, and the <code>minimum_participants_constraint</code> and <code>minimum_active_participants_constraint</code> are satisfied, the proposal is authorized.<a href="#section-8.1-2.5.1" class="pilcrow">¶</a></p>
+A proposer holding this capability consults its role's <code>authorized_role_changes</code> entries for an entry where <code>from_role_index</code> matches the target user's current role; if the <code>target_role_indexes</code> for that entry contains zero, and the <code>minimum_participants_constraint</code> and <code>minimum_active_participants_constraint</code> are satisfied, the proposal is authorized.<a href="#section-8.1.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-2.6">
-            <p id="section-8.1-2.6.1"><code>canRemoveOwnClient</code> - the holder of this capability can propose to remove its own client using an MLS Remove or SelfRemove proposal without changing the Participant list.
+            <li class="normal" id="section-8.1.2-1.2">
+              <p id="section-8.1.2-1.2.1"><code>canRemoveOwnClient</code> - the holder of this capability can propose to remove its own client using an MLS Remove or SelfRemove proposal without changing the Participant list.
 Due to restrictions in MLS which insure the consistency of the group, this action cannot be committed by the leaving user.
-If the <code>minimum_active_participants_constraint</code> is satisfied, the proposal is authorized.<a href="#section-8.1-2.6.1" class="pilcrow">¶</a></p>
+If the <code>minimum_active_participants_constraint</code> is satisfied, the proposal is authorized.<a href="#section-8.1.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-2.7">
-            <p id="section-8.1-2.7.1"><code>canRemoveSelf</code> - the holder of this capability can propose to remove itself from (i.e. leave) the participant list; it <span class="bcp14">MUST</span> simultaneously propose to remove all of its remaining clients from the corresponding MLS group.
+            <li class="normal" id="section-8.1.2-1.3">
+              <p id="section-8.1.2-1.3.1"><code>canRemoveSelf</code> - the holder of this capability can propose to remove itself from (i.e. leave) the participant list; it <span class="bcp14">MUST</span> simultaneously propose to remove all of its remaining clients from the corresponding MLS group.
 Due to restrictions in MLS which insure the consistency of the group, this action cannot be committed by the leaving user.
-A proposer holding this capability consults its role's <code>authorized_role_changes</code> entries for an entry where <code>from_role_index</code> matches its current role; if the <code>target_role_indexes</code> for that entry contains zero, and the <code>minimum_participants_constraint</code> and <code>minimum_active_participants_constraint</code> are satisfied, the proposal is authorized.<a href="#section-8.1-2.7.1" class="pilcrow">¶</a></p>
+A proposer holding this capability consults its role's <code>authorized_role_changes</code> entries for an entry where <code>from_role_index</code> matches its current role; if the <code>target_role_indexes</code> for that entry contains zero, and the <code>minimum_participants_constraint</code> and <code>minimum_active_participants_constraint</code> are satisfied, the proposal is authorized.<a href="#section-8.1.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-2.8">
-            <p id="section-8.1-2.8.1"><code>canKick</code> - the holder of this capability can propose removal of another participant's clients, without changing the Participant List.
-If the <code>minimum_active_participants_constraint</code> is satisfied, the proposal is authorized.<a href="#section-8.1-2.8.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-8.1.2-1.4">
+              <p id="section-8.1.2-1.4.1"><code>canKick</code> - the holder of this capability can propose removal of another participant's clients, without changing the Participant List.
+If the <code>minimum_active_participants_constraint</code> is satisfied, the proposal is authorized.<a href="#section-8.1.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-2.9">
-            <p id="section-8.1-2.9.1"><code>canChangeUserRole</code> - the holder of this capability is authorized to change the role of another participant (but not itself), according to the holder's <code>authorized_role_changes</code> list, from a role represented by an entry where the target's current role matches <code>from_role_index</code> to any of the non-zero <code>target_role_indexes</code> in the same element of <code>authorized_role_changes</code>.
-The <code>minimum_participants_constraint</code> and <code>minimum_active_participants_constraint</code> for the target user's current role, and the <code>maximum_participants_constraint</code> (if present) and <code>maximum_active_participants_constraint</code> (if present) for the target user's target role must also be satisfied.<a href="#section-8.1-2.9.1" class="pilcrow">¶</a></p>
+          </ul>
+</section>
+</div>
+<div id="role-changes">
+<section id="section-8.1.3">
+          <h4 id="name-role-changes">
+<a href="#section-8.1.3" class="section-number selfRef">8.1.3. </a><a href="#name-role-changes" class="section-name selfRef">Role Changes</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-8.1.3-1.1">
+              <p id="section-8.1.3-1.1.1"><code>canChangeUserRole</code> - the holder of this capability is authorized to change the role of another participant (but not itself), according to the holder's <code>authorized_role_changes</code> list, from a role represented by an entry where the target's current role matches <code>from_role_index</code> to any of the non-zero <code>target_role_indexes</code> in the same element of <code>authorized_role_changes</code>.
+The <code>minimum_participants_constraint</code> and <code>minimum_active_participants_constraint</code> for the target user's current role, and the <code>maximum_participants_constraint</code> (if present) and <code>maximum_active_participants_constraint</code> (if present) for the target user's target role must also be satisfied.<a href="#section-8.1.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-2.10">
-            <p id="section-8.1-2.10.1"><code>canChangeOwnRole</code> - the holder of this capability is authorized to change its own role to the first non-zero role it matches in the Preauthorized users component (see <a href="#preauth" class="auto internal xref">Section 4</a>).
+            <li class="normal" id="section-8.1.3-1.2">
+              <p id="section-8.1.3-1.2.1"><code>canChangeOwnRole</code> - the holder of this capability is authorized to change its own role to the first non-zero role it matches in the Preauthorized users component (see <a href="#preauth" class="auto internal xref">Section 4</a>).
 The <code>authorized_role_changes</code> list is <em>not</em> consulted.
 The <code>minimum_participants_constraint</code> and <code>minimum_active_participants_constraint</code> for the holder's original role, and the
-<code>maximum_participants_constraint</code> (if present) and <code>maximum_active_participants_constraint</code> (if present) for the holder's target role must also be satisfied.<a href="#section-8.1-2.10.1" class="pilcrow">¶</a></p>
+<code>maximum_participants_constraint</code> (if present) and <code>maximum_active_participants_constraint</code> (if present) for the holder's target role must also be satisfied.<a href="#section-8.1.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-2.11">
-            <p id="section-8.1-2.11.1"><code>canBan</code> - the holder of this capability can propose to "ban" another user.
+            <li class="normal" id="section-8.1.3-1.3">
+              <p id="section-8.1.3-1.3.1"><code>canBan</code> - the holder of this capability can propose to "ban" another user.
 Specifically, a successful ban changes the target user's role to a special "banned" role (if it exists), and removes all the banned user's clients.
-The "banned" role always has <code>role_index</code> = 1 and <code>role_name</code> = "banned" (without quotes).<a href="#section-8.1-2.11.1" class="pilcrow">¶</a></p>
+The "banned" role always has <code>role_index</code> = 1 and <code>role_name</code> = "banned" (without quotes).<a href="#section-8.1.3-1.3.1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-8.1-2.11.2.1">
-                <p id="section-8.1-2.11.2.1.1">A "banned" role does not have to exist in a room, but to use the <code>canBan</code> and <code>canUnban</code> capabilities, the role needs to exist exactly as described above.
-While holding <code>canChangeUserRole</code> and <code>canKick</code> capabilities would allow the same action, it could potentially allow the holder other actions which might be undesirable in some contexts, such as kicking clients without banning.<a href="#section-8.1-2.11.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-8.1.3-1.3.2.1">
+                  <p id="section-8.1.3-1.3.2.1.1">A "banned" role does not have to exist in a room, but to use the <code>canBan</code> and <code>canUnban</code> capabilities, the role needs to exist exactly as described above.
+While holding <code>canChangeUserRole</code> and <code>canKick</code> capabilities would allow the same action, it could potentially allow the holder other actions which might be undesirable in some contexts, such as kicking clients without banning.<a href="#section-8.1.3-1.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-            </ul>
-<p id="section-8.1-2.11.3">
-A proposer holding this capability consults its role's <code>authorized_role_changes</code> entries for an entry where <code>from_role_index</code> matches the target user's current role; if the <code>target_role_indexes</code> for that entry contains the <code>role_index</code> 1; that <code>role_name</code> = "banned" for the role with role_index = 1, and the <code>minimum_participants_constraint</code> and <code>minimum_active_participants_constraint</code> are satisfied, the proposal is authorized.<a href="#section-8.1-2.11.3" class="pilcrow">¶</a></p>
+              </ul>
+<p id="section-8.1.3-1.3.3">
+A proposer holding this capability consults its role's <code>authorized_role_changes</code> entries for an entry where <code>from_role_index</code> matches the target user's current role; if the <code>target_role_indexes</code> for that entry contains the <code>role_index</code> 1; that <code>role_name</code> = "banned" for the role with role_index = 1, and the <code>minimum_participants_constraint</code> and <code>minimum_active_participants_constraint</code> are satisfied, the proposal is authorized.<a href="#section-8.1.3-1.3.3" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-2.12">
-            <p id="section-8.1-2.12.1"><code>canUnban</code> - the holder of this capability can propose to "unban" another user.
+            <li class="normal" id="section-8.1.3-1.4">
+              <p id="section-8.1.3-1.4.1"><code>canUnban</code> - the holder of this capability can propose to "unban" another user.
 Specifically, a successful unban changes the target user's role from <code>role_index</code> = 1 to another non-zero <code>role_index</code> allowed by the holder's <code>authorized_role_changes</code> list.
 Adding clients for that unbanned user is <em>not</em> authorized by this capability.
-The authorization of this capability is identical to the <code>canChangeUserRole</code> capability, except that the <code>from_role_index</code> for the unbanned user <span class="bcp14">MUST</span> be 1, and the <code>role_name</code> of role 1 <span class="bcp14">MUST</span> be "banned".<a href="#section-8.1-2.12.1" class="pilcrow">¶</a></p>
+The authorization of this capability is identical to the <code>canChangeUserRole</code> capability, except that the <code>from_role_index</code> for the unbanned user <span class="bcp14">MUST</span> be 1, and the <code>role_name</code> of role 1 <span class="bcp14">MUST</span> be "banned".<a href="#section-8.1.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
-        </ul>
+          </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="adjust-metadata">
@@ -2742,61 +2774,66 @@ Assignments in the range 0xF000 to 0xFFFF are for private use.<a href="#section-
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0004</td>
-              <td class="text-left" rowspan="1" colspan="1">canAddSelf</td>
+              <td class="text-left" rowspan="1" colspan="1">canOpenJoin</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0005</td>
-              <td class="text-left" rowspan="1" colspan="1">canRemoveSelf</td>
+              <td class="text-left" rowspan="1" colspan="1">canJoinIfPreauthorized</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0006</td>
-              <td class="text-left" rowspan="1" colspan="1">canCreateJoinCode (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">canRemoveSelf</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0007</td>
-              <td class="text-left" rowspan="1" colspan="1">canUseJoinCode</td>
+              <td class="text-left" rowspan="1" colspan="1">canCreateJoinCode (reserved)</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0008</td>
-              <td class="text-left" rowspan="1" colspan="1">canBan</td>
+              <td class="text-left" rowspan="1" colspan="1">canUseJoinCode</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x0009</td>
-              <td class="text-left" rowspan="1" colspan="1">canUnBan</td>
+              <td class="text-left" rowspan="1" colspan="1">canBan</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000a</td>
-              <td class="text-left" rowspan="1" colspan="1">canKick</td>
+              <td class="text-left" rowspan="1" colspan="1">canUnBan</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000b</td>
-              <td class="text-left" rowspan="1" colspan="1">canKnock (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">canKick</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000c</td>
-              <td class="text-left" rowspan="1" colspan="1">canAcceptKnock (reserved)</td>
+              <td class="text-left" rowspan="1" colspan="1">canKnock (reserved)</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000d</td>
-              <td class="text-left" rowspan="1" colspan="1">canChangeUserRole</td>
+              <td class="text-left" rowspan="1" colspan="1">canAcceptKnock (reserved)</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000e</td>
-              <td class="text-left" rowspan="1" colspan="1">canChangeOwnRole</td>
+              <td class="text-left" rowspan="1" colspan="1">canChangeUserRole</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x000f</td>
+              <td class="text-left" rowspan="1" colspan="1">canChangeOwnRole</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x0010</td>
               <td class="text-left" rowspan="1" colspan="1">canCreateSubgroup (reserved)</td>
               <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
             </tr>
@@ -3648,7 +3685,7 @@ Assignments in the range 0xF000 to 0xFFFF are for private use.<a href="#section-
                     <p id="appendix-A.2-2.3.2.2.2.1.1">canAddOwnClient<a href="#appendix-A.2-2.3.2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
                   <li class="normal" id="appendix-A.2-2.3.2.2.2.2">
-                    <p id="appendix-A.2-2.3.2.2.2.2.1">canAddSelf<a href="#appendix-A.2-2.3.2.2.2.2.1" class="pilcrow">¶</a></p>
+                    <p id="appendix-A.2-2.3.2.2.2.2.1">canJoinIfPreauthorized<a href="#appendix-A.2-2.3.2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
                   <li class="normal" id="appendix-A.2-2.3.2.2.2.3">
                     <p id="appendix-A.2-2.3.2.2.2.3.1">canRemoveOwnClient<a href="#appendix-A.2-2.3.2.2.2.3.1" class="pilcrow">¶</a></p>
@@ -4117,7 +4154,7 @@ Assignments in the range 0xF000 to 0xFFFF are for private use.<a href="#section-
                     <p id="appendix-A.3-1.4.2.2.2.2.1">canAddOwnClient<a href="#appendix-A.3-1.4.2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
                   <li class="normal" id="appendix-A.3-1.4.2.2.2.3">
-                    <p id="appendix-A.3-1.4.2.2.2.3.1">canAddSelf<a href="#appendix-A.3-1.4.2.2.2.3.1" class="pilcrow">¶</a></p>
+                    <p id="appendix-A.3-1.4.2.2.2.3.1">canJoinIfPreauthorized<a href="#appendix-A.3-1.4.2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
                   <li class="normal" id="appendix-A.3-1.4.2.2.2.4">
                     <p id="appendix-A.3-1.4.2.2.2.4.1">canRemoveOwnClient<a href="#appendix-A.3-1.4.2.2.2.4.1" class="pilcrow">¶</a></p>
@@ -4445,7 +4482,7 @@ Assignments in the range 0xF000 to 0xFFFF are for private use.<a href="#section-
 <p id="appendix-A.4-1">In this example room policy, Alice from organization A is a super admin.
 There are per organization user and admin roles for orgs A, B, and C.
 Organizational admins can only move users to and from their org user role, their org admin role, the no_role; and can ban (but not unban) their own org users.
-The non-host orgs do not have the <code>canChangeOwnRole</code> and <code>canAddSelf</code>, and are limited to 3 admins per org.<a href="#appendix-A.4-1" class="pilcrow">¶</a></p>
+The non-host orgs do not have the <code>canChangeOwnRole</code> and <code>canJoinIfPreauthorized</code>, and are limited to 3 admins per org.<a href="#appendix-A.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A.4-2.1">
             <p id="appendix-A.4-2.1.1">no_role<a href="#appendix-A.4-2.1.1" class="pilcrow">¶</a></p>
@@ -4525,7 +4562,7 @@ The non-host orgs do not have the <code>canChangeOwnRole</code> and <code>canAdd
                     <p id="appendix-A.4-2.3.2.2.2.2.1">canChangeOwnRole<a href="#appendix-A.4-2.3.2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
                   <li class="normal" id="appendix-A.4-2.3.2.2.2.3">
-                    <p id="appendix-A.4-2.3.2.2.2.3.1">canAddSelf<a href="#appendix-A.4-2.3.2.2.2.3.1" class="pilcrow">¶</a></p>
+                    <p id="appendix-A.4-2.3.2.2.2.3.1">canJoinIfPreauthorized<a href="#appendix-A.4-2.3.2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
@@ -4702,7 +4739,7 @@ The non-host orgs do not have the <code>canChangeOwnRole</code> and <code>canAdd
                     <p id="appendix-A.4-2.6.2.2.2.2.1">canChangeOwnRole<a href="#appendix-A.4-2.6.2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
                   <li class="normal" id="appendix-A.4-2.6.2.2.2.3">
-                    <p id="appendix-A.4-2.6.2.2.2.3.1">canAddSelf<a href="#appendix-A.4-2.6.2.2.2.3.1" class="pilcrow">¶</a></p>
+                    <p id="appendix-A.4-2.6.2.2.2.3.1">canJoinIfPreauthorized<a href="#appendix-A.4-2.6.2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>

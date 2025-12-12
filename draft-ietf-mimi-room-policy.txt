@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                          R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                          27 November 2025
-Expires: 31 May 2026
+Intended status: Informational                          12 December 2025
+Expires: 15 June 2026
 
 
    Room Policy for the More Instant Messaging Interoperability (MIMI)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 May 2026.
+   This Internet-Draft will expire on 15 June 2026.
 
 Copyright Notice
 
@@ -91,6 +91,9 @@ Table of Contents
      7.3.  Areas for future works
    8.  Role Capabilities
      8.1.  Membership Capabilities
+       8.1.1.  Adding
+       8.1.2.  Removing
+       8.1.3.  Role Changes
      8.2.  Adjust metadata
      8.3.  Message Capabilities
      8.4.  Asset Capabilities
@@ -898,6 +901,8 @@ Table of Contents
    the Participant list, or change the active participants (by removing
    and adding MLS clients corresponding to those participants), or both.
 
+8.1.1.  Adding
+
    *  canAddParticipant - the holder of this capability can add another
       user, that is not already in the participant list, to the
       participant list.  (This capability does not apply to the holder
@@ -919,30 +924,26 @@ Table of Contents
       same user identity (via Add proposals) if the holder's client is
       already a member of the corresponding MLS group.
 
-   *  canAddSelf - the holder of this capability can use an external
-      commit or external proposal to add itself to the participant list.
-      (The holder MUST NOT already appear in the participant list).  Its
-      usage differs slightly based on in which role it appears.
+   *  canOpenJoin - when this capability appears on role zero, any user
+      who is not already in the participant list can add itself
+      externally, with certain conditions.  The authorized_role_changes
+      list MUST have an entry with from_role_index equal to zero.  The
+      holder can add itself with any non-zero target_role_indexes from
+      that entry, if the action respects both the
+      maximum_participants_constraint (if present) and
+      maximum_active_participants_constraint (if present) for the added
+      user's target role. canOpenJoin MUST NOT appear in any non-zero
+      role.
 
-      -  When canAddSelf appears on role zero, any user who is not
-         already in the participant list can add itself, with certain
-         provisions.  The holder consults the authorized_role_changes
-         list for an entry with from_role_index equal to zero.  The
-         holder can add itself with any non-zero target_role_indexes
-         from that entry, if the action respects both the
-         maximum_participants_constraint (if present) and
-         maximum_active_participants_constraint (if present) for the
-         added user's target role.
-
-      -  When canAddSelf appears on a non-zero role, a client can only
-         become the holder of this capability via the Preauthorized
-         users mechanism.  The authorized_role_changes list in the
-         target role MUST have an entry where the from_role_index is
-         zero and the target_role_indexes contains the target role.  In
-         addition, the action MUST respect both the
-         maximum_participants_constraint (if present) and
-         maximum_active_participants_constraint (if present) for the
-         added user's target role.
+   *  canJoinIfPreauthorized - when this capability appears on a non-
+      zero role, a client that is not already in the participant list
+      can externally join as that target role if authorized for that
+      role as the first matching role in the Preauthorized users
+      mechanism.  The authorized_role_changes list is not consulted for
+      this capability.  The action MUST respect both the
+      maximum_participants_constraint (if present) and
+      maximum_active_participants_constraint (if present) for the added
+      user's target role.
 
    *  canUseJoinCode - the holder of this capability can externally join
       a room using a join code for that room, provided the join code is
@@ -950,6 +951,8 @@ Table of Contents
       maximum_participants_constraint (if present) and
       maximum_active_participants_constraint (if present) constraints
       are respected.
+
+8.1.2.  Removing
 
    *  canRemoveParticipant - the holder of this capability can propose
       a) the removal of another user (excluding itself) from the
@@ -989,6 +992,8 @@ Table of Contents
       another participant's clients, without changing the Participant
       List.  If the minimum_active_participants_constraint is satisfied,
       the proposal is authorized.
+
+8.1.3.  Role Changes
 
    *  canChangeUserRole - the holder of this capability is authorized to
       change the role of another participant (but not itself), according
@@ -1441,29 +1446,31 @@ Table of Contents
     +--------+--------------------------------------------+-----------+
     | 0x0003 | canRemoveOwnClient                         | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x0004 | canAddSelf                                 | RFCXXXX   |
+    | 0x0004 | canOpenJoin                                | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x0005 | canRemoveSelf                              | RFCXXXX   |
+    | 0x0005 | canJoinIfPreauthorized                     | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x0006 | canCreateJoinCode (reserved)               | RFCXXXX   |
+    | 0x0006 | canRemoveSelf                              | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x0007 | canUseJoinCode                             | RFCXXXX   |
+    | 0x0007 | canCreateJoinCode (reserved)               | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x0008 | canBan                                     | RFCXXXX   |
+    | 0x0008 | canUseJoinCode                             | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x0009 | canUnBan                                   | RFCXXXX   |
+    | 0x0009 | canBan                                     | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000a | canKick                                    | RFCXXXX   |
+    | 0x000a | canUnBan                                   | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000b | canKnock (reserved)                        | RFCXXXX   |
+    | 0x000b | canKick                                    | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000c | canAcceptKnock (reserved)                  | RFCXXXX   |
+    | 0x000c | canKnock (reserved)                        | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000d | canChangeUserRole                          | RFCXXXX   |
+    | 0x000d | canAcceptKnock (reserved)                  | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000e | canChangeOwnRole                           | RFCXXXX   |
+    | 0x000e | canChangeUserRole                          | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000f | canCreateSubgroup (reserved)               | RFCXXXX   |
+    | 0x000f | canChangeOwnRole                           | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0010 | canCreateSubgroup (reserved)               | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
     | 0x0100 | canSendMessage                             | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
@@ -1949,7 +1956,7 @@ A.2.  Strictly administered room
 
          o  canAddOwnClient
 
-         o  canAddSelf
+         o  canJoinIfPreauthorized
 
          o  canRemoveOwnClient
 
@@ -2236,7 +2243,7 @@ A.3.  Moderated room
 
          o  canAddOwnClient
 
-         o  canAddSelf
+         o  canJoinIfPreauthorized
 
          o  canRemoveOwnClient
 
@@ -2442,8 +2449,8 @@ A.4.  Multi-organization administered room
    B, and C.  Organizational admins can only move users to and from
    their org user role, their org admin role, the no_role; and can ban
    (but not unban) their own org users.  The non-host orgs do not have
-   the canChangeOwnRole and canAddSelf, and are limited to 3 admins per
-   org.
+   the canChangeOwnRole and canJoinIfPreauthorized, and are limited to 3
+   admins per org.
 
    *  no_role
 
@@ -2491,7 +2498,7 @@ A.4.  Multi-organization administered room
 
          o  canChangeOwnRole
 
-         o  canAddSelf
+         o  canJoinIfPreauthorized
 
       -  constraints
 
@@ -2597,7 +2604,7 @@ A.4.  Multi-organization administered room
 
          o  canChangeOwnRole
 
-         o  canAddSelf
+         o  canJoinIfPreauthorized
 
       -  constraints
 
