@@ -871,7 +871,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### mls_operational_policy MLS Component Type
 
-- Value: TBD0
+- Value: TBD0 (suggested value 0x0024)
 - Name: mls_operational_policy
 - Where: GC
 - Recommended: Y
@@ -879,7 +879,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### role_list MLS Component Type
 
-- Value: TBD1
+- Value: TBD1 (suggested value 0x0025)
 - Name: role_list
 - Where: GC
 - Recommended: Y
@@ -887,15 +887,23 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### preauth_list MLS Component Type
 
-- Value: TBD2
+- Value: TBD2 (suggested value 0x0026)
 - Name: preauth_list
+- Where: GC
+- Recommended: Y
+- Reference: {{preauth}} of RFCXXXX
+
+### base_room_policy MLS Component Type
+
+- Value: TBD3 (suggested value 0x0027)
+- Name: base_room_policy
 - Where: GC
 - Recommended: Y
 - Reference: {{preauth}} of RFCXXXX
 
 ### status_notification_policy MLS Component Type
 
-- Value: TBD3
+- Value: TBD4 (suggested value 0x0028)
 - Name: status_notification_policy
 - Where: GC
 - Recommended: Y
@@ -903,15 +911,23 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### join_link_policy MLS Component Type
 
-- Value: TBD4
+- Value: TBD5 (suggested value 0x0029)
 - Name: join_link_policy
+- Where: GC
+- Recommended: Y
+- Reference: {{join-link}} of RFCXXXX
+
+### join_links MLS Component Type
+
+- Value: TBD6 (suggested value 0x002A)
+- Name: join_links
 - Where: GC
 - Recommended: Y
 - Reference: {{join-link}} of RFCXXXX
 
 ### link_preview_policy MLS Component Type
 
-- Value: TBD5
+- Value: TBD7 (suggested value 0x002B)
 - Name: link_preview_policy
 - Where: GC
 - Recommended: Y
@@ -919,7 +935,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### asset_policy MLS Component Type
 
-- Value: TBD6
+- Value: TBD8  (suggested value 0x002C)
 - Name: asset_policy
 - Where: GC
 - Recommended: Y
@@ -927,7 +943,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### logging_policy MLS Component Type
 
-- Value: TBD7
+- Value: TBD9 (suggested value 0x002D)
 - Name: logging_policy
 - Where: GC
 - Recommended: Y
@@ -935,7 +951,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### chat_history_policy MLS Component Type
 
-- Value: TBD8
+- Value: TBD10 (suggested value 0x002E)
 - Name: chat_history_policy
 - Where: GC
 - Recommended: Y
@@ -943,7 +959,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### bot_policy MLS Component Type
 
-- Value: TBD9
+- Value: TBD11 (suggested value 0x002F)
 - Name: bot_policy
 - Where: GC
 - Recommended: Y
@@ -951,7 +967,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### Message expiration policy component
 
-- Value: TBD10
+- Value: TBD12 (suggested value 0x0030)
 - Name: message_expiration_policy
 - Where: GC
 - Recommended: Y
