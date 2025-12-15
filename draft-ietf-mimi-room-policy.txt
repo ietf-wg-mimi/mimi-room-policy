@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                          R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                          12 December 2025
-Expires: 15 June 2026
+Intended status: Informational                          15 December 2025
+Expires: 18 June 2026
 
 
    Room Policy for the More Instant Messaging Interoperability (MIMI)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 June 2026.
+   This Internet-Draft will expire on 18 June 2026.
 
 Copyright Notice
 
@@ -107,14 +107,16 @@ Table of Contents
        11.1.1.  mls_operational_policy MLS Component Type
        11.1.2.  role_list MLS Component Type
        11.1.3.  preauth_list MLS Component Type
-       11.1.4.  status_notification_policy MLS Component Type
-       11.1.5.  join_link_policy MLS Component Type
-       11.1.6.  link_preview_policy MLS Component Type
-       11.1.7.  asset_policy MLS Component Type
-       11.1.8.  logging_policy MLS Component Type
-       11.1.9.  chat_history_policy MLS Component Type
-       11.1.10. bot_policy MLS Component Type
-       11.1.11. Message expiration policy component
+       11.1.4.  base_room_policy MLS Component Type
+       11.1.5.  status_notification_policy MLS Component Type
+       11.1.6.  join_link_policy MLS Component Type
+       11.1.7.  join_links MLS Component Type
+       11.1.8.  link_preview_policy MLS Component Type
+       11.1.9.  asset_policy MLS Component Type
+       11.1.10. logging_policy MLS Component Type
+       11.1.11. chat_history_policy MLS Component Type
+       11.1.12. bot_policy MLS Component Type
+       11.1.13. Message expiration policy component
      11.2.  New MIMI Role Capabilities registry
    12. References
      12.1.  Normative References
@@ -1288,7 +1290,7 @@ Table of Contents
 
 11.1.1.  mls_operational_policy MLS Component Type
 
-   *  Value: TBD0
+   *  Value: TBD0 (suggested value 0x0024)
 
    *  Name: mls_operational_policy
 
@@ -1300,7 +1302,7 @@ Table of Contents
 
 11.1.2.  role_list MLS Component Type
 
-   *  Value: TBD1
+   *  Value: TBD1 (suggested value 0x0025)
 
    *  Name: role_list
 
@@ -1312,7 +1314,7 @@ Table of Contents
 
 11.1.3.  preauth_list MLS Component Type
 
-   *  Value: TBD2
+   *  Value: TBD2 (suggested value 0x0026)
 
    *  Name: preauth_list
 
@@ -1322,9 +1324,21 @@ Table of Contents
 
    *  Reference: Section 4 of RFCXXXX
 
-11.1.4.  status_notification_policy MLS Component Type
+11.1.4.  base_room_policy MLS Component Type
 
-   *  Value: TBD3
+   *  Value: TBD3 (suggested value 0x0027)
+
+   *  Name: base_room_policy
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 4 of RFCXXXX
+
+11.1.5.  status_notification_policy MLS Component Type
+
+   *  Value: TBD4 (suggested value 0x0028)
 
    *  Name: status_notification_policy
 
@@ -1334,9 +1348,9 @@ Table of Contents
 
    *  Reference: Section 6.1 of RFCXXXX
 
-11.1.5.  join_link_policy MLS Component Type
+11.1.6.  join_link_policy MLS Component Type
 
-   *  Value: TBD4
+   *  Value: TBD5 (suggested value 0x0029)
 
    *  Name: join_link_policy
 
@@ -1346,9 +1360,21 @@ Table of Contents
 
    *  Reference: Section 6.2 of RFCXXXX
 
-11.1.6.  link_preview_policy MLS Component Type
+11.1.7.  join_links MLS Component Type
 
-   *  Value: TBD5
+   *  Value: TBD6 (suggested value 0x002A)
+
+   *  Name: join_links
+
+   *  Where: GC
+
+   *  Recommended: Y
+
+   *  Reference: Section 6.2 of RFCXXXX
+
+11.1.8.  link_preview_policy MLS Component Type
+
+   *  Value: TBD7 (suggested value 0x002B)
 
    *  Name: link_preview_policy
 
@@ -1358,9 +1384,9 @@ Table of Contents
 
    *  Reference: Section 6.3 of RFCXXXX
 
-11.1.7.  asset_policy MLS Component Type
+11.1.9.  asset_policy MLS Component Type
 
-   *  Value: TBD6
+   *  Value: TBD8 (suggested value 0x002C)
 
    *  Name: asset_policy
 
@@ -1370,9 +1396,9 @@ Table of Contents
 
    *  Reference: Section 6.4 of RFCXXXX
 
-11.1.8.  logging_policy MLS Component Type
+11.1.10.  logging_policy MLS Component Type
 
-   *  Value: TBD7
+   *  Value: TBD9 (suggested value 0x002D)
 
    *  Name: logging_policy
 
@@ -1382,9 +1408,9 @@ Table of Contents
 
    *  Reference: Section 6.5 of RFCXXXX
 
-11.1.9.  chat_history_policy MLS Component Type
+11.1.11.  chat_history_policy MLS Component Type
 
-   *  Value: TBD8
+   *  Value: TBD10 (suggested value 0x002E)
 
    *  Name: chat_history_policy
 
@@ -1394,9 +1420,9 @@ Table of Contents
 
    *  Reference: Section 6.6 of RFCXXXX
 
-11.1.10.  bot_policy MLS Component Type
+11.1.12.  bot_policy MLS Component Type
 
-   *  Value: TBD9
+   *  Value: TBD11 (suggested value 0x002F)
 
    *  Name: bot_policy
 
@@ -1406,9 +1432,9 @@ Table of Contents
 
    *  Reference: Section 6.7 of RFCXXXX
 
-11.1.11.  Message expiration policy component
+11.1.13.  Message expiration policy component
 
-   *  Value: TBD10
+   *  Value: TBD12 (suggested value 0x0030)
 
    *  Name: message_expiration_policy
 
