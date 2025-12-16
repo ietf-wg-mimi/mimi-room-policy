@@ -374,10 +374,10 @@ JoinLinkPolicy JoinLinkPolicyUpdate;
 ## Link Preview policy component {#link-preview}
 
 Link preview policy is concerned with the safe rendering of explicit or implicit hyperlinks in the text of an instant message.
-The `automatic_link_previews` setting indicates if the receiver of a message generating link previews (a desirable feature, but a potential privacy concern) is mandatory, optional, or forbidden.
+The `send_link_previews` setting indicates if the receiver of a message generating link previews (a desirable feature, but a potential privacy concern) is mandatory, optional, or forbidden.
 
 The `link_preview_proxy_use` setting indicates if using a specialized link preview proxy is mandatory, optional, or forbidden when link previews are generated.
-Its value MUST be `forbidden` if `automatic_link_previews` is `fobidden`.
+Its value MUST be `forbidden` if `send_link_previews` is `forbidden`.
 
 The `link_preview_proxy` setting MUST include the URI of a link preview proxy if `link_preview_proxy_uses` is `mandatory` or `optional`.
 
@@ -386,6 +386,7 @@ The value of `autodetect_hyperlinks_in_text` MUST NOT be `mandatory`.
 
 ~~~ tls
 struct {
+  Optionality send_link_previews;
   Optionality automatic_link_previews;
   Optionality link_preview_proxy_use;
   Uri link_preview_proxy<V>;
@@ -456,14 +457,14 @@ struct {
   uint64 max_video;
   uint64 max_attachment;
   MediaType forbidden_media_types<V>;
-  optional MediaType permitted_media_types<V>;
+  optional<MediaType> permitted_media_types<V>;
 } AssetPolicy;
 
 AssetPolicy AssetPolicyData;
 AssetPolicy AssetPolicyUpdate;
 ~~~
 
-The `max_image`, `max_audio`, `max_video`, and `max_attachment` fields indication the maximum size in bytes  of the corresponding assets that will be accepted.
+The `max_image`, `max_audio`, `max_video`, and `max_attachment` fields indication the maximum size in bytes of the corresponding assets that will be accepted.
 These amounts could be further limited at the client according to local policy or at the upload location based on various forms of authorization and quotas.
 
 The following paragraph refers to fields that use the `MediaType` struct defined in {{Section 6.2.2 of !I-D.ietf-mls-extensions}}.
