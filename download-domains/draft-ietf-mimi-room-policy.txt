@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                          R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                           5 December 2025
-Expires: 8 June 2026
+Intended status: Informational                          16 December 2025
+Expires: 19 June 2026
 
 
    Room Policy for the More Instant Messaging Interoperability (MIMI)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 June 2026.
+   This Internet-Draft will expire on 19 June 2026.
 
 Copyright Notice
 
@@ -534,14 +534,14 @@ Table of Contents
 
    Link preview policy is concerned with the safe rendering of explicit
    or implicit hyperlinks in the text of an instant message.  The
-   automatic_link_previews setting indicates if the receiver of a
-   message generating link previews (a desirable feature, but a
-   potential privacy concern) is mandatory, optional, or forbidden.
+   send_link_previews setting indicates if the receiver of a message
+   generating link previews (a desirable feature, but a potential
+   privacy concern) is mandatory, optional, or forbidden.
 
    The link_preview_proxy_use setting indicates if using a specialized
    link preview proxy is mandatory, optional, or forbidden when link
    previews are generated.  Its value MUST be forbidden if
-   automatic_link_previews is fobidden.
+   send_link_previews is forbidden.
 
    The link_preview_proxy setting MUST include the URI of a link preview
    proxy if link_preview_proxy_uses is mandatory or optional.
@@ -552,6 +552,7 @@ Table of Contents
    autodetect_hyperlinks_in_text MUST NOT be mandatory.
 
    struct {
+     Optionality send_link_previews;
      Optionality automatic_link_previews;
      Optionality link_preview_proxy_use;
      Uri link_preview_proxy<V>;
@@ -630,7 +631,7 @@ Table of Contents
      uint64 max_video;
      uint64 max_attachment;
      MediaType forbidden_media_types<V>;
-     optional MediaType permitted_media_types<V>;
+     optional<MediaType> permitted_media_types<V>;
    } AssetPolicy;
 
    AssetPolicy AssetPolicyData;
