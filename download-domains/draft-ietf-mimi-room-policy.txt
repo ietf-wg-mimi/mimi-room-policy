@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                          R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                          16 December 2025
-Expires: 19 June 2026
+Intended status: Informational                          17 December 2025
+Expires: 20 June 2026
 
 
    Room Policy for the More Instant Messaging Interoperability (MIMI)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 June 2026.
+   This Internet-Draft will expire on 20 June 2026.
 
 Copyright Notice
 
@@ -101,7 +101,7 @@ Table of Contents
    10. IANA Considerations
      10.1.  New MLS application components
        10.1.1.  mls_operational_policy MLS Component Type
-       10.1.2.  role_list MLS Component Type
+       10.1.2.  roles_list MLS Component Type
        10.1.3.  preauth_list MLS Component Type
        10.1.4.  status_notification_policy MLS Component Type
        10.1.5.  join_link_policy MLS Component Type
@@ -282,6 +282,7 @@ Table of Contents
      Role roles<V>;
    } RoleData;
 
+   RoleData roles_list;
    RoleData RoleUpdate;
 
    RoleUpdate (which has the same format as RoleData) is the format of
@@ -355,6 +356,7 @@ Table of Contents
      PreAuthRoleEntry preauthorized_entries<V>;
    } PreAuthData;
 
+   PreAuthData preauth_list;
    PreAuthData PreAuthUpdate;
 
    PreAuthUpdate (which has the same format as PreAuthData) is the
@@ -463,9 +465,9 @@ Table of Contents
 
    Finally, the other policy components that are relevant to this room
    are listed in the policy_components vector, including the roles_list
-   and preauth_list components (if present).  This extensibility
-   mechanism allows for future addition or replacement of new room
-   policies.
+   (from Section 3) and preauth_list components (from Section 4), if
+   present.  This extensibility mechanism allows for future addition or
+   replacement of new room policies.
 
 6.  Other MIMI policy components
 
@@ -533,30 +535,40 @@ Table of Contents
 6.3.  Link Preview policy component
 
    Link preview policy is concerned with the safe rendering of explicit
-   or implicit hyperlinks in the text of an instant message.  The
-   send_link_previews setting indicates if the receiver of a message
-   generating link previews (a desirable feature, but a potential
-   privacy concern) is mandatory, optional, or forbidden.
-
-   The link_preview_proxy_use setting indicates if using a specialized
-   link preview proxy is mandatory, optional, or forbidden when link
-   previews are generated.  Its value MUST be forbidden if
-   send_link_previews is forbidden.
-
-   The link_preview_proxy setting MUST include the URI of a link preview
-   proxy if link_preview_proxy_uses is mandatory or optional.
+   or implicit hyperlinks in the text of an instant message.
 
    The autodetect_hyperlinks_in_text setting indicates if a message
    composer is expected to detect hyperlinks from text which resembles
    links (ex: http://example.com).  The value of
-   autodetect_hyperlinks_in_text MUST NOT be mandatory.
+   autodetect_hyperlinks_in_text MUST NOT be mandatory.  The
+   send_link_previews setting indicates if the sender of a message
+   including a link preview (a desirable feature, but a malicious sender
+   could generate a preview inconsistent with the actual link content)
+   is mandatory, optional, or forbidden.
+
+   The automatic_link_previews setting indicates if the receiver of a
+   message generating link previews (a desirable feature, but a
+   potential privacy concern) is mandatory, optional, or forbidden.  The
+   link_preview_proxy_use setting indicates if using a specialized link
+   preview proxy is mandatory, optional, or forbidden when link previews
+   are generated.
+
+   The link_preview_proxy setting MUST include the URI of a link preview
+   proxy if link_preview_proxy_use is mandatory or optional.
 
    struct {
+     Optionality autodetect_hyperlinks_in_text;
      Optionality send_link_previews;
      Optionality automatic_link_previews;
      Optionality link_preview_proxy_use;
-     Uri link_preview_proxy<V>;
-     Optionality autodetect_hyperlinks_in_text;
+     select (link_preview_proxy_use) {
+       case mandatory:
+         Uri link_preview_proxy<V>;
+       case optional:
+         Uri link_preview_proxy<V>;
+       case forbidden:
+         struct {};
+     }
    } LinkPreviewPolicy;
 
    LinkPreviewPolicy LinkPreviewPolicyData;
@@ -676,9 +688,18 @@ Table of Contents
 
    struct {
      Optionality logging;
-     Uri logging_clients<V>;
-     Uri machine_readable_policy;
-     Uri human_readable_policy;
+     select (logging) {
+       case mandatory:
+         Uri logging_clients<V>;
+         Uri machine_readable_policy;
+         Uri human_readable_policy;
+       case optional:
+         Uri logging_clients<V>;
+         Uri machine_readable_policy;
+         Uri human_readable_policy;
+       case forbidden:
+         struct {};
+     }
    } LoggingPolicy;
 
    LoggingPolicy LoggingPolicyData;
@@ -707,9 +728,18 @@ Table of Contents
 
    struct {
      Optionality history_sharing;
-     uint32 roles_that_can_share<V>;
-     bool automatically_share;
-     uint32 max_time_period;
+     select (history_sharing) {
+       case mandatory:
+         uint32 roles_that_can_share<V>;
+         bool automatically_share;
+         uint32 max_time_period;
+       case optional:
+         uint32 roles_that_can_share<V>;
+         bool automatically_share;
+         uint32 max_time_period;
+       case forbidden:
+         struct {};
+     }
    } HistoryPolicy;
 
    HistoryPolicy HistoryPolicyData;
@@ -729,7 +759,8 @@ Table of Contents
    operated by a (presumably human) user.
 
    The bot_role_index indicates the role index in which the bot
-   operates; this controls the capabilities of the bot.
+   operates; this controls the capabilities of the bot.  A bot with
+   local_client_bot set to true has a bot_role_index of 0.
 
    If can_target_message_in_group is true it indicates that the chat bot
    can send an MLS targeted message (see Section 2.2 of
@@ -782,9 +813,18 @@ Table of Contents
 
    struct {
      Optionality expiring_messages;
-     uint32 min_expiration_duration;
-     uint32 max_expiration_duration;
-     optional uint32 default_expiration_duration;
+     select (expiring_messages) {
+       case mandatory:
+         uint32 min_expiration_duration;
+         uint32 max_expiration_duration;
+         optional uint32 default_expiration_duration;
+       case optional:
+         uint32 min_expiration_duration;
+         uint32 max_expiration_duration;
+         optional uint32 default_expiration_duration;
+       case forbidden:
+         struct {};
+     }
    } MessageExpiration;
 
    MessageExpiration MessageExpirationData;
@@ -894,24 +934,24 @@ Table of Contents
 
    enum {
      unspecified(0),
-     immediateCommit(1),
-     randomDelay(2),
-     preferenceWheel(3),
-     designatedCommitter(4),
-     treeProximity(5)
+     immediate_commit(1),
+     random_delay(2),
+     preference_wheel(3),
+     designated_committer(4),
+     tree_proximity(5)
      (255)
    } PendingProposalStrategy;
 
    struct {
      PendingProposalStrategy pending_proposal_strategy;
-     uint64 minimumDelayMs;
-     uint64 maximumDelayMs;
+     uint64 minimum_delay_ms;
+     uint64 maximum_delay_ms;
    } PendingProposalPolicy;
 
    struct {
-     uint64 minimumTime;
-     uint64 defaultTime;
-     uint64 maximumTime;
+     uint64 minimum_time;
+     uint64 default_time;
+     uint64 maximum_time;
    } MinDefaultMaxTime;
 
 
@@ -1298,6 +1338,8 @@ Table of Contents
 
    *  canCreateJoinCode
 
+   *  canDeleteJoinCode
+
    *  canKnock
 
    *  canAcceptKnock
@@ -1359,11 +1401,11 @@ Table of Contents
 
    *  Reference: Section 7 of RFCXXXX
 
-10.1.2.  role_list MLS Component Type
+10.1.2.  roles_list MLS Component Type
 
    *  Value: TBD1
 
-   *  Name: role_list
+   *  Name: roles_list
 
    *  Where: GC
 
@@ -1513,23 +1555,25 @@ Table of Contents
     +--------+--------------------------------------------+-----------+
     | 0x0006 | canCreateJoinCode (reserved)               | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x0007 | canUseJoinCode                             | RFCXXXX   |
+    | 0x0007 | canDeleteJoinCode (reserved)               | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x0008 | canBan                                     | RFCXXXX   |
+    | 0x0008 | canUseJoinCode                             | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x0009 | canUnBan                                   | RFCXXXX   |
+    | 0x0009 | canBan                                     | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000a | canKick                                    | RFCXXXX   |
+    | 0x000a | canUnBan                                   | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000b | canKnock (reserved)                        | RFCXXXX   |
+    | 0x000b | canKick                                    | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000c | canAcceptKnock (reserved)                  | RFCXXXX   |
+    | 0x000c | canKnock (reserved)                        | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000d | canChangeUserRole                          | RFCXXXX   |
+    | 0x000d | canAcceptKnock (reserved)                  | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000e | canChangeOwnRole                           | RFCXXXX   |
+    | 0x000e | canChangeUserRole                          | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x000f | canCreateSubgroup (reserved)               | RFCXXXX   |
+    | 0x000f | canChangeOwnRole                           | RFCXXXX   |
+    +--------+--------------------------------------------+-----------+
+    | 0x0010 | canCreateSubgroup (reserved)               | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
     | 0x0100 | canSendMessage                             | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
@@ -1563,7 +1607,7 @@ Table of Contents
     +--------+--------------------------------------------+-----------+
     | 0x010f | canEditOtherTopic                          | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
-    | 0x0111 | canSendDirectMessage (reserved)            | RFCXXXX   |
+    | 0x0110 | canSendDirectMessage (reserved)            | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
     | 0x0111 | canTargetMessage (reserved)                | RFCXXXX   |
     +--------+--------------------------------------------+-----------+
@@ -2114,6 +2158,8 @@ A.2.  Strictly administered room
 
          o  canCreateJoinCode - reserved for future use
 
+         o  canDeleteJoinCode - reserved for future use
+
          o  canDeleteOtherReaction
 
          o  canDeleteOtherMessage
@@ -2398,6 +2444,8 @@ A.3.  Moderated room
          o  canChangeUserRole
 
          o  canCreateJoinCode - reserved for future use
+
+         o  canDeleteJoinCode - reserved for future use
 
          o  canDeleteOtherReaction
 
@@ -2853,6 +2901,16 @@ Appendix B.  Complete TLS Presentation Language Syntax
      opaque uri<V>;
    } Uri;
 
+   struct {
+     opaque domain<V>;
+   } DomainName;
+
+   enum {
+     optional(0),
+     required(1),
+     forbidden(2)
+   } Optionality;
+
 
    /* See MIMI Capability Types IANA registry */
    uint16 CapabilityType;
@@ -2878,6 +2936,7 @@ Appendix B.  Complete TLS Presentation Language Syntax
      Role roles<V>;
    } RoleData;
 
+   RoleData roles_list;
    RoleData RoleUpdate;
 
 
@@ -2905,14 +2964,26 @@ Appendix B.  Complete TLS Presentation Language Syntax
      PreAuthRoleEntry preauthorized_entries<V>;
    } PreAuthData;
 
+   PreAuthData preauth_list;
    PreAuthData PreAuthUpdate;
 
 
-   enum {
-     optional(0),
-     required(1),
-     forbidden(2)
-   } Optionality;
+   struct {
+       bool fixed_membership;
+       bool parent_dependant;
+       Uri parent_room<V>;
+       bool multi_device;
+       optional uint32 max_clients;
+       optional uint32 max_users;
+       bool pseudonyms_allowed;
+       bool persistent_room;
+       bool discoverable;
+       Component policy_components<V>;
+   } BaseRoomPolicy;
+
+   BaseRoomPolicy BaseRoomData;
+   BaseRoomPolicy BaseRoomUpdate;
+
 
    struct {
      Optionality delivery_notifications;
@@ -2936,10 +3007,18 @@ Appendix B.  Complete TLS Presentation Language Syntax
 
 
    struct {
+     Optionality autodetect_hyperlinks_in_text;
+     Optionality send_link_previews;
      Optionality automatic_link_previews;
      Optionality link_preview_proxy_use;
-     Uri link_preview_proxy<V>;
-     Optionality autodetect_hyperlinks_in_text;
+     select (link_preview_proxy_use) {
+       case mandatory:
+         Uri link_preview_proxy<V>;
+       case optional:
+         Uri link_preview_proxy<V>;
+       case forbidden:
+         struct {};
+     }
    } LinkPreviewPolicy;
 
    LinkPreviewPolicy LinkPreviewPolicyData;
@@ -2952,10 +3031,6 @@ Appendix B.  Complete TLS Presentation Language Syntax
      hub(2),
      (255)
    } AssetUploadLocation;
-
-   struct {
-     opaque domain<V>;
-   } DomainName;
 
    struct {
      DomainName provider;
@@ -2984,7 +3059,7 @@ Appendix B.  Complete TLS Presentation Language Syntax
      uint64 max_video;
      uint64 max_attachment;
      MediaType forbidden_media_types<V>;
-     optional MediaType permitted_media_types<V>;
+     optional<MediaType> permitted_media_types<V>;
    } AssetPolicy;
 
    AssetPolicy AssetPolicyData;
@@ -2993,9 +3068,18 @@ Appendix B.  Complete TLS Presentation Language Syntax
 
    struct {
      Optionality logging;
-     Uri logging_clients<V>;
-     Uri machine_readable_policy;
-     Uri human_readable_policy;
+     select (logging) {
+       case mandatory:
+         Uri logging_clients<V>;
+         Uri machine_readable_policy;
+         Uri human_readable_policy;
+       case optional:
+         Uri logging_clients<V>;
+         Uri machine_readable_policy;
+         Uri human_readable_policy;
+       case forbidden:
+         struct {};
+     }
    } LoggingPolicy;
 
    LoggingPolicy LoggingPolicyData;
@@ -3004,9 +3088,18 @@ Appendix B.  Complete TLS Presentation Language Syntax
 
    struct {
      Optionality history_sharing;
-     uint32 roles_that_can_share<V>;
-     bool automatically_share;
-     uint32 max_time_period;
+     select (history_sharing) {
+       case mandatory:
+         uint32 roles_that_can_share<V>;
+         bool automatically_share;
+         uint32 max_time_period;
+       case optional:
+         uint32 roles_that_can_share<V>;
+         bool automatically_share;
+         uint32 max_time_period;
+       case forbidden:
+         struct {};
+     }
    } HistoryPolicy;
 
    HistoryPolicy HistoryPolicyData;
@@ -3033,9 +3126,18 @@ Appendix B.  Complete TLS Presentation Language Syntax
 
    struct {
      Optionality expiring_messages;
-     uint32 min_expiration_duration;
-     uint32 max_expiration_duration;
-     optional uint32 default_expiration_duration;
+     select (expiring_messages) {
+       case mandatory:
+         uint32 min_expiration_duration;
+         uint32 max_expiration_duration;
+         optional uint32 default_expiration_duration;
+       case optional:
+         uint32 min_expiration_duration;
+         uint32 max_expiration_duration;
+         optional uint32 default_expiration_duration;
+       case forbidden:
+         struct {};
+     }
    } MessageExpiration;
 
    MessageExpiration MessageExpirationData;
@@ -3057,26 +3159,25 @@ Appendix B.  Complete TLS Presentation Language Syntax
 
    enum {
      unspecified(0),
-     immediateCommit(1),
-     randomDelay(2),
-     preferenceWheel(3),
-     designatedCommitter(4),
-     treeProximity(5)
+     immediate_commit(1),
+     random_delay(2),
+     preference_wheel(3),
+     designated_committer(4),
+     tree_proximity(5)
      (255)
    } PendingProposalStrategy;
 
    struct {
      PendingProposalStrategy pending_proposal_strategy;
-     uint64 minimumDelayMs;
-     uint64 maximumDelayMs;
+     uint64 minimum_delay_ms;
+     uint64 maximum_delay_ms;
    } PendingProposalPolicy;
 
    struct {
-     uint64 minimumTime;
-     uint64 defaultTime;
-     uint64 maximumTime;
+     uint64 minimum_time;
+     uint64 default_time;
+     uint64 maximum_time;
    } MinDefaultMaxTime;
-
 
    struct {
      uint8  epoch_tolerance;
@@ -3105,23 +3206,6 @@ Appendix B.  Complete TLS Presentation Language Syntax
 
    OperationalParameters OperationalParametersData;
    OperationalParameters OperationalParametersUpdate;
-
-
-   struct {
-       bool fixed_membership;
-       bool parent_dependant;
-       Uri parent_room<V>;
-       bool multi_device;
-       optional uint32 max_clients;
-       optional uint32 max_users;
-       bool pseudonyms_allowed;
-       bool persistent_room;
-       bool discoverable;
-       Component policy_components<V>;
-   } BaseRoomPolicy;
-
-   BaseRoomPolicy BaseRoomData;
-   BaseRoomPolicy BaseRoomUpdate;
 
 Acknowledgments
 
