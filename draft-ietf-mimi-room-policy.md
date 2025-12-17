@@ -542,6 +542,7 @@ The `name`, `description`, and `homepage` are merely descriptive.
 If `local_client_bot` is true, the bot would not act as a participant; it would have access to the contents of room only with another client operated by a (presumably human) user.
 
 The `bot_role_index` indicates the role index in which the bot operates; this controls the capabilities of the bot.
+A bot with `local_client_bot` set to true has a `bot_role_index` of 0.
 
 If `can_target_message_in_group` is true it indicates that the chat bot can send an MLS targeted message (see Section 2.2 of [I-D.ietf-mls-extensions]) or use a different conversation or out-of-band channel to send a message to specific individual users in the room.
 
@@ -655,24 +656,24 @@ struct {
 
 enum {
   unspecified(0),
-  immediateCommit(1),
-  randomDelay(2),
-  preferenceWheel(3),
-  designatedCommitter(4),
-  treeProximity(5)
+  immediate_commit(1),
+  random_delay(2),
+  preference_wheel(3),
+  designated_committer(4),
+  tree_proximity(5)
   (255)
 } PendingProposalStrategy;
 
 struct {
   PendingProposalStrategy pending_proposal_strategy;
-  uint64 minimumDelayMs;
-  uint64 maximumDelayMs;
+  uint64 minimum_delay_ms;
+  uint64 maximum_delay_ms;
 } PendingProposalPolicy;
 
 struct {
-  uint64 minimumTime;
-  uint64 defaultTime;
-  uint64 maximumTime;
+  uint64 minimum_time;
+  uint64 default_time;
+  uint64 maximum_time;
 } MinDefaultMaxTime;
 
 
@@ -1785,10 +1786,18 @@ JoinLinkPolicy JoinLinkPolicyUpdate;
 
 
 struct {
+  Optionality autodetect_hyperlinks_in_text;
+  Optionality send_link_previews;
   Optionality automatic_link_previews;
   Optionality link_preview_proxy_use;
-  Uri link_preview_proxy<V>;
-  Optionality autodetect_hyperlinks_in_text;
+  select (link_preview_proxy_use) {
+    case mandatory:
+      Uri link_preview_proxy<V>;
+    case optional:
+      Uri link_preview_proxy<V>;
+    case forbidden:
+      struct {}
+  }
 } LinkPreviewPolicy;
 
 LinkPreviewPolicy LinkPreviewPolicyData;
