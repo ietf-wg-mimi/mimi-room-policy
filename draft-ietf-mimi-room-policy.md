@@ -399,7 +399,7 @@ struct {
     case optional:
       Uri link_preview_proxy<V>;
     case forbidden:
-      struct {}
+      struct {};
   }
 } LinkPreviewPolicy;
 
@@ -499,9 +499,18 @@ If logging is optional and there is at least one `logging_client` then logging i
 ~~~ tls
 struct {
   Optionality logging;
-  Uri logging_clients<V>;
-  Uri machine_readable_policy;
-  Uri human_readable_policy;
+  select (logging) {
+    case mandatory:
+      Uri logging_clients<V>;
+      Uri machine_readable_policy;
+      Uri human_readable_policy;
+    case optional:
+      Uri logging_clients<V>;
+      Uri machine_readable_policy;
+      Uri human_readable_policy;
+    case forbidden:
+      struct {};
+  }
 } LoggingPolicy;
 
 LoggingPolicy LoggingPolicyData;
@@ -522,9 +531,18 @@ The history that is shared is limited to `max_time_period` seconds worth of hist
 ~~~ tls
 struct {
   Optionality history_sharing;
-  uint32 roles_that_can_share<V>;
-  bool automatically_share;
-  uint32 max_time_period;
+  select (history_sharing) {
+    case mandatory:
+      uint32 roles_that_can_share<V>;
+      bool automatically_share;
+      uint32 max_time_period;
+    case optional:
+      uint32 roles_that_can_share<V>;
+      bool automatically_share;
+      uint32 max_time_period;
+    case forbidden:
+      struct {};
+  }
 } HistoryPolicy;
 
 HistoryPolicy HistoryPolicyData;
@@ -586,9 +604,18 @@ When `expiring_messages` is forbidden, both the `min_expiration_duration` and th
 ~~~ tls
 struct {
   Optionality expiring_messages;
-  uint32 min_expiration_duration;
-  uint32 max_expiration_duration;
-  optional uint32 default_expiration_duration;
+  select (expiring_messages) {
+    case mandatory:
+      uint32 min_expiration_duration;
+      uint32 max_expiration_duration;
+      optional uint32 default_expiration_duration;
+    case optional:
+      uint32 min_expiration_duration;
+      uint32 max_expiration_duration;
+      optional uint32 default_expiration_duration;
+    case forbidden:
+      struct {};
+  }
 } MessageExpiration;
 
 MessageExpiration MessageExpirationData;
@@ -1703,6 +1730,10 @@ struct {
   opaque uri<V>;
 } Uri;
 
+struct {
+  opaque domain<V>;
+} DomainName;
+
 enum {
   optional(0),
   required(1),
@@ -1815,7 +1846,7 @@ struct {
     case optional:
       Uri link_preview_proxy<V>;
     case forbidden:
-      struct {}
+      struct {};
   }
 } LinkPreviewPolicy;
 
@@ -1829,10 +1860,6 @@ enum {
   hub(2),
   (255)
 } AssetUploadLocation;
-
-struct {
-  opaque domain<V>;
-} DomainName;
 
 struct {
   DomainName provider;
@@ -1861,7 +1888,7 @@ struct {
   uint64 max_video;
   uint64 max_attachment;
   MediaType forbidden_media_types<V>;
-  optional MediaType permitted_media_types<V>;
+  optional<MediaType> permitted_media_types<V>;
 } AssetPolicy;
 
 AssetPolicy AssetPolicyData;
@@ -1870,9 +1897,18 @@ AssetPolicy AssetPolicyUpdate;
 
 struct {
   Optionality logging;
-  Uri logging_clients<V>;
-  Uri machine_readable_policy;
-  Uri human_readable_policy;
+  select (logging) {
+    case mandatory:
+      Uri logging_clients<V>;
+      Uri machine_readable_policy;
+      Uri human_readable_policy;
+    case optional:
+      Uri logging_clients<V>;
+      Uri machine_readable_policy;
+      Uri human_readable_policy;
+    case forbidden:
+      struct {};
+  }
 } LoggingPolicy;
 
 LoggingPolicy LoggingPolicyData;
@@ -1881,9 +1917,18 @@ LoggingPolicy LoggingPolicyUpdate;
 
 struct {
   Optionality history_sharing;
-  uint32 roles_that_can_share<V>;
-  bool automatically_share;
-  uint32 max_time_period;
+  select (history_sharing) {
+    case mandatory:
+      uint32 roles_that_can_share<V>;
+      bool automatically_share;
+      uint32 max_time_period;
+    case optional:
+      uint32 roles_that_can_share<V>;
+      bool automatically_share;
+      uint32 max_time_period;
+    case forbidden:
+      struct {};
+  }
 } HistoryPolicy;
 
 HistoryPolicy HistoryPolicyData;
@@ -1910,9 +1955,18 @@ BotPolicy BotPolicyUpdate;
 
 struct {
   Optionality expiring_messages;
-  uint32 min_expiration_duration;
-  uint32 max_expiration_duration;
-  optional uint32 default_expiration_duration;
+  select (expiring_messages) {
+    case mandatory:
+      uint32 min_expiration_duration;
+      uint32 max_expiration_duration;
+      optional uint32 default_expiration_duration;
+    case optional:
+      uint32 min_expiration_duration;
+      uint32 max_expiration_duration;
+      optional uint32 default_expiration_duration;
+    case forbidden:
+      struct {};
+  }
 } MessageExpiration;
 
 MessageExpiration MessageExpirationData;
@@ -1934,26 +1988,25 @@ struct {
 
 enum {
   unspecified(0),
-  immediateCommit(1),
-  randomDelay(2),
-  preferenceWheel(3),
-  designatedCommitter(4),
-  treeProximity(5)
+  immediate_commit(1),
+  random_delay(2),
+  preference_wheel(3),
+  designated_committer(4),
+  tree_proximity(5)
   (255)
 } PendingProposalStrategy;
 
 struct {
   PendingProposalStrategy pending_proposal_strategy;
-  uint64 minimumDelayMs;
-  uint64 maximumDelayMs;
+  uint64 minimum_delay_ms;
+  uint64 maximum_delay_ms;
 } PendingProposalPolicy;
 
 struct {
-  uint64 minimumTime;
-  uint64 defaultTime;
-  uint64 maximumTime;
+  uint64 minimum_time;
+  uint64 default_time;
+  uint64 maximum_time;
 } MinDefaultMaxTime;
-
 
 struct {
   uint8  epoch_tolerance;
