@@ -1703,6 +1703,12 @@ struct {
   opaque uri<V>;
 } Uri;
 
+enum {
+  optional(0),
+  required(1),
+  forbidden(2)
+} Optionality;
+
 
 /* See MIMI Capability Types IANA registry */
 uint16 CapabilityType;
@@ -1728,6 +1734,7 @@ struct {
   Role roles<V>;
 } RoleData;
 
+RoleData roles_list;
 RoleData RoleUpdate;
 
 
@@ -1755,14 +1762,26 @@ struct {
   PreAuthRoleEntry preauthorized_entries<V>;
 } PreAuthData;
 
+PreAuthData preauth_list;
 PreAuthData PreAuthUpdate;
 
 
-enum {
-  optional(0),
-  required(1),
-  forbidden(2)
-} Optionality;
+struct {
+    bool fixed_membership;
+    bool parent_dependant;
+    Uri parent_room<V>;
+    bool multi_device;
+    optional uint32 max_clients;
+    optional uint32 max_users;
+    bool pseudonyms_allowed;
+    bool persistent_room;
+    bool discoverable;
+    Component policy_components<V>;
+} BaseRoomPolicy;
+
+BaseRoomPolicy BaseRoomData;
+BaseRoomPolicy BaseRoomUpdate;
+
 
 struct {
   Optionality delivery_notifications;
@@ -1963,23 +1982,6 @@ struct {
 
 OperationalParameters OperationalParametersData;
 OperationalParameters OperationalParametersUpdate;
-
-
-struct {
-    bool fixed_membership;
-    bool parent_dependant;
-    Uri parent_room<V>;
-    bool multi_device;
-    optional uint32 max_clients;
-    optional uint32 max_users;
-    bool pseudonyms_allowed;
-    bool persistent_room;
-    bool discoverable;
-    Component policy_components<V>;
-} BaseRoomPolicy;
-
-BaseRoomPolicy BaseRoomData;
-BaseRoomPolicy BaseRoomUpdate;
 ~~~
 
 
