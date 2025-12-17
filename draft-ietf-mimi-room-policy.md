@@ -376,23 +376,31 @@ JoinLinkPolicy JoinLinkPolicyUpdate;
 ## Link Preview policy component {#link-preview}
 
 Link preview policy is concerned with the safe rendering of explicit or implicit hyperlinks in the text of an instant message.
-The `send_link_previews` setting indicates if the receiver of a message generating link previews (a desirable feature, but a potential privacy concern) is mandatory, optional, or forbidden.
-
-The `link_preview_proxy_use` setting indicates if using a specialized link preview proxy is mandatory, optional, or forbidden when link previews are generated.
-Its value MUST be `forbidden` if `send_link_previews` is `forbidden`.
-
-The `link_preview_proxy` setting MUST include the URI of a link preview proxy if `link_preview_proxy_uses` is `mandatory` or `optional`.
 
 The `autodetect_hyperlinks_in_text` setting indicates if a message composer is expected to detect hyperlinks from text which resembles links (ex: `http://example.com`).
 The value of `autodetect_hyperlinks_in_text` MUST NOT be `mandatory`.
+The `send_link_previews` setting indicates if the sender of a message including a link preview (a desirable feature, but a malicious sender could generate a preview inconsistent with the actual link content) is mandatory, optional, or forbidden.
+
+The `automatic_link_previews` setting indicates if the receiver of a message generating link previews (a desirable feature, but a potential privacy concern) is mandatory, optional, or forbidden.
+The `link_preview_proxy_use` setting indicates if using a specialized link preview proxy is mandatory, optional, or forbidden when link previews are generated.
+
+The `link_preview_proxy` setting MUST include the URI of a link preview proxy if `link_preview_proxy_use` is `mandatory` or `optional`.
+
 
 ~~~ tls
 struct {
+  Optionality autodetect_hyperlinks_in_text;
   Optionality send_link_previews;
   Optionality automatic_link_previews;
   Optionality link_preview_proxy_use;
-  Uri link_preview_proxy<V>;
-  Optionality autodetect_hyperlinks_in_text;
+  select (link_preview_proxy_use) {
+    case mandatory:
+      Uri link_preview_proxy<V>;
+    case optional:
+      Uri link_preview_proxy<V>;
+    case forbidden:
+      struct {}
+  }
 } LinkPreviewPolicy;
 
 LinkPreviewPolicy LinkPreviewPolicyData;
