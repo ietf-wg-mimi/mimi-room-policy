@@ -159,6 +159,7 @@ struct {
   Role roles<V>;
 } RoleData;
 
+RoleData roles_list;
 RoleData RoleUpdate;
 ~~~
 
@@ -210,6 +211,7 @@ struct {
   PreAuthRoleEntry preauthorized_entries<V>;
 } PreAuthData;
 
+PreAuthData preauth_list;
 PreAuthData PreAuthUpdate;
 ~~~
 
@@ -312,7 +314,7 @@ If `persistent_room` is true, the room policy will remain and a client whose use
 If `discoverable` is true, the room is searchable in some way.
 Presumably this means that if `discoverable` is false, the only way to join the room in a client user interface is to be added by an administrator or to use a joining link.
 
-Finally, the other policy components that are relevant to this room are listed in the `policy_components` vector, including the `roles_list` and `preauth_list` components (if present).
+Finally, the other policy components that are relevant to this room are listed in the `policy_components` vector, including the `roles_list` (from {{roles}}) and `preauth_list` components (from {{preauth}}), if present.
 This extensibility mechanism allows for future addition or replacement of new room policies.
 
 
@@ -910,10 +912,10 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 - Recommended: Y
 - Reference: {{operational}} of RFCXXXX
 
-### role_list MLS Component Type
+### roles_list MLS Component Type
 
 - Value: TBD1
-- Name: role_list
+- Name: roles_list
 - Where: GC
 - Recommended: Y
 - Reference: {{roles}} of RFCXXXX
