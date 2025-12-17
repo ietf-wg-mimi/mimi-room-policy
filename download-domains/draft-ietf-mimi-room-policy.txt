@@ -760,12 +760,14 @@ Table of Contents
    descriptive.
 
    If local_client_bot is true, the bot would not act as a participant;
-   it would have access to the contents of room only with another client
-   operated by a (presumably human) user.
+   it would have access to the contents of the room only with another
+   client operated by a (presumably human) user.
 
    The bot_role_index indicates the role index in which the bot
-   operates; this controls the capabilities of the bot.  A bot with
-   local_client_bot set to true has a bot_role_index of 0.
+   operates; this controls the capabilities of the bot.  A
+   bot_role_index of zero indicates that the bot is not a active
+   participant in the room.  A bot with local_client_bot set to true has
+   a bot_role_index of 0.
 
    If can_target_message_in_group is true it indicates that the chat bot
    can send an MLS targeted message (see Section 2.2 of

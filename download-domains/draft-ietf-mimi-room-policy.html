@@ -1853,8 +1853,9 @@ HistoryPolicy HistoryPolicyUpdate;
 <p id="section-6.7-1">There are several types of chat bot in instant messaging systems, some of which only interact with the local client.<a href="#section-6.7-1" class="pilcrow">¶</a></p>
 <p id="section-6.7-2">Inside the BotPolicy there is a list of <code>allowed_bots</code>, each of which has several fields.
 The <code>name</code>, <code>description</code>, and <code>homepage</code> are merely descriptive.<a href="#section-6.7-2" class="pilcrow">¶</a></p>
-<p id="section-6.7-3">If <code>local_client_bot</code> is true, the bot would not act as a participant; it would have access to the contents of room only with another client operated by a (presumably human) user.<a href="#section-6.7-3" class="pilcrow">¶</a></p>
+<p id="section-6.7-3">If <code>local_client_bot</code> is true, the bot would not act as a participant; it would have access to the contents of the room only with another client operated by a (presumably human) user.<a href="#section-6.7-3" class="pilcrow">¶</a></p>
 <p id="section-6.7-4">The <code>bot_role_index</code> indicates the role index in which the bot operates; this controls the capabilities of the bot.
+A <code>bot_role_index</code> of zero indicates that the bot is not a active participant in the room.
 A bot with <code>local_client_bot</code> set to true has a <code>bot_role_index</code> of 0.<a href="#section-6.7-4" class="pilcrow">¶</a></p>
 <p id="section-6.7-5">If <code>can_target_message_in_group</code> is true it indicates that the chat bot can send an MLS targeted message (see Section 2.2 of <span>[<a href="#I-D.ietf-mls-extensions" class="cite xref">I-D.ietf-mls-extensions</a>]</span>) or use a different conversation or out-of-band channel to send a message to specific individual users in the room.<a href="#section-6.7-5" class="pilcrow">¶</a></p>
 <p id="section-6.7-6">If <code>per_user_content</code> is true, the chat bot is allowed to send messages with distinct content to each member.
