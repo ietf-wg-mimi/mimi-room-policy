@@ -861,6 +861,7 @@ The MIMI Working has not yet defined requirements for real-time media, however t
 The following capability names are reserved for possible future use
 
 - `canCreateJoinCode`
+- `canDeleteJoinCode`
 - `canKnock`
 - `canAcceptKnock`
 - `canCreateSubgroup`
@@ -1011,15 +1012,16 @@ Template:
 | 0x0004 | canAddSelf                                 | RFCXXXX   |
 | 0x0005 | canRemoveSelf                              | RFCXXXX   |
 | 0x0006 | canCreateJoinCode (reserved)               | RFCXXXX   |
-| 0x0007 | canUseJoinCode                             | RFCXXXX   |
-| 0x0008 | canBan                                     | RFCXXXX   |
-| 0x0009 | canUnBan                                   | RFCXXXX   |
-| 0x000a | canKick                                    | RFCXXXX   |
-| 0x000b | canKnock (reserved)                        | RFCXXXX   |
-| 0x000c | canAcceptKnock (reserved)                  | RFCXXXX   |
-| 0x000d | canChangeUserRole                          | RFCXXXX   |
-| 0x000e | canChangeOwnRole                           | RFCXXXX   |
-| 0x000f | canCreateSubgroup (reserved)               | RFCXXXX   |
+| 0x0007 | canDeleteJoinCode (reserved)               | RFCXXXX   |
+| 0x0008 | canUseJoinCode                             | RFCXXXX   |
+| 0x0009 | canBan                                     | RFCXXXX   |
+| 0x000a | canUnBan                                   | RFCXXXX   |
+| 0x000b | canKick                                    | RFCXXXX   |
+| 0x000c | canKnock (reserved)                        | RFCXXXX   |
+| 0x000d | canAcceptKnock (reserved)                  | RFCXXXX   |
+| 0x000e | canChangeUserRole                          | RFCXXXX   |
+| 0x000f | canChangeOwnRole                           | RFCXXXX   |
+| 0x0010 | canCreateSubgroup (reserved)               | RFCXXXX   |
 | 0x0100 | canSendMessage                             | RFCXXXX   |
 | 0x0101 | canReceiveMessage                          | RFCXXXX   |
 | 0x0102 | canCopyMessage                             | RFCXXXX   |
@@ -1036,7 +1038,7 @@ Template:
 | 0x010d | canReplyInTopic                            | RFCXXXX   |
 | 0x010e | canEditOwnTopic                            | RFCXXXX   |
 | 0x010f | canEditOtherTopic                          | RFCXXXX   |
-| 0x0111 | canSendDirectMessage (reserved)            | RFCXXXX   |
+| 0x0110 | canSendDirectMessage (reserved)            | RFCXXXX   |
 | 0x0111 | canTargetMessage (reserved)                | RFCXXXX   |
 | 0x0200 | canUploadImage                             | RFCXXXX   |
 | 0x0201 | canUploadAudio                             | RFCXXXX   |
@@ -1290,6 +1292,7 @@ This is an example set of role policies, which is suitable for friends and famil
       - canKick
       - canChangeUserRole
       - canCreateJoinCode - reserved for future use
+      - canDeleteJoinCode - reserved for future use
       - canDeleteOtherReaction
       - canDeleteOtherMessage
       - canEditOwnTopic
@@ -1441,6 +1444,7 @@ This is an example set of role policies, which is suitable for friends and famil
       - canKick
       - canChangeUserRole
       - canCreateJoinCode - reserved for future use
+      - canDeleteJoinCode - reserved for future use
       - canDeleteOtherReaction
       - canDeleteOtherMessage
       - canEditOwnTopic
