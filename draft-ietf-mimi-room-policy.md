@@ -557,9 +557,10 @@ There are several types of chat bot in instant messaging systems, some of which 
 Inside the BotPolicy there is a list of `allowed_bots`, each of which has several fields.
 The `name`, `description`, and `homepage` are merely descriptive.
 
-If `local_client_bot` is true, the bot would not act as a participant; it would have access to the contents of room only with another client operated by a (presumably human) user.
+If `local_client_bot` is true, the bot would not act as a participant; it would have access to the contents of the room only with another client operated by a (presumably human) user.
 
 The `bot_role_index` indicates the role index in which the bot operates; this controls the capabilities of the bot.
+A `bot_role_index` of zero indicates that the bot is not a active participant in the room.
 A bot with `local_client_bot` set to true has a `bot_role_index` of 0.
 
 If `can_target_message_in_group` is true it indicates that the chat bot can send an MLS targeted message (see Section 2.2 of [I-D.ietf-mls-extensions]) or use a different conversation or out-of-band channel to send a message to specific individual users in the room.
