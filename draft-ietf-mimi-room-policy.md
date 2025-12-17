@@ -761,6 +761,8 @@ Unless otherwise specified, capabilities apply both to sending a set of consiste
 
 The membership capabilities below allow authorized holders to update the Participant list, or change the active participants (by removing and adding MLS clients corresponding to those participants), or both.
 
+### Adding
+
 - `canAddParticipant` - the holder of this capability can add another user, that is not already in the participant list, to the participant list.
   (This capability does not apply to the holder adding itself.)
   The `authorized_role_changes` list in the holder's role is consulted to authorize the added user's target role.
@@ -770,15 +772,18 @@ The membership capabilities below allow authorized holders to update the Partici
 
 - `canAddOwnClient` - a holder of this capability that is in the participant list, can add its own client (via an external commit or external proposal); and can add other clients that share the same user identity (via Add proposals) if the holder's client is already a member of the corresponding MLS group.
 
-- `canAddSelf` - the holder of this capability can use an external commit or external proposal to add itself to the participant list.
-  (The holder MUST NOT already appear in the participant list).
-  Its usage differs slightly based on in which role it appears.
-  - When `canAddSelf` appears on role zero, any user who is not already in the participant list can add itself, with certain provisions. The holder consults the `authorized_role_changes` list for an entry with `from_role_index` equal to zero. The holder can add itself with any non-zero `target_role_indexes` from that entry, if the action respects both the `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) for the added user's target role.
-  - When `canAddSelf` appears on a non-zero role, a client can only become the holder of this capability via the Preauthorized users mechanism.
-    The `authorized_role_changes` list in the target role MUST have an entry where the `from_role_index` is zero and the `target_role_indexes` contains the target role.
-    In addition, the action MUST respect both the `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) for the added user's target role.
+- `canOpenJoin` - when this capability appears on role zero, any user who is not already in the participant list can add itself externally, with certain conditions.
+  The `authorized_role_changes` list MUST have an entry with `from_role_index` equal to zero.
+  The holder can add itself with any non-zero `target_role_indexes` from that entry, if the action respects both the `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) for the added user's target role.
+  `canOpenJoin` MUST NOT appear in any non-zero role.
+
+- `canJoinIfPreauthorized` - when this capability appears on a non-zero role, a client that is not already in the participant list can externally join as that target role if authorized for that role as the first matching role in the Preauthorized users mechanism.
+  The `authorized_role_changes` list is not consulted for this capability.
+  The action MUST respect both the `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) for the added user's target role.
 
 - `canUseJoinCode` - the holder of this capability can externally join a room using a join code for that room, provided the join code is valid, the join code refers to a valid target role, and both the `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) constraints are respected.
+
+### Removing
 
 - `canRemoveParticipant` - the holder of this capability can propose a) the removal of another user (excluding itself) from the participant list, and b) removal of all of that user's clients, as a single action.
   There MUST NOT be any clients of the removed user in the MLS group after the corresponding commit.
@@ -795,6 +800,7 @@ The membership capabilities below allow authorized holders to update the Partici
 - `canKick` - the holder of this capability can propose removal of another participant's clients, without changing the Participant List.
   If the `minimum_active_participants_constraint` is satisfied, the proposal is authorized.
 
+### Role Changes
 
 - `canChangeUserRole` - the holder of this capability is authorized to change the role of another participant (but not itself), according to the holder's `authorized_role_changes` list, from a role represented by an entry where the target's current role matches `from_role_index` to any of the non-zero `target_role_indexes` in the same element of `authorized_role_changes`.
   The `minimum_participants_constraint` and `minimum_active_participants_constraint` for the target user's current role, and the `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) for the target user's target role must also be satisfied.
@@ -942,7 +948,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### mls_operational_policy MLS Component Type
 
-- Value: TBD0
+- Value: TBD0 (suggested value 0x0024)
 - Name: mls_operational_policy
 - Where: GC
 - Recommended: Y
@@ -950,7 +956,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### roles_list MLS Component Type
 
-- Value: TBD1
+- Value: TBD1 (suggested value 0x0025)
 - Name: roles_list
 - Where: GC
 - Recommended: Y
@@ -958,15 +964,23 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### preauth_list MLS Component Type
 
-- Value: TBD2
+- Value: TBD2 (suggested value 0x0026)
 - Name: preauth_list
+- Where: GC
+- Recommended: Y
+- Reference: {{preauth}} of RFCXXXX
+
+### base_room_policy MLS Component Type
+
+- Value: TBD3 (suggested value 0x0027)
+- Name: base_room_policy
 - Where: GC
 - Recommended: Y
 - Reference: {{preauth}} of RFCXXXX
 
 ### status_notification_policy MLS Component Type
 
-- Value: TBD3
+- Value: TBD4 (suggested value 0x0028)
 - Name: status_notification_policy
 - Where: GC
 - Recommended: Y
@@ -974,15 +988,23 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### join_link_policy MLS Component Type
 
-- Value: TBD4
+- Value: TBD5 (suggested value 0x0029)
 - Name: join_link_policy
+- Where: GC
+- Recommended: Y
+- Reference: {{join-link}} of RFCXXXX
+
+### join_links MLS Component Type
+
+- Value: TBD6 (suggested value 0x002A)
+- Name: join_links
 - Where: GC
 - Recommended: Y
 - Reference: {{join-link}} of RFCXXXX
 
 ### link_preview_policy MLS Component Type
 
-- Value: TBD5
+- Value: TBD7 (suggested value 0x002B)
 - Name: link_preview_policy
 - Where: GC
 - Recommended: Y
@@ -990,7 +1012,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### asset_policy MLS Component Type
 
-- Value: TBD6
+- Value: TBD8  (suggested value 0x002C)
 - Name: asset_policy
 - Where: GC
 - Recommended: Y
@@ -998,7 +1020,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### logging_policy MLS Component Type
 
-- Value: TBD7
+- Value: TBD9 (suggested value 0x002D)
 - Name: logging_policy
 - Where: GC
 - Recommended: Y
@@ -1006,7 +1028,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### chat_history_policy MLS Component Type
 
-- Value: TBD8
+- Value: TBD10 (suggested value 0x002E)
 - Name: chat_history_policy
 - Where: GC
 - Recommended: Y
@@ -1014,7 +1036,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### bot_policy MLS Component Type
 
-- Value: TBD9
+- Value: TBD11 (suggested value 0x002F)
 - Name: bot_policy
 - Where: GC
 - Recommended: Y
@@ -1022,7 +1044,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 ### Message expiration policy component
 
-- Value: TBD10
+- Value: TBD12 (suggested value 0x0030)
 - Name: message_expiration_policy
 - Where: GC
 - Recommended: Y
@@ -1047,19 +1069,20 @@ Template:
 | 0x0001 | canRemoveParticipant                       | RFCXXXX   |
 | 0x0002 | canAddOwnClient                            | RFCXXXX   |
 | 0x0003 | canRemoveOwnClient                         | RFCXXXX   |
-| 0x0004 | canAddSelf                                 | RFCXXXX   |
-| 0x0005 | canRemoveSelf                              | RFCXXXX   |
-| 0x0006 | canCreateJoinCode (reserved)               | RFCXXXX   |
-| 0x0007 | canDeleteJoinCode (reserved)               | RFCXXXX   |
-| 0x0008 | canUseJoinCode                             | RFCXXXX   |
-| 0x0009 | canBan                                     | RFCXXXX   |
-| 0x000a | canUnBan                                   | RFCXXXX   |
-| 0x000b | canKick                                    | RFCXXXX   |
-| 0x000c | canKnock (reserved)                        | RFCXXXX   |
-| 0x000d | canAcceptKnock (reserved)                  | RFCXXXX   |
-| 0x000e | canChangeUserRole                          | RFCXXXX   |
-| 0x000f | canChangeOwnRole                           | RFCXXXX   |
-| 0x0010 | canCreateSubgroup (reserved)               | RFCXXXX   |
+| 0x0004 | canOpenJoin                                | RFCXXXX   |
+| 0x0005 | canJoinIfPreauthorized                     | RFCXXXX   |
+| 0x0006 | canRemoveSelf                              | RFCXXXX   |
+| 0x0007 | canCreateJoinCode (reserved)               | RFCXXXX   |
+| 0x0008 | canDeleteJoinCode (reserved)               | RFCXXXX   |
+| 0x0009 | canUseJoinCode                             | RFCXXXX   |
+| 0x000a | canBan                                     | RFCXXXX   |
+| 0x000b | canUnBan                                   | RFCXXXX   |
+| 0x000c | canKick                                    | RFCXXXX   |
+| 0x000d | canKnock (reserved)                        | RFCXXXX   |
+| 0x000e | canAcceptKnock (reserved)                  | RFCXXXX   |
+| 0x000f | canChangeUserRole                          | RFCXXXX   |
+| 0x0010 | canChangeOwnRole                           | RFCXXXX   |
+| 0x0011 | canCreateSubgroup (reserved)               | RFCXXXX   |
 | 0x0100 | canSendMessage                             | RFCXXXX   |
 | 0x0101 | canReceiveMessage                          | RFCXXXX   |
 | 0x0102 | canCopyMessage                             | RFCXXXX   |
@@ -1282,7 +1305,7 @@ This is an example set of role policies, which is suitable for friends and famil
    - role_index = 2
    - authorized capabilities
       - canAddOwnClient
-      - canAddSelf
+      - canJoinIfPreauthorized
       - canRemoveOwnClient
       - canRemoveSelf
       - canChangeOwnRole
@@ -1434,7 +1457,7 @@ This is an example set of role policies, which is suitable for friends and famil
    - authorized capabilities
       - (include all the capabilities authorized for a guest)
       - canAddOwnClient
-      - canAddSelf
+      - canJoinIfPreauthorized
       - canRemoveOwnClient
       - canChangeOwnRole
       - canReportAbuse
@@ -1544,7 +1567,7 @@ This is an example set of role policies, which is suitable for friends and famil
 In this example room policy, Alice from organization A is a super admin.
 There are per organization user and admin roles for orgs A, B, and C.
 Organizational admins can only move users to and from their org user role, their org admin role, the no_role; and can ban (but not unban) their own org users.
-The non-host orgs do not have the `canChangeOwnRole` and `canAddSelf`, and are limited to 3 admins per org.
+The non-host orgs do not have the `canChangeOwnRole` and `canJoinIfPreauthorized`, and are limited to 3 admins per org.
 
 - no_role
    - role_index = 0
@@ -1571,7 +1594,7 @@ The non-host orgs do not have the `canChangeOwnRole` and `canAddSelf`, and are l
    - authorized capabilities
       - (all capabilities of org_b_user)
       - canChangeOwnRole
-      - canAddSelf
+      - canJoinIfPreauthorized
    - constraints
       - minimum_participants_constraint = 0
       - maximum_participants_constraint = null
@@ -1627,7 +1650,7 @@ The non-host orgs do not have the `canChangeOwnRole` and `canAddSelf`, and are l
    - authorized capabilities
       - (all capabilities of org_b_admin)
       - canChangeOwnRole
-      - canAddSelf
+      - canJoinIfPreauthorized
    - constraints
       - minimum_participants_constraint = 0
       - maximum_participants_constraint = null
