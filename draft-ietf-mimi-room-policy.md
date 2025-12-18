@@ -185,6 +185,7 @@ The individual `PreAuthRoleEntry` rules in `PreAuthData` are consulted one at a 
 A `PreAuthRoleEntry` matches for a requester when every `Claim.claim_id` has a corresponding claim in the requester's MLS Credential which exactly matches the corresponding `claim_value`.
 When the rules in a Preauthorized users struct match multiple roles, the requesting client receives the first role which matches its claims.
 
+> **TODO**: refactor Claims
 
 ~~~ tls-presentation
 struct {
@@ -298,7 +299,7 @@ struct {
     bool pseudonyms_allowed;
     bool persistent_room;
     bool discoverable;
-    Component policy_components<V>;
+    Component policy_component_ids<V>;
 } BaseRoomPolicy;
 
 BaseRoomPolicy BaseRoomData;
@@ -314,7 +315,7 @@ If `persistent_room` is true, the room policy will remain and a client whose use
 If `discoverable` is true, the room is searchable in some way.
 Presumably this means that if `discoverable` is false, the only way to join the room in a client user interface is to be added by an administrator or to use a joining link.
 
-Finally, the other policy components that are relevant to this room are listed in the `policy_components` vector, including the `roles_list` (from {{roles}}) and `preauth_list` components (from {{preauth}}), if present.
+Finally, the Component IDs of the other policy components that are relevant to this room are listed in the `policy_component_ids` vector, including the `roles_list` (from {{roles}}) and `preauth_list` components (from {{preauth}}), if present.
 This extensibility mechanism allows for future addition or replacement of new room policies.
 
 
@@ -352,13 +353,14 @@ The format for delivery notifications and read receipts is described in {{?I-D.m
 
 ## Join Link policies component {#join-link}
 
-Inside the LinkPolicy are several fields that describe the behavior of join links.
-If the `on_request` field is true, no joining link will be provided in the room policy; the client will need to fetch a joining link out-of-band or generate a valid one for itself.
-If present, the URI in `link_requests` can be used by the client to request an invite code.
-The value of `join_link` is empty and the other fields are ignored.
+Inside the JoinLinkPolicy are several fields that describe the behavior of new join links.
 
-If the `on_request` field is false, the `join_link` field will contain a joining link.
-If the link will work for multiple users, `multiuser` is true. The `expiration` field represents the time, in seconds after the start of the UNIX epoch (1-January-1970) when the link will expire. The `link_requests` field can be empty.
+If the `on_request` field is true, a maximum of one joining link will be persisted in the room policy; the client will need to fetch a joining link out-of-band or generate a valid one for itself before a new one can be generated.
+If present, the URI in `link_requests` can be used by the client to request an invite code.
+
+If the `on_request` field is false, multiple joining links can be generated and persisted.
+If links can be generated for multiple users, `multiuser` is true.
+The `expiration` field represents the duration in seconds that a new link can be valid after creation.
 
 ~~~ tls
 struct {
@@ -366,12 +368,27 @@ struct {
   Uri join_link;
   bool multiuser;
   uint32 expiration;
-  Uri link_requests;
 } JoinLinkPolicy;
 
 JoinLinkPolicy JoinLinkPolicyData;
 JoinLinkPolicy JoinLinkPolicyUpdate;
 ~~~
+
+The active join links in a room are persisted separately in a JoinLinks Component.
+
+~~~ tls
+struct {
+  opaque join_link;
+} JoinLink;
+
+JoinLink JoinLinksData<V>;
+
+struct {
+  uint32 removedIndices<V>;
+  JoinLink added_links<V>;
+} JoinLinksUpdate;
+~~~
+
 
 ## Link Preview policy component {#link-preview}
 
@@ -686,16 +703,22 @@ enum {
   unspecified(0),
   immediate_commit(1),
   random_delay(2),
-  preference_wheel(3),
-  designated_committer(4),
-  tree_proximity(5)
   (255)
 } PendingProposalStrategy;
 
 struct {
   PendingProposalStrategy pending_proposal_strategy;
-  uint64 minimum_delay_ms;
-  uint64 maximum_delay_ms;
+  select (pending_proposal_strategy) {
+    case unspecified:
+      struct {};
+    case immediate_commit:
+      struct {};
+    case random_delay:
+      uint64 minimum_delay_ms;
+      uint64 maximum_delay_ms;
+    case extension:
+      ComponentID id_of_strategy_params;
+  }
 } PendingProposalPolicy;
 
 struct {
@@ -703,7 +726,6 @@ struct {
   uint64 default_time;
   uint64 maximum_time;
 } MinDefaultMaxTime;
-
 
 struct {
   uint8  epoch_tolerance;
@@ -733,6 +755,10 @@ struct {
 OperationalParameters OperationalParametersData;
 OperationalParameters OperationalParametersUpdate;
 ~~~
+
+
+
+
 
 ## Not relevant to MIMI (between client and its provider)
 
@@ -1831,7 +1857,7 @@ struct {
     bool pseudonyms_allowed;
     bool persistent_room;
     bool discoverable;
-    Component policy_components<V>;
+    Component policy_component_ids<V>;
 } BaseRoomPolicy;
 
 BaseRoomPolicy BaseRoomData;
@@ -1852,11 +1878,21 @@ struct {
   Uri join_link;
   bool multiuser;
   uint32 expiration;
-  Uri link_requests;
 } JoinLinkPolicy;
 
 JoinLinkPolicy JoinLinkPolicyData;
 JoinLinkPolicy JoinLinkPolicyUpdate;
+
+struct {
+  opaque join_link;
+} JoinLink;
+
+JoinLink JoinLinksData<V>;
+
+struct {
+  uint32 removedIndices<V>;
+  JoinLink added_links<V>;
+} JoinLinksUpdate;
 
 
 struct {
@@ -2014,16 +2050,22 @@ enum {
   unspecified(0),
   immediate_commit(1),
   random_delay(2),
-  preference_wheel(3),
-  designated_committer(4),
-  tree_proximity(5)
   (255)
 } PendingProposalStrategy;
 
 struct {
   PendingProposalStrategy pending_proposal_strategy;
-  uint64 minimum_delay_ms;
-  uint64 maximum_delay_ms;
+  select (pending_proposal_strategy) {
+    case unspecified:
+      struct {};
+    case immediate_commit:
+      struct {};
+    case random_delay:
+      uint64 minimum_delay_ms;
+      uint64 maximum_delay_ms;
+    case extension:
+      ComponentID id_of_strategy_params;
+  }
 } PendingProposalPolicy;
 
 struct {
