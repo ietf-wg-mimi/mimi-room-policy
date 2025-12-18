@@ -298,7 +298,7 @@ struct {
     bool pseudonyms_allowed;
     bool persistent_room;
     bool discoverable;
-    Component policy_components<V>;
+    Component policy_component_ids<V>;
 } BaseRoomPolicy;
 
 BaseRoomPolicy BaseRoomData;
@@ -314,7 +314,7 @@ If `persistent_room` is true, the room policy will remain and a client whose use
 If `discoverable` is true, the room is searchable in some way.
 Presumably this means that if `discoverable` is false, the only way to join the room in a client user interface is to be added by an administrator or to use a joining link.
 
-Finally, the other policy components that are relevant to this room are listed in the `policy_components` vector, including the `roles_list` (from {{roles}}) and `preauth_list` components (from {{preauth}}), if present.
+Finally, the Component IDs of the other policy components that are relevant to this room are listed in the `policy_component_ids` vector, including the `roles_list` (from {{roles}}) and `preauth_list` components (from {{preauth}}), if present.
 This extensibility mechanism allows for future addition or replacement of new room policies.
 
 
@@ -1840,7 +1840,7 @@ struct {
     bool pseudonyms_allowed;
     bool persistent_room;
     bool discoverable;
-    Component policy_components<V>;
+    Component policy_component_ids<V>;
 } BaseRoomPolicy;
 
 BaseRoomPolicy BaseRoomData;
