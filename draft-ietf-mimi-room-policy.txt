@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                          R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                          17 December 2025
-Expires: 20 June 2026
+Intended status: Informational                          18 December 2025
+Expires: 21 June 2026
 
 
    Room Policy for the More Instant Messaging Interoperability (MIMI)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 June 2026.
+   This Internet-Draft will expire on 21 June 2026.
 
 Copyright Notice
 
@@ -337,6 +337,8 @@ Table of Contents
    the rules in a Preauthorized users struct match multiple roles, the
    requesting client receives the first role which matches its claims.
 
+      *TODO*: refactor Claims
+
    struct {
      /* MLS Credential Type of the "claim"  */
      CredentialType credential_type;
@@ -446,7 +448,7 @@ Table of Contents
        bool pseudonyms_allowed;
        bool persistent_room;
        bool discoverable;
-       Component policy_components<V>;
+       Component policy_component_ids<V>;
    } BaseRoomPolicy;
 
    BaseRoomPolicy BaseRoomData;
@@ -468,11 +470,11 @@ Table of Contents
    join the room in a client user interface is to be added by an
    administrator or to use a joining link.
 
-   Finally, the other policy components that are relevant to this room
-   are listed in the policy_components vector, including the roles_list
-   (from Section 3) and preauth_list components (from Section 4), if
-   present.  This extensibility mechanism allows for future addition or
-   replacement of new room policies.
+   Finally, the Component IDs of the other policy components that are
+   relevant to this room are listed in the policy_component_ids vector,
+   including the roles_list (from Section 3) and preauth_list components
+   (from Section 4), if present.  This extensibility mechanism allows
+   for future addition or replacement of new room policies.
 
 6.  Other MIMI policy components
 
@@ -512,30 +514,43 @@ Table of Contents
 
 6.2.  Join Link policies component
 
-   Inside the LinkPolicy are several fields that describe the behavior
-   of join links.  If the on_request field is true, no joining link will
-   be provided in the room policy; the client will need to fetch a
-   joining link out-of-band or generate a valid one for itself.  If
-   present, the URI in link_requests can be used by the client to
-   request an invite code.  The value of join_link is empty and the
-   other fields are ignored.
+   Inside the JoinLinkPolicy are several fields that describe the
+   behavior of new join links.
 
-   If the on_request field is false, the join_link field will contain a
-   joining link.  If the link will work for multiple users, multiuser is
-   true.  The expiration field represents the time, in seconds after the
-   start of the UNIX epoch (1-January-1970) when the link will expire.
-   The link_requests field can be empty.
+   If the on_request field is true, a maximum of one joining link will
+   be persisted in the room policy; the client will need to fetch a
+   joining link out-of-band or generate a valid one for itself before a
+   new one can be generated.  If present, the URI in link_requests can
+   be used by the client to request an invite code.
+
+   If the on_request field is false, multiple joining links can be
+   generated and persisted.  If links can be generated for multiple
+   users, multiuser is true.  The expiration field represents the
+   duration in seconds that a new link can be valid after creation.
 
    struct {
      bool on_request;
      Uri join_link;
      bool multiuser;
      uint32 expiration;
-     Uri link_requests;
    } JoinLinkPolicy;
 
    JoinLinkPolicy JoinLinkPolicyData;
    JoinLinkPolicy JoinLinkPolicyUpdate;
+
+   The active join links in a room are persisted separately in a
+   JoinLinks Component.
+
+   struct {
+     opaque join_link;
+   } JoinLink;
+
+   JoinLink JoinLinksData<V>;
+
+   struct {
+     uint32 removedIndices<V>;
+     JoinLink added_links<V>;
+   } JoinLinksUpdate;
 
 6.3.  Link Preview policy component
 
@@ -943,16 +958,22 @@ Table of Contents
      unspecified(0),
      immediate_commit(1),
      random_delay(2),
-     preference_wheel(3),
-     designated_committer(4),
-     tree_proximity(5)
      (255)
    } PendingProposalStrategy;
 
    struct {
      PendingProposalStrategy pending_proposal_strategy;
-     uint64 minimum_delay_ms;
-     uint64 maximum_delay_ms;
+     select (pending_proposal_strategy) {
+       case unspecified:
+         struct {};
+       case immediate_commit:
+         struct {};
+       case random_delay:
+         uint64 minimum_delay_ms;
+         uint64 maximum_delay_ms;
+       case extension:
+         ComponentID id_of_strategy_params;
+     }
    } PendingProposalPolicy;
 
    struct {
@@ -960,7 +981,6 @@ Table of Contents
      uint64 default_time;
      uint64 maximum_time;
    } MinDefaultMaxTime;
-
 
    struct {
      uint8  epoch_tolerance;
@@ -3013,7 +3033,7 @@ Appendix B.  Complete TLS Presentation Language Syntax
        bool pseudonyms_allowed;
        bool persistent_room;
        bool discoverable;
-       Component policy_components<V>;
+       Component policy_component_ids<V>;
    } BaseRoomPolicy;
 
    BaseRoomPolicy BaseRoomData;
@@ -3034,11 +3054,21 @@ Appendix B.  Complete TLS Presentation Language Syntax
      Uri join_link;
      bool multiuser;
      uint32 expiration;
-     Uri link_requests;
    } JoinLinkPolicy;
 
    JoinLinkPolicy JoinLinkPolicyData;
    JoinLinkPolicy JoinLinkPolicyUpdate;
+
+   struct {
+     opaque join_link;
+   } JoinLink;
+
+   JoinLink JoinLinksData<V>;
+
+   struct {
+     uint32 removedIndices<V>;
+     JoinLink added_links<V>;
+   } JoinLinksUpdate;
 
 
    struct {
@@ -3196,16 +3226,22 @@ Appendix B.  Complete TLS Presentation Language Syntax
      unspecified(0),
      immediate_commit(1),
      random_delay(2),
-     preference_wheel(3),
-     designated_committer(4),
-     tree_proximity(5)
      (255)
    } PendingProposalStrategy;
 
    struct {
      PendingProposalStrategy pending_proposal_strategy;
-     uint64 minimum_delay_ms;
-     uint64 maximum_delay_ms;
+     select (pending_proposal_strategy) {
+       case unspecified:
+         struct {};
+       case immediate_commit:
+         struct {};
+       case random_delay:
+         uint64 minimum_delay_ms;
+         uint64 maximum_delay_ms;
+       case extension:
+         ComponentID id_of_strategy_params;
+     }
    } PendingProposalPolicy;
 
    struct {
