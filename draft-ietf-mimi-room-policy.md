@@ -686,16 +686,22 @@ enum {
   unspecified(0),
   immediate_commit(1),
   random_delay(2),
-  preference_wheel(3),
-  designated_committer(4),
-  tree_proximity(5)
   (255)
 } PendingProposalStrategy;
 
 struct {
   PendingProposalStrategy pending_proposal_strategy;
-  uint64 minimum_delay_ms;
-  uint64 maximum_delay_ms;
+  select (pending_proposal_strategy) {
+    case unspecified:
+      struct {};
+    case immediate_commit:
+      struct {};
+    case random_delay:
+      uint64 minimum_delay_ms;
+      uint64 maximum_delay_ms;
+    case extension:
+      ComponentID id_of_strategy_params;
+  }
 } PendingProposalPolicy;
 
 struct {
@@ -703,7 +709,6 @@ struct {
   uint64 default_time;
   uint64 maximum_time;
 } MinDefaultMaxTime;
-
 
 struct {
   uint8  epoch_tolerance;
@@ -733,6 +738,10 @@ struct {
 OperationalParameters OperationalParametersData;
 OperationalParameters OperationalParametersUpdate;
 ~~~
+
+
+
+
 
 ## Not relevant to MIMI (between client and its provider)
 
@@ -2014,16 +2023,22 @@ enum {
   unspecified(0),
   immediate_commit(1),
   random_delay(2),
-  preference_wheel(3),
-  designated_committer(4),
-  tree_proximity(5)
   (255)
 } PendingProposalStrategy;
 
 struct {
   PendingProposalStrategy pending_proposal_strategy;
-  uint64 minimum_delay_ms;
-  uint64 maximum_delay_ms;
+  select (pending_proposal_strategy) {
+    case unspecified:
+      struct {};
+    case immediate_commit:
+      struct {};
+    case random_delay:
+      uint64 minimum_delay_ms;
+      uint64 maximum_delay_ms;
+    case extension:
+      ComponentID id_of_strategy_params;
+  }
 } PendingProposalPolicy;
 
 struct {
