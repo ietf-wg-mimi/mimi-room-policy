@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                          R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                          18 December 2025
-Expires: 21 June 2026
+Intended status: Informational                               6 July 2026
+Expires: 7 January 2027
 
 
    Room Policy for the More Instant Messaging Interoperability (MIMI)
@@ -52,11 +52,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 June 2026.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -530,7 +530,7 @@ Table of Contents
 
    struct {
      bool on_request;
-     Uri join_link;
+     opaque join_link<V>;
      bool multiuser;
      uint32 expiration;
    } JoinLinkPolicy;
@@ -542,7 +542,7 @@ Table of Contents
    JoinLinks Component.
 
    struct {
-     opaque join_link;
+     opaque join_link<V>;
    } JoinLink;
 
    JoinLink JoinLinksData<V>;
@@ -1765,24 +1765,24 @@ Table of Contents
    [I-D.ietf-mimi-content]
               Mahy, R., "More Instant Messaging Interoperability (MIMI)
               message content", Work in Progress, Internet-Draft, draft-
-              ietf-mimi-content-07, 7 July 2025,
+              ietf-mimi-content-09, 4 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mimi-
-              content-07>.
+              content-09>.
 
    [I-D.ietf-mimi-protocol]
               Barnes, R., Hodgson, M., Kohbrok, K., Mahy, R., Ralston,
               T., and R. Robert, "More Instant Messaging
               Interoperability (MIMI) using HTTPS and MLS", Work in
-              Progress, Internet-Draft, draft-ietf-mimi-protocol-05, 20
-              October 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-mimi-protocol-05>.
+              Progress, Internet-Draft, draft-ietf-mimi-protocol-06, 25
+              April 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-mimi-protocol-06>.
 
    [I-D.ietf-mls-extensions]
               Robert, R., "The Messaging Layer Security (MLS)
               Extensions", Work in Progress, Internet-Draft, draft-ietf-
-              mls-extensions-08, 21 July 2025,
+              mls-extensions-10, 6 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mls-
-              extensions-08>.
+              extensions-10>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1809,8 +1809,8 @@ Table of Contents
               Mahy, R., "A Message Status format for the More Instant
               Messaging Interoperability (MIMI) content format", Work in
               Progress, Internet-Draft, draft-mahy-mimi-message-status-
-              00, 4 July 2025, <https://datatracker.ietf.org/doc/html/
-              draft-mahy-mimi-message-status-00>.
+              01, 2 March 2026, <https://datatracker.ietf.org/doc/html/
+              draft-mahy-mimi-message-status-01>.
 
    [RFC9458]  Thomson, M. and C. A. Wood, "Oblivious HTTP", RFC 9458,
               DOI 10.17487/RFC9458, January 2024,
@@ -3051,7 +3051,7 @@ Appendix B.  Complete TLS Presentation Language Syntax
 
    struct {
      bool on_request;
-     Uri join_link;
+     opaque join_link<V>;
      bool multiuser;
      uint32 expiration;
    } JoinLinkPolicy;
@@ -3060,7 +3060,7 @@ Appendix B.  Complete TLS Presentation Language Syntax
    JoinLinkPolicy JoinLinkPolicyUpdate;
 
    struct {
-     opaque join_link;
+     opaque join_link<V>;
    } JoinLink;
 
    JoinLink JoinLinksData<V>;
