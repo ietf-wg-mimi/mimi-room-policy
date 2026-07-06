@@ -365,7 +365,7 @@ The `expiration` field represents the duration in seconds that a new link can be
 ~~~ tls
 struct {
   bool on_request;
-  Uri join_link;
+  opaque join_link<V>;
   bool multiuser;
   uint32 expiration;
 } JoinLinkPolicy;
@@ -378,7 +378,7 @@ The active join links in a room are persisted separately in a JoinLinks Componen
 
 ~~~ tls
 struct {
-  opaque join_link;
+  opaque join_link<V>;
 } JoinLink;
 
 JoinLink JoinLinksData<V>;
@@ -1875,7 +1875,7 @@ StatusNotificationPolicy StatusNotificationPolicyUpdate;
 
 struct {
   bool on_request;
-  Uri join_link;
+  opaque join_link<V>;
   bool multiuser;
   uint32 expiration;
 } JoinLinkPolicy;
@@ -1884,7 +1884,7 @@ JoinLinkPolicy JoinLinkPolicyData;
 JoinLinkPolicy JoinLinkPolicyUpdate;
 
 struct {
-  opaque join_link;
+  opaque join_link<V>;
 } JoinLink;
 
 JoinLink JoinLinksData<V>;
