@@ -135,7 +135,7 @@ Some examples are provided in {{role-examples}}.
 RoleData is the format of the `data` field inside the ComponentData struct for the Role-Based Access Control component in the `app_data_dictionary` GroupContext extension defined in {{!I-D.ietf-mls-extensions}}.
 
 ~~~ tls-presentation
-/* See MIMI Capability Types IANA registry */
+/* See MIMI Role Capabilities IANA registry */
 uint16 CapabilityType;
 
 struct {
@@ -149,9 +149,9 @@ struct {
   opaque role_description<V>;
   CapabilityType role_capabilities<V>;
   uint32 minimum_participants_constraint;
-  optional uint32 maximum_participants_constraint;
+  optional<uint32> maximum_participants_constraint;
   uint32 minimum_active_participants_constraint;
-  optional uint32 maximum_active_participants_constraint;
+  optional<uint32> maximum_active_participants_constraint;
   SingleSourceRoleChangeTargets authorized_role_changes<V>;
 } Role;
 
@@ -203,7 +203,7 @@ struct {
 
 struct {
   /* when all claims in the claimset are satisfied, the claimset */
-  */ is satisfied */
+  /* is satisfied */
   Claim claimset<V>;
   Role target_role;
 } PreAuthRoleEntry;
@@ -253,7 +253,7 @@ Changing Preauthorized user definitions is sufficiently disruptive, that an upda
 Because the Preauthorized users component usually authorizes non-members, it is also a natural choice for providing concrete authorization for policy enforcing systems incorporated into or which run in coordination with the MIMI Hub provider or specific MLS Distribution Services. For example, a preauthorized role could allow the Hub to remove participants and to ban them, but not to add any users or devices. This unifies the authorization model for members and non-members.
 
 
-# Base Room policy component syntax
+# Base Room policy component syntax {#base-policy}
 
 The following format is an MLS component which expresses top-level policy constraints, including global rules related to how membership is interpreted.
 The rest of the rules about membership (the bulk) are expressed using roles {{roles}}, capabilities {{caps}}, and preauthorization {{preauth}}.
@@ -269,7 +269,7 @@ In rooms with `parent_dependent` set to true (a parent-dependent room), the list
 If a user leaves or is removed from the parent room, that user is automatically removed from any parent-dependent rooms of that parent.
 A parent-dependent room is always hosted on the same Hub as the parent room.
 
-If `parent-dependent` is true, the `parent_room` MUST be set with the room ID of the parent. Otherwise the field is zero-length.
+If `parent_dependent` is true, the `parent_room` MUST be set with the room ID of the parent. Otherwise the field is zero-length.
 
 > Note: A room can be both `fixed_membership` and `parent_dependent`, for example, for room used for a multi-media call of clients in a Group DM.
 
@@ -291,15 +291,15 @@ enum {
 
 struct {
     bool fixed_membership;
-    bool parent_dependant;
+    bool parent_dependent;
     Uri parent_room<V>;
     bool multi_device;
-    optional uint32 max_clients;
-    optional uint32 max_users;
+    optional<uint32> max_clients;
+    optional<uint32> max_users;
     bool pseudonyms_allowed;
     bool persistent_room;
     bool discoverable;
-    Component policy_component_ids<V>;
+    ComponentID policy_component_ids<V>;
 } BaseRoomPolicy;
 
 BaseRoomPolicy BaseRoomData;
@@ -309,7 +309,7 @@ BaseRoomPolicy BaseRoomUpdate;
 If `pseudonyms_allowed` is true, clients in the MLS group are free to use pseudonymous identifiers in their MLS credentials.
 Otherwise the policy of the room is that "real" long-term identifiers are required in MLS credentials in the room's corresponding MLS group.
 
-If `persistent_room` is false, the room will be automatically inaccsessible when the corresponding MLS group is destroyed (when there are no clients in the group).
+If `persistent_room` is false, the room will be automatically inaccessible when the corresponding MLS group is destroyed (when there are no clients in the group).
 If `persistent_room` is true, the room policy will remain and a client whose user has appropriate authorization can create a new MLS group for the same room.
 
 If `discoverable` is true, the room is searchable in some way.
@@ -395,13 +395,13 @@ struct {
 Link preview policy is concerned with the safe rendering of explicit or implicit hyperlinks in the text of an instant message.
 
 The `autodetect_hyperlinks_in_text` setting indicates if a message composer is expected to detect hyperlinks from text which resembles links (ex: `http://example.com`).
-The value of `autodetect_hyperlinks_in_text` MUST NOT be `mandatory`.
-The `send_link_previews` setting indicates if the sender of a message including a link preview (a desirable feature, but a malicious sender could generate a preview inconsistent with the actual link content) is mandatory, optional, or forbidden.
+The value of `autodetect_hyperlinks_in_text` MUST NOT be `required`.
+The `send_link_previews` setting indicates if the sender of a message including a link preview (a desirable feature, but a malicious sender could generate a preview inconsistent with the actual link content) is required, optional, or forbidden.
 
-The `automatic_link_previews` setting indicates if the receiver of a message generating link previews (a desirable feature, but a potential privacy concern) is mandatory, optional, or forbidden.
-The `link_preview_proxy_use` setting indicates if using a specialized link preview proxy is mandatory, optional, or forbidden when link previews are generated.
+The `automatic_link_previews` setting indicates if the receiver of a message generating link previews (a desirable feature, but a potential privacy concern) is required, optional, or forbidden.
+The `link_preview_proxy_use` setting indicates if using a specialized link preview proxy is required, optional, or forbidden when link previews are generated.
 
-The `link_preview_proxy` setting MUST include the URI of a link preview proxy if `link_preview_proxy_use` is `mandatory` or `optional`.
+The `link_preview_proxy` setting MUST include the URI of a link preview proxy if `link_preview_proxy_use` is `required` or `optional`.
 
 
 ~~~ tls
@@ -411,7 +411,7 @@ struct {
   Optionality automatic_link_previews;
   Optionality link_preview_proxy_use;
   select (link_preview_proxy_use) {
-    case mandatory:
+    case required:
       Uri link_preview_proxy<V>;
     case optional:
       Uri link_preview_proxy<V>;
@@ -432,14 +432,14 @@ Assets refer to attached files, images, audio files, and video files.
 The `asset_upload_location` could be `unspecified`, indicating any location; `localProvider`, indicating that each client uploads assets to its local provider; or `hub`, indicating that all clients upload assets to the hub.
 Using `localProvider` is RECOMMENDED.
 
-The `asset_upload_domains` is a list of `asset_upload_destinations` per `provider` domain name.
-If the `asset_upload_location` is `hub`, only one `provider` matching the hub domain is present in `asset_upload_domains`.
+The `upload_domains` is a list of `asset_upload_destinations` per `provider` domain name.
+If the `asset_upload_location` is `hub`, only one `provider` matching the hub domain is present in `upload_domains`.
 
-Unless `asset_upload_location` is `unspecified`, the clients verify that assets in the host part of the `url` of any MIMI content {{!I-D.ietf-mimi-content}} ExternalPart corresponds to an entry in `asset_upload_domains`.
-If the `asset_upload_location` is `localProvider` the `asset_upload_domains` list is from the `provider` domain name that exactly matches the sender URI domain name.
+Unless `asset_upload_location` is `unspecified`, the clients verify that assets in the host part of the `url` of any MIMI content {{!I-D.ietf-mimi-content}} ExternalPart corresponds to an entry in `upload_domains`.
+If the `asset_upload_location` is `localProvider` the `upload_domains` list is from the `provider` domain name that exactly matches the sender URI domain name.
 
 `download_privacy` describes the mechanisms acceptable for downloading assets.
-The `allowed_download_types` and `forbidden_download_types` specify the download mechanisms which are are allowed and forbidden, respectively.
+The `allowed_download_types` and `forbidden_download_types` specify the download mechanisms which are allowed and forbidden, respectively.
 The `default_download_type` is the default or suggested download mechanism.
 `direct` refers to client direct download as described in {{Section 5.10.1 of !I-D.ietf-mimi-protocol}}.
 `hubProxy` refers to client download through a proxy on the hub as described in {{Section 5.10.2 of !I-D.ietf-mimi-protocol}}.
@@ -484,14 +484,14 @@ struct {
   uint64 max_video;
   uint64 max_attachment;
   MediaType forbidden_media_types<V>;
-  optional<MediaType> permitted_media_types<V>;
+  optional<MediaTypeList> permitted_media_types;
 } AssetPolicy;
 
 AssetPolicy AssetPolicyData;
 AssetPolicy AssetPolicyUpdate;
 ~~~
 
-The `max_image`, `max_audio`, `max_video`, and `max_attachment` fields indication the maximum size in bytes of the corresponding assets that will be accepted.
+The `max_image`, `max_audio`, `max_video`, and `max_attachment` fields indicate the maximum size in bytes of the corresponding assets that will be accepted.
 These amounts could be further limited at the client according to local policy or at the upload location based on various forms of authorization and quotas.
 
 The following paragraph refers to fields that use the `MediaType` struct defined in {{Section 6.2.2 of !I-D.ietf-mls-extensions}}.
@@ -517,7 +517,7 @@ If logging is optional and there is at least one `logging_client` then logging i
 struct {
   Optionality logging;
   select (logging) {
-    case mandatory:
+    case required:
       Uri logging_clients<V>;
       Uri machine_readable_policy;
       Uri human_readable_policy;
@@ -541,7 +541,7 @@ One of the most requested features of instant messaging systems is that new join
 While useful, it has serious implications to the privacy of existing members, and substantially weakens forward secrecy (FS) (See {{Section 8.2.2 of ?RFC9750}}).
 
 Inside the HistoryPolicy, if `history_sharing` is forbidden, this means that clients (including bots) are expected to not to share chat history with new joiners, in which case `roles_that_can_share` is empty, `automatically_share` is false, and `max_time_period` is zero.
-Otherwise `roles_that_can_share` is a list of roles that are authorized to share history (for example, only admins and owners can share). The role index zero (non-participant) and one (banned) cannot be used in the `who_can_share` list, nor can any role where `max_active_participants` is zero.
+Otherwise `roles_that_can_share` is a list of roles that are authorized to share history (for example, only admins and owners can share). The role index zero (non-participant) and one (banned) cannot be used in the `roles_that_can_share` list, nor can any role where `maximum_active_participants_constraint` is zero.
 If `automatically_share` is true, clients can share history with new joiners without user initiation.
 The history that is shared is limited to `max_time_period` seconds worth of history.
 
@@ -549,7 +549,7 @@ The history that is shared is limited to `max_time_period` seconds worth of hist
 struct {
   Optionality history_sharing;
   select (history_sharing) {
-    case mandatory:
+    case required:
       uint32 roles_that_can_share<V>;
       bool automatically_share;
       uint32 max_time_period;
@@ -623,14 +623,14 @@ When `expiring_messages` is forbidden, both the `min_expiration_duration` and th
 struct {
   Optionality expiring_messages;
   select (expiring_messages) {
-    case mandatory:
+    case required:
       uint32 min_expiration_duration;
       uint32 max_expiration_duration;
-      optional uint32 default_expiration_duration;
+      optional<uint32> default_expiration_duration;
     case optional:
       uint32 min_expiration_duration;
       uint32 max_expiration_duration;
-      optional uint32 default_expiration_duration;
+      optional<uint32> default_expiration_duration;
     case forbidden:
       struct {};
   }
@@ -743,7 +743,7 @@ struct {
   PendingProposalPolicy pending_proposal_policy;
   MinDefaultMaxTime LeafNode_update_time;
   AppMessagePolicy app_message_policy;
-  unit64 max_kp_lifetime;
+  uint64 max_kp_lifetime;
   uint64 max_credential_lifetime;
   uint64 resumption_psk_lifetime;
   MinDefaultMaxTime sender_nonce_keypair_lifetime;
@@ -895,8 +895,8 @@ The Hub can enforce whether a member can send a message. It can also withhold fa
 
 ## Asset Capabilities
 
-- `canUploadAttachment` - the holder can upload a file with the "attachent" disposition.
-- `canDownloadAttachment` - the holder can download a file with the "attachent" disposition.
+- `canUploadAttachment` - the holder can upload a file with the "attachment" disposition.
+- `canDownloadAttachment` - the holder can download a file with the "attachment" disposition.
 - `canUploadImage` - the holder can upload a file with the media type of "image" and the disposition of "render"
 - `canDownloadImage` - the holder can download a file with the media type of "image" and the disposition of "render"
 - `canUploadVideo` - the holder can upload a file with the media type of "video" and the disposition of "render"
@@ -1003,7 +1003,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 - Name: base_room_policy
 - Where: GC
 - Recommended: Y
-- Reference: {{preauth}} of RFCXXXX
+- Reference: {{base-policy}} of RFCXXXX
 
 ### status_notification_policy MLS Component Type
 
@@ -1081,7 +1081,7 @@ This document registers the following MLS Component Types per {{Section 7.5 of !
 
 This document requests the creation of a new IANA "MIMI Role Capabilities" registry.
 The registry should be under the heading of "More Instant Messaging Interoperability (MIMI)".
-Assignments to this registry in the range 0x0000 to 0xF000 are via Specification Required policy {{!RFC8126}} using the MIMI Designated Experts.
+Assignments to this registry in the range 0x0000 to 0xEFFF are via Specification Required policy {{!RFC8126}} using the MIMI Designated Experts.
 Assignments in the range 0xF000 to 0xFFFF are for private use.
 
 Template:
@@ -1103,7 +1103,7 @@ Template:
 | 0x0008 | canDeleteJoinCode (reserved)               | RFCXXXX   |
 | 0x0009 | canUseJoinCode                             | RFCXXXX   |
 | 0x000a | canBan                                     | RFCXXXX   |
-| 0x000b | canUnBan                                   | RFCXXXX   |
+| 0x000b | canUnban                                   | RFCXXXX   |
 | 0x000c | canKick                                    | RFCXXXX   |
 | 0x000d | canKnock (reserved)                        | RFCXXXX   |
 | 0x000e | canAcceptKnock (reserved)                  | RFCXXXX   |
@@ -1250,7 +1250,7 @@ This is an example set of role policies, which is suitable for friends and famil
    - authorized capabilities
       - (include all the capabilities authorized for an ordinary_user)
       - canBan
-      - canUnBan
+      - canUnban
       - canKick
       - canRevokeVoice
       - canGrantVoice
@@ -1305,7 +1305,7 @@ This is an example set of role policies, which is suitable for friends and famil
 
 ## Strictly administered room
 
-This is an example set of role policies, which is suitable for friends and family rooms and small groups of peers in a workgroup or club.
+This is an example set of role policies for a room where only administrators can add other users. Other users join with a join code or through preauthorization.
 
 - no_role
    - role_index = 0
@@ -1376,7 +1376,7 @@ This is an example set of role policies, which is suitable for friends and famil
       - canAddParticipant
       - canRemoveParticipant
       - canBan
-      - canUnBan
+      - canUnban
       - canKick
       - canChangeUserRole
       - canCreateJoinCode - reserved for future use
@@ -1503,7 +1503,7 @@ This is an example set of role policies, which is suitable for friends and famil
 - speaker
    - role_index = 4
    - authorized capabilities
-      - (include all the capabilities authorized for a speaker)
+      - (include all the capabilities authorized for an attendee)
       - canSendMessage
       - canEditOwnMessage
       - canDeleteOwnMessage
@@ -1524,11 +1524,11 @@ This is an example set of role policies, which is suitable for friends and famil
 - moderator
    - role_index = 5
    - authorized capabilities
-      - (include all the capabilities authorized for an ordinary_user)
+      - (include all the capabilities authorized for a speaker)
       - canAddParticipant
       - canRemoveParticipant
       - canBan
-      - canUnBan
+      - canUnban
       - canKick
       - canChangeUserRole
       - canCreateJoinCode - reserved for future use
@@ -1722,7 +1722,7 @@ The non-host orgs do not have the `canChangeOwnRole` and `canJoinIfPreauthorized
    - role_index = 8
    - authorized capabilities
       - (include all the capabilities authorized for org_a_admin)
-      - canUnBan
+      - canUnban
       - canDeleteOtherReaction
       - canDeleteOtherMessage
       - canEditOwnTopic
@@ -1791,7 +1791,7 @@ enum {
 } Optionality;
 
 
-/* See MIMI Capability Types IANA registry */
+/* See MIMI Role Capabilities IANA registry */
 uint16 CapabilityType;
 
 struct {
@@ -1805,9 +1805,9 @@ struct {
   opaque role_description<V>;
   CapabilityType role_capabilities<V>;
   uint32 minimum_participants_constraint;
-  optional uint32 maximum_participants_constraint;
+  optional<uint32> maximum_participants_constraint;
   uint32 minimum_active_participants_constraint;
-  optional uint32 maximum_active_participants_constraint;
+  optional<uint32> maximum_active_participants_constraint;
   SingleSourceRoleChangeTargets authorized_role_changes<V>;
 } Role;
 
@@ -1834,7 +1834,7 @@ struct {
 
 struct {
   /* when all claims in the claimset are satisfied, the claimset */
-  */ is satisfied */
+  /* is satisfied */
   Claim claimset<V>;
   Role target_role;
 } PreAuthRoleEntry;
@@ -1849,15 +1849,15 @@ PreAuthData PreAuthUpdate;
 
 struct {
     bool fixed_membership;
-    bool parent_dependant;
+    bool parent_dependent;
     Uri parent_room<V>;
     bool multi_device;
-    optional uint32 max_clients;
-    optional uint32 max_users;
+    optional<uint32> max_clients;
+    optional<uint32> max_users;
     bool pseudonyms_allowed;
     bool persistent_room;
     bool discoverable;
-    Component policy_component_ids<V>;
+    ComponentID policy_component_ids<V>;
 } BaseRoomPolicy;
 
 BaseRoomPolicy BaseRoomData;
@@ -1901,7 +1901,7 @@ struct {
   Optionality automatic_link_previews;
   Optionality link_preview_proxy_use;
   select (link_preview_proxy_use) {
-    case mandatory:
+    case required:
       Uri link_preview_proxy<V>;
     case optional:
       Uri link_preview_proxy<V>;
@@ -1948,7 +1948,7 @@ struct {
   uint64 max_video;
   uint64 max_attachment;
   MediaType forbidden_media_types<V>;
-  optional<MediaType> permitted_media_types<V>;
+  optional<MediaTypeList> permitted_media_types;
 } AssetPolicy;
 
 AssetPolicy AssetPolicyData;
@@ -1958,7 +1958,7 @@ AssetPolicy AssetPolicyUpdate;
 struct {
   Optionality logging;
   select (logging) {
-    case mandatory:
+    case required:
       Uri logging_clients<V>;
       Uri machine_readable_policy;
       Uri human_readable_policy;
@@ -1978,7 +1978,7 @@ LoggingPolicy LoggingPolicyUpdate;
 struct {
   Optionality history_sharing;
   select (history_sharing) {
-    case mandatory:
+    case required:
       uint32 roles_that_can_share<V>;
       bool automatically_share;
       uint32 max_time_period;
@@ -2016,14 +2016,14 @@ BotPolicy BotPolicyUpdate;
 struct {
   Optionality expiring_messages;
   select (expiring_messages) {
-    case mandatory:
+    case required:
       uint32 min_expiration_duration;
       uint32 max_expiration_duration;
-      optional uint32 default_expiration_duration;
+      optional<uint32> default_expiration_duration;
     case optional:
       uint32 min_expiration_duration;
       uint32 max_expiration_duration;
-      optional uint32 default_expiration_duration;
+      optional<uint32> default_expiration_duration;
     case forbidden:
       struct {};
   }
@@ -2090,7 +2090,7 @@ struct {
   PendingProposalPolicy pending_proposal_policy;
   MinDefaultMaxTime LeafNode_update_time;
   AppMessagePolicy app_message_policy;
-  unit64 max_kp_lifetime;
+  uint64 max_kp_lifetime;
   uint64 max_credential_lifetime;
   uint64 resumption_psk_lifetime;
   MinDefaultMaxTime sender_nonce_keypair_lifetime;
