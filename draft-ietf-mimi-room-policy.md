@@ -264,6 +264,9 @@ Ordinary users cannot leave or be removed, however a user can remove all its cli
 The most common case of a fixed-membership room is a 1:1 conversation.
 This room membership style is used to implement Direct Message (DM) and Group DM features.
 Only a single fixed-membership room can exist for any unique set of participants.
+The set of participants is the set of users in the `participants` list of the room's participant list {{!I-D.ietf-mimi-protocol}}, regardless of their roles.
+The Hub hosting a room enforces this rule, so it holds among the rooms hosted by that Hub: the Hub MUST reject the creation of a fixed-membership room whose set of participants is the same as that of a fixed-membership room it already hosts.
+This rule is not enforced across Hubs, so different Hubs can each host a fixed-membership room with the same set of participants.
 
 In rooms with `parent_dependent` set to true (a parent-dependent room), the list of participants of the room MUST be a strict subset of the participants of the parent room.
 If a user leaves or is removed from the parent room, that user is automatically removed from any parent-dependent rooms of that parent.
