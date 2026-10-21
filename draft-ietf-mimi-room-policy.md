@@ -810,6 +810,11 @@ The membership capabilities below allow authorized holders to update the Partici
 
 - `canUseJoinCode` - the holder of this capability can externally join a room using a join code for that room, provided the join code is valid, the join code refers to a valid target role, and both the `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) constraints are respected.
 
+- `canJoinFromParent` - when this capability appears on role zero of a parent-dependent room, any user who is in the participant list of the parent room with a role other than the "banned" role (see `canBan`), and who is not already in the participant list of the parent-dependent room, can add itself externally.
+  The `authorized_role_changes` list MUST have an entry with `from_role_index` equal to zero.
+  The holder can add itself with any non-zero `target_role_indexes` from that entry, if the action respects both the `maximum_participants_constraint` (if present) and `maximum_active_participants_constraint` (if present) for the added user's target role.
+  `canJoinFromParent` MUST NOT appear in any non-zero role.
+
 ### Removing
 
 - `canRemoveParticipant` - the holder of this capability can propose a) the removal of another user (excluding itself) from the participant list, and b) removal of all of that user's clients, as a single action.
@@ -850,6 +855,11 @@ The membership capabilities below allow authorized holders to update the Partici
   Specifically, a successful unban changes the target user's role from `role_index` = 1 to another non-zero `role_index` allowed by the holder's `authorized_role_changes` list.
   Adding clients for that unbanned user is *not* authorized by this capability.
   The authorization of this capability is identical to the `canChangeUserRole` capability, except that the `from_role_index` for the unbanned user MUST be 1, and the `role_name` of role 1 MUST be "banned".
+
+### Subgroups
+
+- `canCreateSubgroup` - the holder of this capability can create a parent-dependent room whose parent is this room.
+  The Hub hosting this room enforces this capability.
 
 
 ## Adjust metadata
@@ -935,7 +945,6 @@ The following capability names are reserved for possible future use
 - `canDeleteJoinCode`
 - `canKnock`
 - `canAcceptKnock`
-- `canCreateSubgroup`
 - `canSendDirectMessage`
 - `canTargetMessage`
 - `canChangeOwnName`
@@ -1109,7 +1118,8 @@ Template:
 | 0x000e | canAcceptKnock (reserved)                  | RFCXXXX   |
 | 0x000f | canChangeUserRole                          | RFCXXXX   |
 | 0x0010 | canChangeOwnRole                           | RFCXXXX   |
-| 0x0011 | canCreateSubgroup (reserved)               | RFCXXXX   |
+| 0x0011 | canCreateSubgroup                          | RFCXXXX   |
+| 0x0012 | canJoinFromParent                          | RFCXXXX   |
 | 0x0100 | canSendMessage                             | RFCXXXX   |
 | 0x0101 | canReceiveMessage                          | RFCXXXX   |
 | 0x0102 | canCopyMessage                             | RFCXXXX   |
