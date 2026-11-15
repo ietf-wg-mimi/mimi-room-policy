@@ -104,6 +104,11 @@ To remove the permission to send messages in a room.
 **Grant Voice**:
 To grant the permission to send messages in a room.
 
+## Human-readable strings
+
+Human-readable strings in this document, such as role names and bot names, are `UTF8String`s, as in {{!I-D.ietf-mimi-protocol}}.
+A string meant for users MAY be accompanied by a language tag {{!BCP47}}; an empty language tag means the language is not stated.
+
 
 # Role-Based Access Control {#roles}
 
@@ -135,6 +140,11 @@ Some examples are provided in {{role-examples}}.
 RoleData is the format of the `data` field inside the ComponentData struct for the Role-Based Access Control component in the `app_data_dictionary` GroupContext extension defined in {{!I-D.ietf-mls-extensions}}.
 
 ~~~ tls-presentation
+/* a sequence of valid UTF8 without nulls */
+struct {
+  opaque string<V>;
+} UTF8String;
+
 /* See MIMI Capability Types IANA registry */
 uint16 CapabilityType;
 
@@ -145,8 +155,10 @@ struct {
 
 struct {
   uint32 role_index;
-  opaque role_name<V>;
-  opaque role_description<V>;
+  UTF8String role_name;
+  UTF8String role_description;
+  /* BCP 47 language tag for role_name and role_description; can be empty */
+  opaque language_tag<V>;
   CapabilityType role_capabilities<V>;
   uint32 minimum_participants_constraint;
   optional uint32 maximum_participants_constraint;
@@ -589,8 +601,10 @@ Users could set policies to reject or leave groups with bots rights that are inc
 
 ~~~ tls
 struct {
-  opaque name<V>;
-  opaque description<V>;
+  UTF8String name;
+  UTF8String description;
+  /* BCP 47 language tag for name and description; can be empty */
+  opaque language_tag<V>;
   Uri homepage;
   bool local_client_bot;
   uint32 bot_role_index;
@@ -1784,6 +1798,11 @@ struct {
   opaque domain<V>;
 } DomainName;
 
+/* a sequence of valid UTF8 without nulls */
+struct {
+  opaque string<V>;
+} UTF8String;
+
 enum {
   optional(0),
   required(1),
@@ -1801,8 +1820,10 @@ struct {
 
 struct {
   uint32 role_index;
-  opaque role_name<V>;
-  opaque role_description<V>;
+  UTF8String role_name;
+  UTF8String role_description;
+  /* BCP 47 language tag for role_name and role_description; can be empty */
+  opaque language_tag<V>;
   CapabilityType role_capabilities<V>;
   uint32 minimum_participants_constraint;
   optional uint32 maximum_participants_constraint;
@@ -1996,8 +2017,10 @@ HistoryPolicy HistoryPolicyUpdate;
 
 
 struct {
-  opaque name<V>;
-  opaque description<V>;
+  UTF8String name;
+  UTF8String description;
+  /* BCP 47 language tag for name and description; can be empty */
+  opaque language_tag<V>;
   Uri homepage;
   bool local_client_bot;
   uint32 bot_role_index;
