@@ -104,6 +104,22 @@ To remove the permission to send messages in a room.
 **Grant Voice**:
 To grant the permission to send messages in a room.
 
+## Lengths of variable-length fields {#field-lengths}
+
+A variable-length vector (`<V>`) can declare up to 2^30 octets ({{Section 2.1.2 of !RFC9420}}).
+So that a value one implementation creates is one another accepts, implementations SHOULD accept values of at least these lengths:
+
+- 1024 octets: `role_name` ({{roles}}) and the Bot `name` ({{bots}});
+- 4096 octets: `role_description` and the Bot `description`;
+- 2048 octets: a `Uri`.
+
+For lists, implementations SHOULD accept at least:
+
+- 64 entries in `roles` and in `allowed_bots`;
+- 1000 entries in `preauthorized_entries`.
+
+A receiver MAY treat a longer value or list as invalid, in which case the update that carries it is invalid.
+
 
 # Role-Based Access Control {#roles}
 
@@ -962,6 +978,10 @@ In a knock-enabled room, non-banned users are allowed to programmatically reques
 # Security Considerations
 
 This entire document focuses on authorization policy.
+
+Variable-length fields with no upper bound can be used to exhaust memory and storage at a receiver, and at every client that later displays the value.
+Receivers check a declared length before allocating space for it, and MAY refuse values longer than the lengths in {{field-lengths}}.
+
 TODO More Security
 
 
