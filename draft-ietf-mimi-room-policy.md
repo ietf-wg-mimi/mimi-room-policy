@@ -258,6 +258,10 @@ Because the Preauthorized users component usually authorizes non-members, it is 
 The following format is an MLS component which expresses top-level policy constraints, including global rules related to how membership is interpreted.
 The rest of the rules about membership (the bulk) are expressed using roles {{roles}}, capabilities {{caps}}, and preauthorization {{preauth}}.
 
+A room SHOULD carry a `base_room_policy` component.
+This document does not require it, or any other policy component, to be present.
+A room with no `roles_list` has no role-based authorization: any participant may act, subject to the participant list rules of {{!I-D.ietf-mimi-protocol}}.
+
 Rooms with `fixed_membership` set to true (fixed-membership rooms) have the list of participants specified when they are created.
 While clients of existing participants can be added, other users cannot be added, so none of its non-zero, non-banned roles can contain the `canAddParticipant` capability.
 Ordinary users cannot leave or be removed, however a user can remove all its clients from the associated MLS group.
