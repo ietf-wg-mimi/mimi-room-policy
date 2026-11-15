@@ -113,7 +113,12 @@ So that a value one implementation creates is one another accepts, implementatio
 - 4096 octets: `role_description` and the Bot `description`;
 - 2048 octets: a `Uri`.
 
-A receiver MAY treat a longer value as invalid, in which case the update that carries it is invalid.
+For lists, implementations SHOULD accept at least:
+
+- 64 entries in `roles` and in `allowed_bots`;
+- 1000 entries in `preauthorized_entries`.
+
+A receiver MAY treat a longer value or list as invalid, in which case the update that carries it is invalid.
 
 
 # Role-Based Access Control {#roles}
