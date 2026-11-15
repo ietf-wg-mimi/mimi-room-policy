@@ -839,17 +839,18 @@ The membership capabilities below allow authorized holders to update the Partici
 
 - `canBan` - the holder of this capability can propose to "ban" another user.
   Specifically, a successful ban changes the target user's role to a special "banned" role (if it exists), and removes all the banned user's clients.
-  The "banned" role always has `role_index` = 1 and `role_name` = "banned" (without quotes).
+  The "banned" role is the role with `role_index` = 1.
+  Its `role_name` is display text like any other role name, and need not be "banned".
 
-  > A "banned" role does not have to exist in a room, but to use the `canBan` and `canUnban` capabilities, the role needs to exist exactly as described above.
+  > A "banned" role does not have to exist in a room, but to use the `canBan` and `canUnban` capabilities, a role with `role_index` = 1 needs to exist.
   > While holding `canChangeUserRole` and `canKick` capabilities would allow the same action, it could potentially allow the holder other actions which might be undesirable in some contexts, such as kicking clients without banning.
 
-  A proposer holding this capability consults its role's `authorized_role_changes` entries for an entry where `from_role_index` matches the target user's current role; if the `target_role_indexes` for that entry contains the `role_index` 1; that `role_name` = "banned" for the role with role_index = 1, and the `minimum_participants_constraint` and `minimum_active_participants_constraint` are satisfied, the proposal is authorized.
+  A proposer holding this capability consults its role's `authorized_role_changes` entries for an entry where `from_role_index` matches the target user's current role; if the `target_role_indexes` for that entry contains the `role_index` 1, a role with `role_index` 1 exists, and the `minimum_participants_constraint` and `minimum_active_participants_constraint` are satisfied, the proposal is authorized.
 
 - `canUnban` - the holder of this capability can propose to "unban" another user.
   Specifically, a successful unban changes the target user's role from `role_index` = 1 to another non-zero `role_index` allowed by the holder's `authorized_role_changes` list.
   Adding clients for that unbanned user is *not* authorized by this capability.
-  The authorization of this capability is identical to the `canChangeUserRole` capability, except that the `from_role_index` for the unbanned user MUST be 1, and the `role_name` of role 1 MUST be "banned".
+  The authorization of this capability is identical to the `canChangeUserRole` capability, except that the `from_role_index` for the unbanned user MUST be 1.
 
 
 ## Adjust metadata
