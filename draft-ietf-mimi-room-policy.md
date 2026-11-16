@@ -319,8 +319,11 @@ Finally, the Component IDs of the other policy components that are relevant to t
 This extensibility mechanism allows for future addition or replacement of new room policies.
 
 A `base_room_policy` does not depend on the `roles_list`.
-An update to the `base_room_policy` component is valid in a room that has no `roles_list` yet.
+An update to the `base_room_policy` component is valid in a room that has no `roles_list`.
 Rules in this section that refer to roles, such as the `canAddParticipant` rule for fixed-membership rooms, are checked against the `roles_list` once the room has one.
+A `roles_list` is set when the MLS group is created.
+A Commit that adds a `roles_list` to a group that has none is invalid.
+A room that has no `roles_list` has no role-based restrictions.
 
 
 # Other MIMI policy components
