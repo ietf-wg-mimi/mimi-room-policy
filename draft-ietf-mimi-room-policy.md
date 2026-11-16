@@ -318,6 +318,13 @@ Presumably this means that if `discoverable` is false, the only way to join the 
 Finally, the Component IDs of the other policy components that are relevant to this room are listed in the `policy_component_ids` vector, including the `roles_list` (from {{roles}}) and `preauth_list` components (from {{preauth}}), if present.
 This extensibility mechanism allows for future addition or replacement of new room policies.
 
+A `base_room_policy` does not depend on the `roles_list`.
+An update to the `base_room_policy` component is valid in a room that has no `roles_list`.
+Rules in this section that refer to roles, such as the `canAddParticipant` rule for fixed-membership rooms, are checked against the `roles_list` once the room has one.
+A `roles_list` is set when the MLS group is created.
+A Commit that adds a `roles_list` to a group that has none is invalid.
+A room that has no `roles_list` has no role-based restrictions.
+
 
 # Other MIMI policy components
 
