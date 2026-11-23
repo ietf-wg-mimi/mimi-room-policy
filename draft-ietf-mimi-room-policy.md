@@ -266,7 +266,10 @@ This room membership style is used to implement Direct Message (DM) and Group DM
 Only a single fixed-membership room can exist for any unique set of participants.
 
 In rooms with `parent_dependent` set to true (a parent-dependent room), the list of participants of the room MUST be a strict subset of the participants of the parent room.
-If a user leaves or is removed from the parent room, that user is automatically removed from any parent-dependent rooms of that parent.
+If a user leaves or is removed from the parent room, that user MUST also be removed from any parent-dependent rooms of that parent.
+A removal from a room is a Commit in its MLS group, which only a member of that group can send, so a Hub that is not a member cannot perform the removal itself.
+Such a Hub proposes the removal instead, and it takes effect when a member of the parent-dependent room next commits.
+Until then the departed user is still a member of that room, and can still derive secrets its MLS group exports.
 A parent-dependent room is always hosted on the same Hub as the parent room.
 
 If `parent-dependent` is true, the `parent_room` MUST be set with the room ID of the parent. Otherwise the field is zero-length.
