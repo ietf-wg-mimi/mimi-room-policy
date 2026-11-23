@@ -263,9 +263,9 @@ While clients of existing participants can be added, other users cannot be added
 Ordinary users cannot leave or be removed, however a user can remove all its clients from the associated MLS group.
 The most common case of a fixed-membership room is a 1:1 conversation.
 This room membership style is used to implement Direct Message (DM) and Group DM features.
-Only a single fixed-membership room can exist for any unique set of participants.
+Only a single fixed-membership room can exist for any unique set of participants, not counting parent-dependent rooms.
 
-In rooms with `parent_dependent` set to true (a parent-dependent room), the list of participants of the room MUST be a strict subset of the participants of the parent room.
+In rooms with `parent_dependent` set to true (a parent-dependent room), the list of participants of the room MUST be a subset of the participants of the parent room.
 If a user leaves or is removed from the parent room, that user is automatically removed from any parent-dependent rooms of that parent.
 A parent-dependent room is always hosted on the same Hub as the parent room.
 
